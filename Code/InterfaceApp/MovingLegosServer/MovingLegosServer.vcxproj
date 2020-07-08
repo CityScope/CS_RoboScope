@@ -1,0 +1,414 @@
+<?xml version="1.0"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="Debug|Win32">
+			<Configuration>Debug</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Debug|x64">
+			<Configuration>Debug</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Release|Win32">
+			<Configuration>Release</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Release|x64">
+			<Configuration>Release</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
+	<PropertyGroup Condition="'$(WindowsTargetPlatformVersion)'==''">
+		<LatestTargetPlatformVersion>$([Microsoft.Build.Utilities.ToolLocationHelper]::GetLatestSDKTargetPlatformVersion('Windows', '10.0'))</LatestTargetPlatformVersion>
+		<WindowsTargetPlatformVersion Condition="'$(WindowsTargetPlatformVersion)' == ''">$(LatestTargetPlatformVersion)</WindowsTargetPlatformVersion>
+		<TargetPlatformVersion>$(WindowsTargetPlatformVersion)</TargetPlatformVersion>
+	</PropertyGroup>
+	<PropertyGroup Label="Globals">
+		<ProjectGuid>{7FD42DF7-442E-479A-BA76-D0022F99702A}</ProjectGuid>
+		<Keyword>Win32Proj</Keyword>
+		<RootNamespace>MovingLegosServer</RootNamespace>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<CharacterSet>Unicode</CharacterSet>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<CharacterSet>Unicode</CharacterSet>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<CharacterSet>Unicode</CharacterSet>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+		<ConfigurationType>Application</ConfigurationType>
+		<CharacterSet>Unicode</CharacterSet>
+		<WholeProgramOptimization>true</WholeProgramOptimization>
+		<PlatformToolset>v141</PlatformToolset>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+	<ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../../../../../openFrameworks_lib/openFrameworks/libs\openFrameworksCompiled\project\vs\openFrameworksRelease.props" />
+	</ImportGroup>
+	<ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../../../../../openFrameworks_lib/openFrameworks/libs\openFrameworksCompiled\project\vs\openFrameworksRelease.props" />
+	</ImportGroup>
+	<ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../../../../../openFrameworks_lib/openFrameworks/libs\openFrameworksCompiled\project\vs\openFrameworksDebug.props" />
+	</ImportGroup>
+	<ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+		<Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+		<Import Project="../../../../../openFrameworks_lib/openFrameworks/libs\openFrameworksCompiled\project\vs\openFrameworksDebug.props" />
+	</ImportGroup>
+	<PropertyGroup Label="UserMacros" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<OutDir>bin\</OutDir>
+		<IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+		<TargetName>$(ProjectName)_debug</TargetName>
+		<LinkIncremental>true</LinkIncremental>
+		<GenerateManifest>true</GenerateManifest>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+		<OutDir>bin\</OutDir>
+		<IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+		<TargetName>$(ProjectName)_debug</TargetName>
+		<LinkIncremental>true</LinkIncremental>
+		<GenerateManifest>true</GenerateManifest>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+		<OutDir>bin\</OutDir>
+		<IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+		<LinkIncremental>false</LinkIncremental>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+		<OutDir>bin\</OutDir>
+		<IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+		<LinkIncremental>false</LinkIncremental>
+	</PropertyGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+		<ClCompile>
+			<Optimization>Disabled</Optimization>
+			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+			<PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+			<WarningLevel>Level3</WarningLevel>
+			<AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\CLD\include\CLD;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\core;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\libs\ofxSmartFont;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\themes;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\Win32;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\x64;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\opencv;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\posix;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\win32;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\poco\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\src</AdditionalIncludeDirectories>
+			<CompileAs>CompileAsCpp</CompileAs>
+			<ObjectFileName>$(IntDir)</ObjectFileName>
+			<PreprocessorDefinitions>OSC_HOST_LITTLE_ENDIAN</PreprocessorDefinitions>
+			<AdditionalOptions>-DPOCO_STATIC</AdditionalOptions>
+		</ClCompile>
+		<Link>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<SubSystem>Console</SubSystem>
+			<RandomizedBaseAddress>false</RandomizedBaseAddress>
+			<AdditionalDependencies>%(AdditionalDependencies);ippicvmt.lib;PocoCryptomdd.lib;PocoDatamdd.lib;PocoDataSQLitemdd.lib;PocoFoundationmdd.lib;PocoJSONmdd.lib;PocoNetmdd.lib;PocoNetSSLmdd.lib;PocoPDFmdd.lib;PocoUtilmdd.lib;PocoXMLmdd.lib;PocoZipmdd.lib;iphlpapi.lib</AdditionalDependencies>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\Win32;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\poco\lib\vs\Win32\Debug;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco</AdditionalLibraryDirectories>
+		</Link>
+		<PostBuildEvent />
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+		<ClCompile>
+			<Optimization>Disabled</Optimization>
+			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+			<PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+			<WarningLevel>Level3</WarningLevel>
+			<AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\CLD\include\CLD;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\core;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\libs\ofxSmartFont;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\themes;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\Win32;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\x64;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\opencv;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\posix;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\win32;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\poco\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\src</AdditionalIncludeDirectories>
+			<CompileAs>CompileAsCpp</CompileAs>
+			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<ObjectFileName>$(IntDir)</ObjectFileName>
+			<PreprocessorDefinitions>OSC_HOST_LITTLE_ENDIAN</PreprocessorDefinitions>
+			<AdditionalOptions>-DPOCO_STATIC</AdditionalOptions>
+		</ClCompile>
+		<Link>
+			<GenerateDebugInformation>true</GenerateDebugInformation>
+			<SubSystem>Console</SubSystem>
+			<RandomizedBaseAddress>false</RandomizedBaseAddress>
+			<AdditionalDependencies>%(AdditionalDependencies);ippicvmt.lib;PocoCryptomdd.lib;PocoDatamdd.lib;PocoDataSQLitemdd.lib;PocoFoundationmdd.lib;PocoJSONmdd.lib;PocoNetmdd.lib;PocoNetSSLmdd.lib;PocoPDFmdd.lib;PocoUtilmdd.lib;PocoXMLmdd.lib;PocoZipmdd.lib;iphlpapi.lib</AdditionalDependencies>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\x64;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\poco\lib\vs\x64\Debug;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco</AdditionalLibraryDirectories>
+		</Link>
+		<PostBuildEvent />
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+		<ClCompile>
+			<WholeProgramOptimization>false</WholeProgramOptimization>
+			<PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<WarningLevel>Level3</WarningLevel>
+			<AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\CLD\include\CLD;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\core;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\libs\ofxSmartFont;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\themes;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\Win32;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\x64;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\opencv;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\posix;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\win32;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\poco\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\src</AdditionalIncludeDirectories>
+			<CompileAs>CompileAsCpp</CompileAs>
+			<MultiProcessorCompilation>true</MultiProcessorCompilation>
+			<ObjectFileName>$(IntDir)</ObjectFileName>
+			<PreprocessorDefinitions>OSC_HOST_LITTLE_ENDIAN</PreprocessorDefinitions>
+			<AdditionalOptions>-DPOCO_STATIC</AdditionalOptions>
+		</ClCompile>
+		<Link>
+			<IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+			<GenerateDebugInformation>false</GenerateDebugInformation>
+			<SubSystem>Console</SubSystem>
+			<OptimizeReferences>true</OptimizeReferences>
+			<EnableCOMDATFolding>true</EnableCOMDATFolding>
+			<RandomizedBaseAddress>false</RandomizedBaseAddress>
+			<AdditionalDependencies>%(AdditionalDependencies);ippicvmt.lib;PocoCryptomd.lib;PocoDatamd.lib;PocoDataSQLitemd.lib;PocoFoundationmd.lib;PocoJSONmd.lib;PocoNetmd.lib;PocoNetSSLmd.lib;PocoPDFmd.lib;PocoUtilmd.lib;PocoXMLmd.lib;PocoZipmd.lib;iphlpapi.lib</AdditionalDependencies>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\Win32;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\poco\lib\vs\Win32\Release;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco</AdditionalLibraryDirectories>
+		</Link>
+		<PostBuildEvent />
+	</ItemDefinitionGroup>
+	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+		<ClCompile>
+			<WholeProgramOptimization>false</WholeProgramOptimization>
+			<PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+			<WarningLevel>Level3</WarningLevel>
+			<AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\CLD\include\CLD;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\core;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\libs\ofxSmartFont;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\themes;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\Win32;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\x64;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\opencv;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\posix;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\win32;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\poco\include;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\src</AdditionalIncludeDirectories>
+			<CompileAs>CompileAsCpp</CompileAs>
+			<ObjectFileName>$(IntDir)</ObjectFileName>
+			<PreprocessorDefinitions>OSC_HOST_LITTLE_ENDIAN</PreprocessorDefinitions>
+			<AdditionalOptions>-DPOCO_STATIC</AdditionalOptions>
+		</ClCompile>
+		<Link>
+			<IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+			<GenerateDebugInformation>false</GenerateDebugInformation>
+			<SubSystem>Console</SubSystem>
+			<OptimizeReferences>true</OptimizeReferences>
+			<EnableCOMDATFolding>true</EnableCOMDATFolding>
+			<RandomizedBaseAddress>false</RandomizedBaseAddress>
+			<AdditionalDependencies>%(AdditionalDependencies);ippicvmt.lib;PocoCryptomd.lib;PocoDatamd.lib;PocoDataSQLitemd.lib;PocoFoundationmd.lib;PocoJSONmd.lib;PocoNetmd.lib;PocoNetSSLmd.lib;PocoPDFmd.lib;PocoUtilmd.lib;PocoXMLmd.lib;PocoZipmd.lib;iphlpapi.lib</AdditionalDependencies>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\lib\vs\x64;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\poco\lib\vs\x64\Release;..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco</AdditionalLibraryDirectories>
+		</Link>
+		<PostBuildEvent />
+	</ItemDefinitionGroup>
+	<ItemGroup>
+		<ClCompile Include="src\main.cpp" />
+		<ClCompile Include="src\ofApp.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\CLD\src\ETF.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\CLD\src\fdog.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\Calibration.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\ContourFinder.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\Distance.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\Flow.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\Helpers.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\Kalman.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\ObjectFinder.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\RunningBackground.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\Tracker.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\Utilities.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\src\Wrappers.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\core\ofxDatGuiComponent.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\libs\ofxSmartFont\ofxSmartFont.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\ofxDatGui.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxNetworkUtils.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxTCPClient.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxTCPManager.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxTCPServer.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxUDPManager.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvColorImage.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvContourFinder.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvFloatImage.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvGrayscaleImage.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvHaarFinder.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvImage.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvShortImage.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscBundle.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscMessage.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscParameterSync.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscReceiver.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscSender.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\IpEndpointName.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\win32\NetworkingUtils.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\win32\UdpSocket.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscOutboundPacketStream.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscPrintReceivedElements.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscReceivedElements.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscTypes.cpp" />
+		<ClCompile Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\src\ofxXmlPoco.cpp" />
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="src\ofApp.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\src\ofxCv.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\CLD\include\CLD\ETF.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\CLD\include\CLD\fdog.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\CLD\include\CLD\imatrix.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\CLD\include\CLD\myvec.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\Calibration.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\ContourFinder.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\Distance.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\Flow.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\Helpers.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\Kalman.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\ObjectFinder.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\RunningBackground.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\Tracker.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\Utilities.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxCv\libs\ofxCv\include\ofxCv\Wrappers.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGui2dPad.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiButton.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiColorPicker.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiControls.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiFRM.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiGroups.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiLabel.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiMatrix.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiScrollView.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiSlider.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiTextInput.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiTextInputField.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\components\ofxDatGuiTimeGraph.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\core\ofxDatGuiComponent.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\core\ofxDatGuiConstants.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\core\ofxDatGuiEvents.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\core\ofxDatGuiIntObject.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\libs\ofxSmartFont\ofxSmartFont.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\ofxDatGui.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\themes\ofxDatGuiTheme.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxDatGui\src\themes\ofxDatGuiThemes.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxNetwork.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxNetworkUtils.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxTCPClient.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxTCPManager.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxTCPServer.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxTCPSettings.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxUDPManager.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxNetwork\src\ofxUDPSettings.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvBlob.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvColorImage.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvConstants.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvContourFinder.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvFloatImage.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvGrayscaleImage.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvHaarFinder.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvImage.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxCvShortImage.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\src\ofxOpenCv.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\include\ipp.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\include\ippicv_base.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\include\ippicv_defs.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\include\ippicv_redefs.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\include\ippicv_types.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOpenCv\libs\ippicv\include\ippversion.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOsc.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscArg.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscBundle.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscMessage.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscParameterSync.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscReceiver.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\src\ofxOscSender.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\IpEndpointName.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\NetworkingUtils.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\PacketListener.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\TimerListener.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\ip\UdpSocket.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\MessageMappingOscPacketListener.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscException.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscHostEndianness.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscOutboundPacketStream.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscPacketListener.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscPrintReceivedElements.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscReceivedElements.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxOsc\libs\oscpack\src\osc\OscTypes.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\src\ofxXmlPoco.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\aes.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\asn1.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\asn1t.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\asn1_mac.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\bio.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\blowfish.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\bn.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\buffer.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\camellia.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\cast.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\cmac.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\cms.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\comp.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\conf.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\conf_api.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\crypto.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\des.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\des_old.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\dh.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\dsa.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\dso.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\dtls1.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ebcdic.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ec.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ecdh.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ecdsa.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\engine.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\err.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\evp.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\e_os2.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\hmac.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\idea.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\krb5_asn.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\kssl.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\lhash.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\md4.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\md5.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\mdc2.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\modes.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\objects.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\obj_mac.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ocsp.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\opensslconf.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\opensslconf_osx.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\opensslv.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ossl_typ.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\pem.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\pem2.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\pkcs12.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\pkcs7.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\pqueue.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\rand.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\rc2.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\rc4.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ripemd.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\rsa.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\safestack.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\seed.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\sha.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\srp.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\srtp.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ssl.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ssl2.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ssl23.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ssl3.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\stack.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\symhacks.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\tls1.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ts.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\txt_db.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ui.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\ui_compat.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\whrlpool.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\x509.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\x509v3.h" />
+		<ClInclude Include="..\..\..\..\..\openFrameworks_lib\openFrameworks\addons\ofxPoco\libs\openssl\include\openssl\x509_vfy.h" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">
+			<Project>{5837595d-aca9-485c-8e76-729040ce4b0b}</Project>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="icon.rc">
+			<AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">/D_DEBUG %(AdditionalOptions)</AdditionalOptions>
+			<AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/D_DEBUG %(AdditionalOptions)</AdditionalOptions>
+			<AdditionalIncludeDirectories>$(OF_ROOT)\libs\openFrameworksCompiled\project\vs</AdditionalIncludeDirectories>
+		</ResourceCompile>
+	</ItemGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties RESOURCE_FILE="icon.rc" />
+		</VisualStudio>
+	</ProjectExtensions>
+</Project>
