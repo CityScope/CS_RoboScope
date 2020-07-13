@@ -1794,7 +1794,7 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="40.386" y="103.251" size="0.6096" layer="27" font="vector" ratio="20" align="top-center"/>
 </element>
 <element name="U$5" library="SX1509_s" package="SX1509" value="SX1509" x="36.83" y="38.1" smashed="yes" rot="R90"/>
-<element name="MCP2562FD" library="MCP2562" package="MCP2562" value="MCP2562" x="54.356" y="86.106" smashed="yes">
+<element name="U$1" library="MCP2562" package="MCP2562" value="MCP2562" x="54.356" y="86.106" smashed="yes">
 <attribute name="NAME" x="42.814" y="89.0064" size="3.500090625" layer="25"/>
 <attribute name="VALUE" x="43.2004" y="79.3713" size="3.357890625" layer="27"/>
 </element>
@@ -1832,7 +1832,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="35.179" y="4.318" size="0.6096" layer="25" font="vector" ratio="20" rot="R90"/>
 <attribute name="VALUE" x="38.608" y="4.318" size="0.6096" layer="27" font="vector" ratio="20" rot="R90"/>
 </element>
-<element name="MCP2562" library="MCP2562" package="MCP2562" value="MCP2562" x="37.592" y="60.706" smashed="yes">
+<element name="U$6" library="MCP2562" package="MCP2562" value="MCP2562" x="37.592" y="60.706" smashed="yes">
 <attribute name="NAME" x="26.05" y="63.6064" size="3.500090625" layer="25"/>
 <attribute name="VALUE" x="26.4364" y="53.9713" size="3.357890625" layer="27"/>
 </element>
@@ -2739,9 +2739,9 @@ design rules under a new name.</description>
 <contactref element="I2C" pad="9"/>
 <contactref element="U$5" pad="3.3V"/>
 <contactref element="U$5" pad="3.3V_1"/>
-<contactref element="MCP2562FD" pad="VIO"/>
+<contactref element="U$1" pad="VIO"/>
 <contactref element="C6" pad="1"/>
-<contactref element="MCP2562" pad="VIO"/>
+<contactref element="U$6" pad="VIO"/>
 <contactref element="C5" pad="1"/>
 <wire x1="63.5" y1="83.3" x2="65.2" y2="85" width="0.2" layer="1"/>
 <wire x1="62.6" y1="83.3" x2="63.5" y2="83.3" width="0.2" layer="16"/>
@@ -3234,7 +3234,7 @@ design rules under a new name.</description>
 <contactref element="D3" pad="1"/>
 <contactref element="CAN_INPUT" pad="1"/>
 <contactref element="CAN_INPUT1" pad="1"/>
-<contactref element="MCP2562FD" pad="CANH"/>
+<contactref element="U$1" pad="CANH"/>
 <contactref element="R8" pad="1"/>
 <wire x1="66.7" y1="86.7" x2="67.8" y2="86.7" width="0.2" layer="1"/>
 <wire x1="66.7" y1="86.3" x2="66.7" y2="86.7" width="0.2" layer="16"/>
@@ -3347,7 +3347,7 @@ design rules under a new name.</description>
 <contactref element="CAN_INPUT" pad="2"/>
 <contactref element="CAN_INPUT1" pad="2"/>
 <contactref element="D3" pad="2"/>
-<contactref element="MCP2562FD" pad="CANL"/>
+<contactref element="U$1" pad="CANL"/>
 <contactref element="J1" pad="2"/>
 <wire x1="64.6" y1="78.6" x2="64.6" y2="80" width="0.2" layer="1"/>
 <wire x1="68.8" y1="74.4" x2="64.6" y2="78.6" width="0.2" layer="1"/>
@@ -3474,13 +3474,13 @@ design rules under a new name.</description>
 <contactref element="U$5" pad="GND_2"/>
 <contactref element="U$5" pad="GND_1"/>
 <contactref element="C6" pad="2"/>
-<contactref element="MCP2562FD" pad="VSS"/>
-<contactref element="MCP2562FD" pad="STBY"/>
+<contactref element="U$1" pad="VSS"/>
+<contactref element="U$1" pad="STBY"/>
 <contactref element="C4" pad="2"/>
 <contactref element="D5" pad="3"/>
 <contactref element="C5" pad="2"/>
-<contactref element="MCP2562" pad="VSS"/>
-<contactref element="MCP2562" pad="STBY"/>
+<contactref element="U$6" pad="VSS"/>
+<contactref element="U$6" pad="STBY"/>
 <contactref element="C10" pad="2"/>
 <contactref element="R1" pad="2"/>
 <wire x1="24.9" y1="32.2" x2="26.6" y2="30.5" width="0.2" layer="1"/>
@@ -3992,9 +3992,9 @@ design rules under a new name.</description>
 <contactref element="S1" pad="2"/>
 <contactref element="NOE_PIXELS" pad="11"/>
 <contactref element="I2C" pad="11"/>
-<contactref element="MCP2562FD" pad="VDD"/>
+<contactref element="U$1" pad="VDD"/>
 <contactref element="C4" pad="1"/>
-<contactref element="MCP2562" pad="VDD"/>
+<contactref element="U$6" pad="VDD"/>
 <contactref element="C10" pad="1"/>
 <wire x1="45.2" y1="116.7" x2="45.8" y2="116.7" width="0.35" layer="1"/>
 <wire x1="44.5" y1="116" x2="45.2" y2="116.7" width="0.35" layer="1"/>
@@ -5551,7 +5551,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="CAN_RX3">
 <contactref element="U$3" pad="30"/>
-<contactref element="MCP2562FD" pad="RXD"/>
+<contactref element="U$1" pad="RXD"/>
 <wire x1="51.7" y1="83.8" x2="51.7" y2="84.2" width="0.2" layer="1"/>
 <wire x1="51.2" y1="83.3" x2="51.7" y2="83.8" width="0.2" layer="1"/>
 <wire x1="48" y1="83.3" x2="51.2" y2="83.3" width="0.2" layer="16"/>
@@ -5566,7 +5566,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="CAN_TX3">
 <contactref element="U$3" pad="31"/>
-<contactref element="MCP2562FD" pad="TXD"/>
+<contactref element="U$1" pad="TXD"/>
 <wire x1="51.7" y1="88" x2="51.731" y2="88.011" width="0.2" layer="1"/>
 <wire x1="35.7" y1="91.372" x2="35.7" y2="90.297975" width="0.2" layer="1"/>
 <wire x1="36.7366" y1="88.3290875" x2="39.41884375" y2="85.64684375" width="0.2" layer="1"/>
@@ -5877,7 +5877,7 @@ design rules under a new name.</description>
 <signal name="CAN_RX2">
 <contactref element="U$3" pad="0"/>
 <contactref element="I2C" pad="3"/>
-<contactref element="MCP2562" pad="RXD"/>
+<contactref element="U$6" pad="RXD"/>
 <wire x1="24.9" y1="46.1" x2="24.9" y2="48.8" width="0.2" layer="16"/>
 <wire x1="21.9" y1="43.1" x2="24.9" y2="46.1" width="0.2" layer="16"/>
 <wire x1="17.9" y1="43.1" x2="21.9" y2="43.1" width="0.2" layer="16"/>
@@ -5929,7 +5929,7 @@ design rules under a new name.</description>
 <signal name="CAN_TX2">
 <contactref element="U$3" pad="1"/>
 <contactref element="I2C" pad="4"/>
-<contactref element="MCP2562" pad="TXD"/>
+<contactref element="U$6" pad="TXD"/>
 <wire x1="35" y1="63" x2="35" y2="62.7" width="0.2" layer="1"/>
 <wire x1="38.5" y1="66.5" x2="35" y2="63" width="0.2" layer="1"/>
 <wire x1="38.7" y1="66.5" x2="38.5" y2="66.5" width="0.2" layer="16"/>
@@ -6141,7 +6141,7 @@ design rules under a new name.</description>
 <contactref element="D5" pad="1"/>
 <contactref element="CAN_INPUT4" pad="1"/>
 <contactref element="CAN_INPUT5" pad="1"/>
-<contactref element="MCP2562" pad="CANH"/>
+<contactref element="U$6" pad="CANH"/>
 <contactref element="R4" pad="1"/>
 <wire x1="40.3" y1="61.3" x2="43.4" y2="61.3" width="0.2" layer="1"/>
 <wire x1="43.4" y1="61.3" x2="43.434" y2="61.302" width="0.2" layer="1"/>
@@ -6202,7 +6202,7 @@ design rules under a new name.</description>
 <contactref element="CAN_INPUT5" pad="2"/>
 <contactref element="CAN_INPUT4" pad="2"/>
 <contactref element="D5" pad="2"/>
-<contactref element="MCP2562" pad="CANL"/>
+<contactref element="U$6" pad="CANL"/>
 <contactref element="J2" pad="2"/>
 <wire x1="39.1" y1="60" x2="40.2" y2="60" width="0.2" layer="1"/>
 <wire x1="36.7" y1="57.6" x2="39.05" y2="59.95" width="0.2" layer="1"/>
