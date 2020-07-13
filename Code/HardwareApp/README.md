@@ -20,11 +20,14 @@ List of Arduino libraries
 
 ## Test Code
 
+- CanBus
+
 - EnableMotor
 
 - NeoPixel
 
 - MotorTest
+
 - InteractionTest
 
 ### CAN Bus Protocol
@@ -60,23 +63,6 @@ Server will
           - Pull Interaction (Pull)  ```[0000L000]```
       - [6] - Motor sensor 0
       - [7] - Motor sensor 1
-
-      ### Flex CAN CAN_message_t
-
-````
-  typedef struct CAN_message_t {
-      uint32_t id;          // can identifier
-      uint16_t timestamp;   // FlexCAN time when message arrived
-      struct {
-          uint8_t extended:1; // identifier is extended (29-bit)
-          uint8_t remote:1;   // remote transmission request packet type
-          uint8_t overrun:1;  // message overrun
-          uint8_t reserved:5;
-      } flags;
-      uint8_t len;          // length of data
-      uint8_t buf[8];
-  } CAN_message_t;
-````
 
 ### Library:
 
