@@ -1,3 +1,23 @@
+# Hardware Apps
+
+Arduino
+
+## Translator App
+
+Application that manages and translates grid information to the motor modules.
+
+## Module App
+
+Client application for each board.
+
+## Libraries
+
+List of Arduino libraries
+
+- SX1509
+- NeoPixel
+- CAN Bus FD FlexCAN
+
 ## Test Code
 
 - EnableMotor
@@ -5,10 +25,10 @@
 - NeoPixel
 
 - MotorTest
-
 - InteractionTest
 
-## CAN Bus Protocol
+### CAN Bus Protocol
+
 
 - 11-bit Motor id identifier
 - CAN Bus Message - 4 byte Protocol
