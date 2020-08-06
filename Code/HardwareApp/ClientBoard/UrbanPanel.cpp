@@ -1,208 +1,137 @@
 #include "UrbanPanel.h"
 
-
-//------------------------------------------------------------------------------
-//constructor
 UrbanPanel::UrbanPanel(int panelId) {
   id = panelId;
 
-  stateChanged = false;
+  // Set up the motors
+  int motorDirPins[]  = {DIR_PIN_01, DIR_PIN_02 , DIR_PIN_03, DIR_PIN_04, DIR_PIN_05, DIR_PIN_06, DIR_PIN_07, DIR_PIN_08};
+  int motorStepPins[] = {STEP_PIN_01, STEP_PIN_02, STEP_PIN_03, STEP_PIN_04, STEP_PIN_05, STEP_PIN_06, STEP_PIN_07, STEP_PIN_08};
 
-  motorPanel = new MotorPanel(id);
-  interfacePanel = new InterfacePanel(id);
-
-  disableMotor = false;
-}
-
-
-//------------------------------------------------------------------------------
-// returns the state of interface (sensor output, all button states, LEDs)
-int UrbanPanel::getInterfaceState() {
-  return 0;
-}
-
-//------------------------------------------------------------------------------
-// returns the state of all the motors
-int UrbanPanel::getMotorState() {
-  return 0;
-}
-
-//------------------------------------------------------------------------------
-// resets the state status variable
-void UrbanPanel::resetState() {
-  stateChanged = false;
-}
-
-//------------------------------------------------------------------------------
-// returns true if the interface has been changed
-bool UrbanPanel::getStateChange() {
-  return stateChanged;
-}
-
-//------------------------------------------------------------------------------
-// Iteratively goes through all interface push buttons to see if any are activated
-// Modifies motor output as necessary
-void UrbanPanel::checkInterfaceInput() {
-  for (int i = 0; i < interfacePanel->getUrbanPixelCount(); i++) {
-    if (interfacePanel->getInterfaceButtonState(i)) {
-      moveMotorDown(i);
-      stateChanged = true;
-    }
-  }
-}
-
-
-//------------------------------------------------------------------------------
-void UrbanPanel::setUrbanPixelColor(int i, int r, int g, int b) {
-  interfacePanel->setColorUrbanPixel(i, r, g, b);
-}
-
-
-//------------------------------------------------------------------------------
-// TODO: Check to make sure the specified directions are the directions for the motor
-// TODO: Check to see if the stepper motor stops moving up when button is pressed
-// Moves the specified urban pixel up
-
-void UrbanPanel::stopMotor(int i) {
-  motorPanel->getMotor(i).stop();
-}
-
-//------------------------------------------------------------------------------
-// Itreatively goes through all the motors and checks if their next action is null
-// If it is then the motor is stopped.
-// Meant to be placed in the void loop of the main function
-void UrbanPanel::stopMotorsToPosition() {
-  for (int i = 0; i < motorPanel->getNumberOfMotors(); i++) {
-    unsigned long waitTimeMicro = checkMotorState(i);
-    if (waitTimeMicro <= 0) {
-      stopMotor(i);
-    }
-  }
-}
-
-void UrbanPanel::stopMotorsToLimitPosition() {
-  //update motor values
-  unsigned long ctime = millis();
-
-  //if the motor is unlocked we can move it if not stop it
-  for (int i = 0; i < motorPanel->getNumberOfMotors(); i++) {
-    if (motorPanel->getMotor(i).isLock() == false) {
-      unsigned long waitTimeMicro = checkMotorState(i);
-      if (waitTimeMicro <= 0) {
-        stopMotor(i);
-      }
-
-      //check if the limit switch was pressed
-      if (interfacePanel->getLimitSwitchState(i) == HIGH) {
-        // motorPanel->getMotor(i).resetLock();
-        motorPanel->getMotor(i).stop();
-        //moveMotor(i, ceil(0.1 * GMOTOR_STEPS) * -1);
-
-        //move backwards a bit
-        Serial.print(i);
-        Serial.print(" ");
-        Serial.println("stop motor");
-      }
-
-    }
+  for (int i = 0; i < MOTORS_PER_PANEL; i++) {
+    motors[i] = new StepperMotor(i, GMOTOR_STEPS, motorDirPins[i], motorStepPins[i], GENABLE_PIN, GM0_PIN, GM1_PIN);
+    //waitTimeMicros[i] = 0;
+    //threads.addThread(motorThreadTimer, i);
+    motors[i]->setRPM(GRPM);
+    motors[i]->init();
   }
 
-  for (int i = 0; i < motorPanel->getNumberOfMotors(); i++) {
-    // motorPanel->getMotor(i).update();
+  interfacePanel = new InterfacePanel();
+  //displayPanel = new DisplayPanel();
+
+}
+
+int UrbanPanel::getPushState(int i) {
+  return interfacePanel->getPushCurrentState(i);
+}
+
+int UrbanPanel::getLimitState(int i) {
+  return interfacePanel->getLimitCurrentState(i);
+}
+
+
+void UrbanPanel::init() {
+  for (int i = 0; i < MOTORS_PER_PANEL; i++) {
+    //waitTimeMicros[i] = 0;
+    //threads.addThread(motorThreadTimer, i);
+    motors[i]->setRPM(GRPM);
+    motors[i]->init();
   }
-
-}
-
-void UrbanPanel::moveMotorUp(int i) {
-  if (!interfacePanel->getInterfaceButtonState(i)) {
-    motorPanel->getMotor(i).moveForward();
-  } else {
-    motorPanel->getMotor(i).stop();
-  }
-}
-
-//------------------------------------------------------------------------------
-// Moves the specified urban pixel down
-void UrbanPanel::moveMotorDown(int i) {
-  if (!interfacePanel->getLimitSwitchState(i)) {
-    motorPanel->getMotor(i).moveBackward();
-  } else {
-    motorPanel->getMotor(i).stop();
-  }
-}
-
-
-//------------------------------------------------------------------------------
-void UrbanPanel::moveMotor(int motorID, int motorDir, int motorStep, int motorTimeActivation, int motorEnable) {
-  if (motorDir == 1) {
-    moveMotorUpMicro(motorID, motorStep, motorTimeActivation, motorEnable);
-  } else {
-    moveMotorDownMicro(motorID, motorStep, motorTimeActivation, motorEnable);
-  }
-}
-
-// TODO: RECOMMENT THE CODE IN TO CHECK FOR INTERFACE BUTTONS I.E. LIMIT SWITCHES
-//------------------------------------------------------------------------------
-void UrbanPanel::moveMotorUpMicro(int motorID, int motorStep, int motorTimeActivation, int motorEnable) {
-
-  motorPanel->getMotor(motorID).startMoveForward(motorStep);
-}
-
-void UrbanPanel::moveMotor(int motorID, int motorStep) {
-  motorPanel->getMotor(motorID).startMoveForwardSteps(motorStep);
-}
-
-
-// TODO: RECOMMENT THE CODE IN TO CHECK FOR INTERFACE BUTTONS I.E. LIMIT SWITCHES
-//------------------------------------------------------------------------------
-void UrbanPanel::moveMotorDownMicro(int motorID, int motorStep, int motorTimeActivation, int motorEnable) {
-
-  motorPanel->getMotor(motorID).startMoveBackward(motorStep);
-}
-
-//------------------------------------------------------------------------------
-unsigned  UrbanPanel::checkMotorState(int motorID) {
-  return  motorPanel->getMotor(motorID).getNextAction();
-}
-
-
-//------------------------------------------------------------------------------
-// Interprets the message received from the CAN bus as actions
-void UrbanPanel::interpretMsg(uint8_t msg[]) {
-  int motorID = int(msg[0]);
-  int motorDir = int(msg[1]);
-  int motorStep = int(msg[2]);
-  int motorTimeActivation = int(msg[3]);
-  int motorEnable = int(msg[4]);
-
-  moveMotor(motorID, motorDir, motorStep, motorTimeActivation, motorEnable);
-
-  // TODO: Figure out the CAN communcations for LEDs
-  uint8_t interaction = msg[5];
-
-  int motorSensor0 = msg[6];
-  int motorSensor1 = msg[7];
-}
-
-//------------------------------------------------------------------------------
-MotorPanel UrbanPanel::getMotorPanel() {
-  return *motorPanel;
-}
-
-
-//------------------------------------------------------------------------------
-InterfacePanel UrbanPanel::getInterfacePanel() {
-  return *interfacePanel;
-}
-
-//------------------------------------------------------------------------------
-// initialize motors
-void UrbanPanel::setup() {
-  Serial.println("Setting Interface");
   interfacePanel->init();
 
-  Serial.println("Setting Motors");
-  motorPanel->init();
+
+}
+
+void UrbanPanel::motorTimerUpdate() {
+  for (int i = 0; i < MOTORS_PER_PANEL; i++) {
+    if (motors[i]->isMotorStop()) {
+      motors[i]->disable();
+      //Waiting lock
+
+      if (!motors[i]->isMotorLock()) {
+        bool lock = motors[i]->updateLock(millis());
+
+        if (lock) {
+          motors[i]->enable();
+          motors[i]->startMoveForward(5);
+          motors[i]->resetLimit();
+        }
+      }
+    }
+  }
+
+  //lock the button and push up
+  for (int i = 0 ; i < MOTORS_PER_PANEL; i++) {
+    unsigned waitTimeMicros = motors[i]->getNextAction();
+    if (waitTimeMicros <= 0) {
+      //motorPanel->getMotor(i).disable();
+      //Serial.print(i);
+      //Serial.println(": stop motor");
+    }
+  }
+
+  if (limitActivated) {
+    interfacePanel->updateLimitState();
+
+    for (int i = 0; i < MOTORS_PER_PANEL; i++) {
+      if (interfacePanel->getLimitSwitchState(i)) {
+        motors[i]->activeLimit();
+      }
+      if (interfacePanel->getLimitState(i)) {
+        interfacePanel->resetLimitSwitch(i);
+      }
+    }
+
+    for (int i = 0; i < MOTORS_PER_PANEL; i++) {
+      if (interfacePanel->getPushSwitchState(i)) {
+        motors[i]->activeLimit();
+      }
+      if (interfacePanel->getPushState(i)) {
+        interfacePanel->resetPushSwitch(i);
+      }
+    }
+
+    limitActivated = false;
+
+  }
+
+}
+
+void UrbanPanel::limitswitch() {
+  limitActivated = true;
+}
 
 
+/*
+*/
+void UrbanPanel::movePixelUp(int i, int steps) {
+  //motorPanel->startMove
+  //motors[i]->moveForward();
+  motors[i]->startMoveForward(steps);
+
+}
+
+void UrbanPanel::movePixelDown(int i, int steps) {
+  //motorPanel->startMove
+  motors[i]->startMoveBackward(steps);
+}
+
+/*
+  Moves the defined pixel to a specified position
+*/
+void UrbanPanel::setPixelPosition(int i, float pos) {
+
+
+}
+
+void UrbanPanel::pixelLoop(int i) {
+    waitTimeMicros[i] = motors[i]->getNextAction();
+
+    /*
+    if (getLimitState(0) == 1) {
+      movePixelDown(i, 5);
+      motors[i]->stop();
+    }*/
+    if (waitTimeMicros[i] <= 0) {
+      motors[i]->stop();
+    }
 }

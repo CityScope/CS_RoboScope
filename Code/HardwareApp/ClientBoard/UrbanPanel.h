@@ -1,87 +1,48 @@
-/*
-   The class that controls the overall functions of the Urban Panel (a panel made up of Urban Pixels)
-   Can handle the output and inputs of each urban pixel in the panel
-   The individual pixel unit that controls the stepper, the lights, and handles the inputs of the respective pixel
-*/
 #ifndef URBAN_PANEL_H
 #define URBAN_PANEL_H
 
 #include <Arduino.h>
-
-#include "MotorPanel.h"
+#include "BoardPins.h"
+#include "StepperMotor.h"
 #include "InterfacePanel.h"
 
 class UrbanPanel {
   public:
-    //constructor
     UrbanPanel(int panelId);
 
-    // returns the state of interface (sensor output, all button states, LEDs)
-    int getInterfaceState();
-
-    // returns the state of all the motors
-    int getMotorState();
-
-    // resets the state status variable
-    void resetState();
-
-    // returns true if the interface has been changed
-    bool getStateChange();
-
-    // Iteratively goes through all interface push buttons to see if any are activated
-    // Modifies motor output as necessary
-    void checkInterfaceInput();
-
-    void stopMotorsToLimitPosition();
-
-    void setUrbanPixelColor(int i, int r, int g, int b);
-
-    // TODO: Check to make sure the specified directions are the directions for the motor
-    // TODO: Check to see if the stepper motor stops moving up when button is pressed
-    // Moves the specified urban pixel up
-    void moveMotorUp(int i);
-
-    unsigned checkMotorState(int motorID);
-
-    void stopMotor(int i);
-
-    // Moves the specified urban pixel down
-    void moveMotorDown(int i);
-
-    void stopMotorsToPosition();
-
-    void moveMotor(int motorID, int motorDir, int motorStep, int motorTimeActivation, int motorEnable);
-
-    void moveMotorUpMicro(int motorID, int motorStep, int motorTimeActivation, int motorEnable);
-
-    void moveMotorDownMicro(int motorID, int motorStep, int motorTimeActivation, int motorEnable);
+    void init();
 
 
-    void moveMotor(int motorID, int motorStep);
-    
+    int getPushState(int i);
 
-    void interpretMsg(uint8_t msg[]);
+    int getLimitState(int i);
 
-    MotorPanel getMotorPanel();
+    void resetMotorRange();
 
-    InterfacePanel getInterfacePanel();
+    void zeroMotors();
 
-    // initialize motors
-    void setup();
+    void maxMotors();
 
-     InterfacePanel * interfacePanel;
-     
+    void motorTimerUpdate();
+
+    void movePixelUp(int i, int steps);
+
+    void movePixelDown(int i, int steps);
+
+    void setPixelPosition(int i, float pos);
+
+    void pixelLoop(int i);
+
+    void limitswitch();
+
+
   private:
-    // ID for the pixel (also used for the motor ID)
     int id;
+    StepperMotor * motors[MOTORS_PER_PANEL];
+    volatile unsigned * waitTimeMicros[MOTORS_PER_PANEL];
+    InterfacePanel * interfacePanel;
+    volatile boolean limitActivated = false;
+    volatile boolean limitActivatedPrev = false;
 
-    MotorPanel * motorPanel;
-   
-
-    // variable that keeps track of whether or not elements in the urban panel changed (i.e. motor moved, buttons pressed, etc)
-    bool stateChanged;
-
-    bool disableMotor;
 };
-
 #endif

@@ -29,7 +29,7 @@ class Timer {
       }
     }
 
-    //return done state 
+    //return done state
     boolean isDone() {
       return done;
     }

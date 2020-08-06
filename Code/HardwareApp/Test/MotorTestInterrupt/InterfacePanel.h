@@ -44,14 +44,14 @@ class InterfacePanel {
 
     int getPushCurrentState(int i);
     int getLimitCurrentState(int i);
-    
+
     //interrupt limit
     static  void limitswitch();
 
     //print limit state
     void updateLimitState();
 
-    bool getLimitSwitchState(int i); 
+    bool getLimitSwitchState(int i);
     bool getLimitState(int i);
 
     void resetLimitSwitch(int i) {
