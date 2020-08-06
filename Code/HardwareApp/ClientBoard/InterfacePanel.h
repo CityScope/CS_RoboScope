@@ -26,21 +26,35 @@ class InterfacePanel {
 
     void init();
 
+
     int getPushCurrentState(int i);
     int getLimitCurrentState(int i);
+
+    //interrupt limit
+    static  void limitswitch();
+
+    //print limit state
+    void updateLimitState();
 
     bool getLimitSwitchState(int i);
     bool getLimitState(int i);
 
+    void resetLimitSwitch(int i) {
+      limitSwithStatePrev[i] = false;
+      limitSwithState[i] = false;
+    }
+
+
+    ////
     bool getPushSwitchState(int i);
     bool getPushState(int i);
 
-    void updateLimitState();
     void updatePushState();
 
-    void resetLimitSwitch(int i);
-    void resetPushSwitch(int i);
-
+    void resetPushSwitch(int i) {
+      pushSwithStatePrev[i] = false;
+      pushSwithState[i] = false;
+    }
 
   private:
 
@@ -52,13 +66,13 @@ class InterfacePanel {
     int pushPin[MOTORS_PER_PANEL];
 
     // limit switch pin high
-    int limitSwitchPin[MOTORS_PER_PANEL];
+    int limitSwithPin[MOTORS_PER_PANEL];
 
-    bool limitSwitchStatePrev[MOTORS_PER_PANEL];
-    bool limitSwitchState[MOTORS_PER_PANEL];
+    bool limitSwithStatePrev[MOTORS_PER_PANEL];
+    bool limitSwithState[MOTORS_PER_PANEL];
 
-    bool pushSwitchStatePrev[MOTORS_PER_PANEL];
-    bool pushSwitchState[MOTORS_PER_PANEL];
+    bool pushSwithStatePrev[MOTORS_PER_PANEL];
+    bool pushSwithState[MOTORS_PER_PANEL];
 
     // SX1509 I2C address (set by ADDR1 and ADDR0 (00 by default):
     // SX1509 I2C address

@@ -53,7 +53,7 @@ void UrbanPanel::motorTimerUpdate() {
         if (lock) {
           motors[i]->enable();
           motors[i]->startMoveForward(5);
-          motors[i]->resetLimit();
+          motors[i]->resetlimit();
         }
       }
     }

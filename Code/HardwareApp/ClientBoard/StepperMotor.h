@@ -35,8 +35,6 @@ class StepperMotor {
     bool stopMotor;
     bool motorLock;
 
-    Timer * timerBack;
-
     //constructor
     StepperMotor(int m_id, int steps, int dir_pin, int step_pin, int sleep_pin, int m0_pin, int m1_pin) {
       id  = m_id;
@@ -60,7 +58,6 @@ class StepperMotor {
 
       stopMotor = false;
       motorLock = false;
-
     }
 
     void setRPM(int RPM) {
@@ -79,21 +76,22 @@ class StepperMotor {
 
       // motor->setEnableActiveState(LOW);
 
-      //motor->enable();
+      motor->enable();
+
+      // motor->setMicrostep(16);
     }
 
     void moveForward() {
-      motor->enable();
       motor->move(-motorSteps);
+      // motor->rotate(360);
+      //      motor->runToPosition();
     }
 
     void startMoveForward(int steps) {
-      motor->enable();
       motor->startMove(steps * -motorSteps);
     }
 
     void startMoveBackward(int steps) {
-      motor->enable();
       motor->startMove(steps * motorSteps);
     }
 
@@ -105,15 +103,21 @@ class StepperMotor {
       motor->disable();
     }
 
+    void moveBackward() {
+      motor->move(motorSteps);
+      //  motor->rotate(-360);
+      // motor->runToPosition();
+    }
+
     void enable() {
       digitalWrite(ENABLE_PIN, HIGH);
       enableMotor = true;
     }
-
     void disable() {
       digitalWrite(ENABLE_PIN, LOW);
       enableMotor = false;
     }
+
 
     bool updateLock(unsigned long time) {
       timerBack->update(time);
@@ -124,19 +128,13 @@ class StepperMotor {
       return false;
     }
 
-    void moveBackward() {
-      motor->enable();
-      motor->move(motorSteps);
-      //  motor->rotate(-360);
-      // motor->runToPosition();
-    }
-
+    //activate limit
     void activeLimit() {
       stopMotor = true;
       motorLock = false;
     }
 
-    void resetLimit() {
+    void resetlimit() {
       motorLock = true;
       stopMotor = false;
     }
@@ -148,6 +146,8 @@ class StepperMotor {
     bool isMotorLock() {
       return motorLock;
     }
+
+
 
     //print out information
     void printMotorInfo() {
@@ -166,5 +166,7 @@ class StepperMotor {
       Serial.print("M1 PIN: ");
       Serial.println(M1_PIN);
     }
+
+    Timer * timerBack;
 
 };

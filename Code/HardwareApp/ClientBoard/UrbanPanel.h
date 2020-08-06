@@ -42,7 +42,6 @@ class UrbanPanel {
     volatile unsigned * waitTimeMicros[MOTORS_PER_PANEL];
     InterfacePanel * interfacePanel;
     volatile boolean limitActivated = false;
-    volatile boolean limitActivatedPrev = false;
 
 };
 #endif

@@ -7,7 +7,6 @@ InterfacePanel::InterfacePanel() {
   Serial.println("Setting up LEDs");
 
 
-
   //push down
   pushPin[0] = SX1509_01_SWITCH_LEDBOX;
   pushPin[1] = SX1509_02_SWITCH_LEDBOX;
@@ -19,23 +18,23 @@ InterfacePanel::InterfacePanel() {
   pushPin[7] = SX1509_08_SWITCH_LEDBOX;
 
   //limit switch
-  limitSwitchPin[0] = SX1509_01_SWITCH_STOP;
-  limitSwitchPin[1] = SX1509_02_SWITCH_STOP;
-  limitSwitchPin[2] = SX1509_03_SWITCH_STOP;
-  limitSwitchPin[3] = SX1509_04_SWITCH_STOP;
-  limitSwitchPin[4] = SX1509_05_SWITCH_STOP;
-  limitSwitchPin[5] = SX1509_06_SWITCH_STOP;
-  limitSwitchPin[6] = SX1509_07_SWITCH_STOP;
-  limitSwitchPin[7] = SX1509_08_SWITCH_STOP;
+  limitSwithPin[0] = SX1509_01_SWITCH_STOP;
+  limitSwithPin[1] = SX1509_02_SWITCH_STOP;
+  limitSwithPin[2] = SX1509_03_SWITCH_STOP;
+  limitSwithPin[3] = SX1509_04_SWITCH_STOP;
+  limitSwithPin[4] = SX1509_05_SWITCH_STOP;
+  limitSwithPin[5] = SX1509_06_SWITCH_STOP;
+  limitSwithPin[6] = SX1509_07_SWITCH_STOP;
+  limitSwithPin[7] = SX1509_08_SWITCH_STOP;
 
   for (int i = 0; i < MOTORS_PER_PANEL; i++) {
-    limitSwitchState[i] = false;
-    limitSwitchStatePrev[i] = false;
+    limitSwithState[i] = false;
+    limitSwithStatePrev[i] = false;
   }
 
   for (int i = 0; i < MOTORS_PER_PANEL; i++) {
-    pushSwitchState[i] = false;
-    pushSwitchStatePrev[i] = false;
+    pushSwithState[i] = false;
+    pushSwithStatePrev[i] = false;
   }
 
 }
@@ -66,14 +65,14 @@ void InterfacePanel::init() {
   //input with internal pullup resistor activated:
   for (int i = 0; i < MOTORS_PER_PANEL; i++) {
     sx00.pinMode(pushPin[i], INPUT_PULLUP);
-    sx00.pinMode(limitSwitchPin[i], INPUT_PULLUP);
+    sx00.pinMode(limitSwithPin[i], INPUT_PULLUP);
   }
 
   // FALLING, RISING, or CHANGE. Set it to falling, which will
   // mean the button was pressed:
   for (int i = 0; i < MOTORS_PER_PANEL; i++) {
     sx00.enableInterrupt(pushPin[i], CHANGE  );
-    sx00.enableInterrupt(limitSwitchPin[i], CHANGE  );
+    sx00.enableInterrupt(limitSwithPin[i], CHANGE  );
   }
 
   // The SX1509 has built-in debounce features, so a single
@@ -86,7 +85,7 @@ void InterfacePanel::init() {
   //debouncePin
   for (int i = 0; i < MOTORS_PER_PANEL; i++) {
     sx00.debouncePin(pushPin[i]);
-    sx00.debouncePin(limitSwitchPin[i]);
+    sx00.debouncePin(limitSwithPin[i]);
   }
 
   pinMode(INTERRUPT_PIN_SWITCH, INPUT_PULLUP);
@@ -94,30 +93,20 @@ void InterfacePanel::init() {
   // Attach an Arduino interrupt to the interrupt pin. Call
   // the button function, whenever the pin goes from HIGH to
   // LOW.
+
 }
 
 
 bool InterfacePanel::getLimitSwitchState(int i) {
-  if ( !limitSwitchStatePrev[i] && limitSwitchState[i])
+  if ( !limitSwithStatePrev[i] && limitSwithState[i])
     return true;
   return false;
 }
 
 bool InterfacePanel::getLimitState(int i) {
-  if ( limitSwitchStatePrev[i] && limitSwitchState[i])
+  if ( limitSwithStatePrev[i] && limitSwithState[i])
     return true;
   return false;
-}
-
-//---------------------------------------------------------------------------
-int InterfacePanel::getPushCurrentState(int i) {
-  return  sx00.digitalRead(pushPin[i]);
-}
-
-
-//---------------------------------------------------------------------------
-int InterfacePanel::getLimitCurrentState(int i) {
-  return  sx00.digitalRead(limitSwitchPin[i]);
 }
 
 //---------------------------------------------------------------------------
@@ -130,41 +119,62 @@ void InterfacePanel::updateLimitState() {
 
   // If the bit corresponding to our button IO generated
   // the input:
+  Serial.print("limit ");
   for (int i = 1; i <= MOTORS_PER_PANEL; i++) {
-    unsigned state =  intStatus & (1 << limitSwitchPin[i - 1]);
+    unsigned state =  intStatus & (1 << limitSwithPin[i - 1]);
 
-    limitSwitchStatePrev[i - 1] =  limitSwitchState[i - 1];
-    limitSwitchState[i - 1] = state;
+    limitSwithStatePrev[i - 1] =  limitSwithState[i - 1];
+    limitSwithState[i - 1] = state;
+
+    Serial.print(bool(state));
+    Serial.print("-");
+    Serial.print(limitSwithState[i - 1]);
+    Serial.print("-");
+    Serial.print(limitSwithStatePrev[i - 1]);
+    Serial.print(" ");
+    /* if ( state) {
+       Serial.print(i - 1);
+       Serial.print(": ");
+       Serial.println("Button pressed!"); // Print a message.
+      }
+    */
   }
+  Serial.println();
 
+  Serial.print("push ");
   for (int i = 1; i <= MOTORS_PER_PANEL; i++) {
     unsigned state =  intStatus & (1 << pushPin[i - 1]);
 
-    pushSwitchStatePrev[i - 1] =  pushSwitchState[i - 1];
-    pushSwitchState[i - 1] = state;
+    pushSwithStatePrev[i - 1] =  pushSwithState[i - 1];
+    pushSwithState[i - 1] = state;
+
+    Serial.print(bool(state));
+    Serial.print("-");
+    Serial.print(pushSwithState[i - 1]);
+    Serial.print("-");
+    Serial.print(pushSwithStatePrev[i - 1]);
+    Serial.print(" ");
+    /* if ( state) {
+       Serial.print(i - 1);
+       Serial.print(": ");
+       Serial.println("Button pressed!"); // Print a message.
+      }
+    */
   }
+  Serial.println();
 }
 
+//---------------------------------------------------------------------------
 bool InterfacePanel::getPushSwitchState(int i) {
-  if ( !pushSwitchStatePrev[i] && pushSwitchState[i])
+  if ( !pushSwithStatePrev[i] && pushSwithState[i])
     return true;
   return false;
 }
 
 bool InterfacePanel::getPushState(int i) {
-  if ( pushSwitchStatePrev[i] && pushSwitchState[i])
+  if ( pushSwithStatePrev[i] && pushSwithState[i])
     return true;
   return false;
-}
-
-void InterfacePanel::resetLimitSwitch(int i) {
-  limitSwitchStatePrev[i] = false;
-  limitSwitchState[i] = false;
-}
-
-void InterfacePanel::resetPushSwitch(int i) {
-  pushSwitchStatePrev[i] = false;
-  pushSwitchState[i] = false;
 }
 
 void InterfacePanel::updatePushState() {
@@ -176,4 +186,20 @@ void InterfacePanel::updatePushState() {
   // If the bit corresponding to our button IO generated
   // the input:
 
+}
+
+//---------------------------------------------------------------------------
+int InterfacePanel::getPushCurrentState(int i) {
+  return  sx00.digitalRead(pushPin[i]);
+}
+
+
+//---------------------------------------------------------------------------
+int InterfacePanel::getLimitCurrentState(int i) {
+  return  sx00.digitalRead(limitSwithPin[i]);
+}
+
+
+void InterfacePanel::limitswitch() {
+  //InterfacePanel::limitSwitchPressed = true;
 }
