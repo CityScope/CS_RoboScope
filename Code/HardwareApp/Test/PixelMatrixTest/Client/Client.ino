@@ -77,6 +77,7 @@ void setup(void) {
   for (int i =0; i<8; i++) {
     for (int j=0; j<12; j++) {
       backgroundLayer.drawPixel(i, j, {33, 32, 31});
+      backgroundLayer.drawPixel(i+10, j, {33, 32, 31});
     }
   }
   backgroundLayer.swapBuffers();
@@ -105,13 +106,7 @@ void loop() {
   }
 
   if (Serial.available() > 0) {
-    if (Serial.read()=='2') {
-        CANMotorMessage msg = CANMotorMessage(0);
-        for (int i =0; i < 8; i++) {
-          msg.addMessage(i, 10, 170, 105, 243);
-        }
-        FD.write(msg.getCANmessage());
-    }
+    test(Serial.parseInt());
   } 
 }
 
@@ -153,11 +148,12 @@ void reading(CANFD_message_t msg) {
     for ( uint8_t i = 0; i < 8; i++ ) {
       char str[15];
       sprintf(str, "%X%X", msg.buf[i*4+2], msg.buf[i*4+3]); 
-      grid(msg.id, i, str);
+      grid(msg.id, i, str, msg.buf[i*4]);
     }
 }
 
-void grid(int node, int local, char* str) {
+//----------------------------------------------------------------
+void grid(int node, int local, char* str, int height) {
   uint64_t color = (uint64_t) strtoull(str, 0, 16); 
   int r = ((((color >> 11) & 0x1F) * 527) + 23) >> 6;
   int g = ((((color >> 5) & 0x3F) * 259) + 33) >> 6;
@@ -170,4 +166,22 @@ void grid(int node, int local, char* str) {
     x = (node%4)*2 + 1;
   }
   backgroundLayer.drawPixel(x, y, {r,g,b});
+  backgroundLayer.drawPixel(x+10, y, {height*10,height*10,height*10}); 
+}
+
+//----------------------------------------------------------------
+void test(int node) {
+  CANMotorMessage msg = CANMotorMessage(node);
+  for (int i =0; i < 8; i++) {
+    msg.addMessage(i, 10, 170, 105, 243);
+  }
+  FD.write(msg.getCANmessage());
+  
+  char str[15];
+  sprintf(str, "%X%X", 105, 243); 
+  for (int i =0; i < 8; i++) {
+    grid(node,i,str,10);
+  }
+  change=true;
+  timer = millis();
 }
