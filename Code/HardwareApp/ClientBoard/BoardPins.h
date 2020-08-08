@@ -8,6 +8,10 @@
 //Number of motors that each panel has
 #define MOTORS_PER_PANEL 8
 
+#define PIXELS_PER_URBAN_PIXEL 2
+
+#define NUM_URBAN_PIXELS 2
+
 
 // MOTOR 1
 #define DIR_PIN_01     6
@@ -42,8 +46,8 @@
 #define STEP_PIN_08    24
 
 //Global Values
-#define GMOTOR_STEPS  200*8  // 200 200 * 16
-#define GRPM          120 //120
+#define GMOTOR_STEPS  200*16  // 200 200 * 16
+#define GRPM          200 //120
 
 //Global pin values
 #define GENABLE_PIN    33
