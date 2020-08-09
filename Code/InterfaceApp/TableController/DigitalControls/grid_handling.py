@@ -1,8 +1,8 @@
 import utils 
+from settings import *
 # maintains entire grid properties
 total_grid = []
-num_nodes = 12
-nodes = [[] for i in range (num_nodes)]
+nodes = [[] for i in range (NUM_NODES)]
 
 # handle on start (fill total_grid with grid information)
 def tableStart(features, properties):
@@ -10,7 +10,7 @@ def tableStart(features, properties):
     global total_grid
     global nodes 
     total_grid = []
-    nodes = [[] for i in range (num_nodes)]
+    nodes = [[] for i in range (NUM_NODES)]
     
     # set up colorMapping between RGB565 and RGB888
     utils.colorMapping(properties)
