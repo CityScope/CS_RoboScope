@@ -1,6 +1,6 @@
 rgb888Dict = {}
 rgb565Dict = {}
-
+maxHeight = 50
 ## onStart create dictionaries that map land use to rgb888 and rgb 565 colors
 def colorMapping(properties): 
     global rgb888Dict
@@ -17,13 +17,23 @@ def hextoRGB(hex):
     h = hex.lstrip('#')
     return [int(h[i:i+2], 16) for i in (0, 2, 4)]
 
-## comput rgb565 color from rgb888 color
+## compute rgb565 color from rgb888 color
 def RGB565(color):
     val = ("%0.4X" % ( ((color[0] & 0xf8)<<8) + ((color[1] & 0xfc)<<3)+(color[2]>>3)))
     output = [int(val[0:2], 16), int(val[2:4], 16)]
     return output
 
+## defines heighest building height
+def setMaxHeight(height):
+    global maxHeight
+    maxHeight = height
+
+## defines 0-1 height
+def getHeight(height):
+    return height/maxHeight
+    
 ## computes the node and local motor ID needed from pixel ID 
+## to-do: make general
 def ID_to_table(id):
     coor = [int(id%8), int(id/8)]
     node = int(coor[1]/4)*4+int(coor[0]/2)

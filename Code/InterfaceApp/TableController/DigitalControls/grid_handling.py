@@ -1,7 +1,8 @@
 import utils 
 # maintains entire grid properties
 total_grid = []
-nodes = [[] for i in range (12)]
+num_nodes = 12
+nodes = [[] for i in range (num_nodes)]
 
 # handle on start (fill total_grid with grid information)
 def tableStart(features, properties):
@@ -9,11 +10,11 @@ def tableStart(features, properties):
     global total_grid
     global nodes 
     total_grid = []
-    nodes = [[] for i in range (12)]
+    nodes = [[] for i in range (num_nodes)]
     
     # set up colorMapping between RGB565 and RGB888
     utils.colorMapping(properties)
-    
+    utils.setMaxHeight(50)
     # fill in total_grid and nodes with grid information
     for feature in features:
         node = utils.ID_to_table(feature["properties"]['id'])[0]
@@ -49,7 +50,8 @@ def serialSend(pixel):
     for i in nodes[node_id]: 
         feature = total_grid[i]
         colors = utils.getRGB565(feature['color'])
-        val = [utils.interaction(i), feature['height'], colors[0], colors[1]]
+        height = utils.getHeight(['height'])
+        val = [utils.interaction(i), height, colors[0], colors[1]]
         output.extend([str(i) for i in val])
     return output
 
