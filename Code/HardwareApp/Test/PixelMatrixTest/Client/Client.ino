@@ -166,7 +166,7 @@ void grid(int node, int local, char* str, int height) {
     x = (node%4)*2 + 1;
   }
   backgroundLayer.drawPixel(x, y, {r,g,b});
-  backgroundLayer.drawPixel(x+10, y, {height*10,height*10,height*10}); 
+  backgroundLayer.drawPixel(x+10, y, {height,height,255}); 
 }
 
 //----------------------------------------------------------------

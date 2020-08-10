@@ -48,6 +48,9 @@ def table_to_ID(node, local):
 ## get rgb565 color that matches an inputted rgb888 color
 def getRGB565(color): 
     return rgb888Dict[tuple(color)][1]
+
+def getNameofColor(color): 
+    return rgb888Dict[tuple(color)][0]
     
 ## get rgb888 color that matches inputted rgb565 color
 def getRGB888(color): 

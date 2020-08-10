@@ -46,6 +46,12 @@ def on_start(sid, features, properties):
     print(len(features))
     table_data = gh.tableStart(features, properties)
     t.write_multiple(table_data)
+    time.sleep(2)
+    [teensy_output, IA_output] = gh.waveTestTable()
+    for i in range(len(teensy_output)):
+        t.write_multiple(teensy_output[i])
+        sio.emit('waveTest', IA_output[i])
+        time.sleep(0.6)
 
 # receive output from Interface App when 'brushing' edit grid events occur (height, color, ID of each pixel)
 @sio.on('roboscopeOutput')
