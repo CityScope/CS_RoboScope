@@ -70,77 +70,84 @@ def serialReceive(pixels):
         updateTotal(data) 
         output.append(data)
     return output
-        
-def waveTestTable():
-    teensy_output = []
-    IA_output = []
-    x = 0.0
-        
-    for x in numpy.arange(0.0, math.pi*2, 0.1):
-        teensy_table = []
-        IA_table = []
-        for j in range(len(nodes)):
-            node = nodes[j]
-            output_node = [j]
-            for pixel in node: 
-                output_node.extend(getValTestTable(x, pixel))
-                IA_table.append(getDictValTestTable(x, pixel))    
-            teensy_table.append(output_node)
-        teensy_output.append(teensy_table)
-        IA_output.append(IA_table)
-    return [teensy_output, IA_output]
 
-def waveTestNode():
+def waveTest(num_wave): 
     teensy_output = []
     IA_output = []
-    x = 0.0
-    l = 0
-    r = 6
-    for x in numpy.arange(0.0, math.pi*2, 0.1):
-        teensy_table = []
-        IA_table = []
-        for j in range(l,r+1):
-            node_id = utils.ID_to_table(j)[0]
-            node = nodes[node_id]
-            output_node = [node_id]
-            for pixel in node: 
-                output_node.extend(getValTestNode(x, pixel, l, r, j))
-                IA_table.append(getDictValTestNode(x, pixel,l,r, j))    
-            teensy_table.append(output_node)
-        teensy_output.append(teensy_table)
-        IA_output.append(IA_table)
-        l+=1
-        r+=1
-    return [teensy_output, IA_output]
+    interval= math.pi/12
+    if num_wave != 0:
+        interval = math.pi/num_wave
     
-def getValTestTable(x, pixel):
+    #sin wave x values from 0 to pi with defined intervals
+    sin_x = [x for x in numpy.arange(0.0, math.pi, interval)]
+    
+    for k in range(NUM_PIXELS-num_wave):  
+        if num_wave == 0:
+            [teensy_table, IA_table] = waveTestTable(k, sin_x)
+        else: 
+            [teensy_table, IA_table] = waveTestNode(k, num_wave, sin_x)
+        teensy_output.append(teensy_table)
+        IA_output.append(IA_table)
+    
+    return [teensy_output, IA_output]
+        
+def waveTestTable(k, sin_x):
+    teensy_table = []
+    IA_table = []
+    for j in range(len(nodes)):
+        node = nodes[j]
+        output_node = [j]
+        for pixel in node: 
+            output_node.extend(getValTest(sin_x[(j+k)%12], pixel, True))
+            IA_table.append(getDictValTest(sin_x[(j+k)%12], pixel, True))    
+        teensy_table.append(output_node)
+    print(IA_table)
+    return [teensy_table, IA_table]
+    
+def waveTestNode(i, num_wave, sin_x):
+    teensy_table = []
+    IA_table = []
+    updated_nodes = {}
+        
+    for j in range(0,num_wave):
+        node_id = utils.ID_to_table(j+i)[0]
+        if node_id not in updated_nodes:
+            updated_nodes[node_id] = [j]
+        else: 
+            updated_nodes[node_id].append(j)
+        
+    # for every node to be updated
+    for node_id in updated_nodes.keys():
+        node = nodes[node_id]
+        output_node = [node_id]
+            
+        # for every pixel in that node 
+        for pixel in node:
+            bool = False
+            x = 0 # either not being changed
+            if pixel-i in updated_nodes[node_id]:
+                bool = True 
+                x = sin_x[pixel-i] # or being set to a height specified by sin wave
+            output_node.extend(getValTest(x, pixel, bool))
+            IA_table.append(getDictValTest(x, pixel, bool))
+        teensy_table.append(output_node)       
+    
+    return [teensy_table, IA_table]
+    
+def getValTest(x, pixel, height_bool):
     colors = utils.getRGB565(total_grid[pixel]['color'])
-    height = int((math.sin(x+(pixel%8)*math.pi/12)+1)*127)
+    height = 0
+    if bool:
+        height = int((math.sin(x))*255)
     val = [utils.interaction(pixel), height, colors[0], colors[1]]
     return [str(i) for i in val]
 
-def getDictValTestTable(x, pixel):
+def getDictValTest(x, pixel, bool):
     color = total_grid[pixel]['color']
     name = utils.getNameofColor(color)
-    height = int((math.sin(x+(pixel%8)*math.pi/12)+1)*MAX_HEIGHT*2)
-    data = {'color': color, 'height': height, 'id': pixel, 'interactive': 'Web', 'name': name}
-    return data
-
-def getValTestNode(x, pixel, l, r, j):
-    colors = utils.getRGB565(total_grid[pixel]['color'])
-    if pixel <= r  and pixel >= l:
-        height = int((math.sin(x + (j-l)*math.pi/6)+1)*127)
-    else: 
-        height = 0
-    val = [utils.interaction(pixel), height, colors[0], colors[1]]
-    return [str(i) for i in val]
-
-def getDictValTestNode(x, pixel, l ,r, j):
-    color = total_grid[pixel]['color']
-    name = utils.getNameofColor(color)
-    if pixel <= r  and pixel >= l:
-        height = int((math.sin(x + (j-l)*math.pi/6)+1)*MAX_HEIGHT*2)
-    else: 
-        height = 0
+    height = 0
+    if bool:
+        height = int(math.sin(x)*MAX_HEIGHT*2)
+    total_grid[pixel]['height'] = height
     data = {'color': color, 'height': height, 'id': pixel, 'interactive': 'Web', 'name': name}
     return data

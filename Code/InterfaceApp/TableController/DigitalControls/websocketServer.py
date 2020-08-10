@@ -47,7 +47,7 @@ def on_start(sid, features, properties):
     table_data = gh.tableStart(features, properties)
     t.write_multiple(table_data)
     time.sleep(2)
-    [teensy_output, IA_output] = gh.waveTestTable()
+    [teensy_output, IA_output] = gh.waveTest(6)
     for i in range(len(teensy_output)):
         t.write_multiple(teensy_output[i])
         sio.emit('waveTest', IA_output[i])
