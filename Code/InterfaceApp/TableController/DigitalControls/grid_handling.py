@@ -83,15 +83,15 @@ def waveTest(num_wave):
     
     for k in range(NUM_PIXELS-num_wave):  
         if num_wave == 0:
-            [teensy_table, IA_table] = waveTestTable(k, sin_x)
+            [teensy_table, IA_table] = waveTestNodes(k, sin_x)
         else: 
-            [teensy_table, IA_table] = waveTestNode(k, num_wave, sin_x)
+            [teensy_table, IA_table] = waveTestPixels(k, num_wave, sin_x)
         teensy_output.append(teensy_table)
         IA_output.append(IA_table)
     
     return [teensy_output, IA_output]
         
-def waveTestTable(k, sin_x):
+def waveTestNodes(k, sin_x):
     teensy_table = []
     IA_table = []
     for j in range(len(nodes)):
@@ -104,7 +104,7 @@ def waveTestTable(k, sin_x):
     print(IA_table)
     return [teensy_table, IA_table]
     
-def waveTestNode(i, num_wave, sin_x):
+def waveTestPixels(i, num_wave, sin_x):
     teensy_table = []
     IA_table = []
     updated_nodes = {}
