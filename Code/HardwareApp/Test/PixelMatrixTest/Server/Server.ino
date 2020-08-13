@@ -2,7 +2,7 @@
 #include <string.h>
 #include "message.h"
 
-FlexCAN_T4FD<CAN3, RX_SIZE_256, TX_SIZE_32> canBusFD;
+FlexCAN_T4FD<CAN3, RX_SIZE_512, TX_SIZE_512> canBusFD;
 
 //key pins
 const int KEY_PIN_01 = 6;
@@ -35,9 +35,9 @@ void setup(void) {
 
   canBusFD.begin();
   CANFD_timings_t config;
-  config.clock = CLK_24MHz;
+  config.clock = CLK_40MHz;
   config.baudrate = 1000000;
-  config.baudrateFD = 2000000;
+  config.baudrateFD = 8000000;
   config.propdelay = 190;
   config.bus_length = 1;
   config.sample = 87.5;

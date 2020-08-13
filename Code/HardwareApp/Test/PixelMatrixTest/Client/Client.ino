@@ -10,7 +10,7 @@
 #include <SmartMatrix3.h>
 
 //CAN BUS FD
-FlexCAN_T4FD<CAN3, RX_SIZE_256, TX_SIZE_64>   FD;   // fd port
+FlexCAN_T4FD<CAN3, RX_SIZE_512, TX_SIZE_64>   FD;   // fd port
 
 //CAN BUS 1
 FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16>     canBus;  // can1 port
@@ -57,16 +57,20 @@ void setup(void) {
   //setup CAN FD bus
   FD.begin();
   CANFD_timings_t config;
-  config.clock = CLK_24MHz;
+  config.clock = CLK_40MHz;
   config.baudrate = 1000000;
-  config.baudrateFD = 2000000;
+  config.baudrateFD = 8000000;
   config.propdelay = 190;
   config.bus_length = 1;
   config.sample = 87.5;
   FD.setRegions(64);
   FD.setBaudRate(config);
-  FD.mailboxStatus();
+
+  FD.enableMBInterrupts();
+  FD.onReceive(reading);
+  FD.distribute();
   
+  FD.mailboxStatus();
   Serial.println("Init client done");
 
   matrix.addLayer(&backgroundLayer); 
@@ -87,18 +91,13 @@ void setup(void) {
 
 //----------------------------------------------------------------
 void loop() {
+  FD.events();
+
   if (counter==0) {
     timer=millis();
   }
   
-  CANFD_message_t msg;
-  if (FD.read(msg)) {
-    counter++;
-    Serial.println(counter);
-    reading(msg);
-    change=true;
-    timer = millis();
-  } else if (millis()-timer>600 && change==true) {
+  if (millis()-timer>300 && change==true) {
     backgroundLayer.swapBuffers();
     Serial.println("changed");
     change=false;
@@ -111,9 +110,9 @@ void loop() {
 }
 
 //----------------------------------------------------------------
-void canBusSniff(const CAN_message_t &msg) { // global callback
   
   Serial.print("T4: ");
+void canBusSniff(const CANFD_message_t &msg) { // global callback
   Serial.print("MB "); Serial.print(msg.mb);
   Serial.print(" OVERRUN: "); Serial.print(msg.flags.overrun);
   Serial.print(" BUS "); Serial.print(msg.bus);
@@ -126,23 +125,21 @@ void canBusSniff(const CAN_message_t &msg) { // global callback
   
   Serial.print(" Buffer: ");
   for ( uint8_t i = 0; i < msg.len; i++ ) {
-    Serial.print(msg.buf[i], HEX); Serial.print(" ");
+    Serial.print(msg.buf[i]); Serial.print(" ");
   } Serial.println();  
 }
 
 //----------------------------------------------------------------
-void reading(CANFD_message_t msg) {
-    Serial.print("  Node: ");
-    Serial.print(msg.id);
-    Serial.print("  LEN: ");
-    Serial.print(msg.len);
+void reading(const CANFD_message_t &msg) {
+    counter++;
+    Serial.println(counter);
+    Serial.print("  Node: "); Serial.print(msg.id);
+    Serial.print("  LEN: "); Serial.print(msg.len);
     Serial.print(" DATA: ");
 
     for ( uint8_t i = 0; i < msg.len; i++ ) {
-      Serial.print(msg.buf[i]); 
-      Serial.print(" ");
+      Serial.print(msg.buf[i]); Serial.print(" ");
     }
-    Serial.println(" ");
     Serial.println(" ");
     
     for ( uint8_t i = 0; i < 8; i++ ) {
@@ -150,6 +147,9 @@ void reading(CANFD_message_t msg) {
       sprintf(str, "%X%X", msg.buf[i*4+2], msg.buf[i*4+3]); 
       grid(msg.id, i, str, msg.buf[i*4]);
     }
+    
+    change=true;
+    timer = millis();
 }
 
 //----------------------------------------------------------------
