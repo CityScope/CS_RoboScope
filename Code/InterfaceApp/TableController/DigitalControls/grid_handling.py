@@ -1,10 +1,10 @@
 import utils 
 import math
 import numpy
-from settings import *
+import settings
 # maintains entire grid properties
 total_grid = []
-nodes = [[] for i in range (NUM_NODES)]
+nodes = [[] for i in range (settings.NUM_NODES)]
 
 # handle on start (fill total_grid with grid information)
 def tableStart(features, properties):
@@ -12,10 +12,11 @@ def tableStart(features, properties):
     global total_grid
     global nodes 
     total_grid = []
-    nodes = [[] for i in range (NUM_NODES)]
+    nodes = [[] for i in range (settings.NUM_NODES)]
     
     # set up colorMapping between RGB565 and RGB888
-    utils.colorMapping(properties)
+    utils.colorMapping(properties["types"])
+    utils.setSettings(properties["header"])
     utils.setMaxHeight(50)
     # fill in total_grid and nodes with grid information
     for feature in features:
@@ -101,7 +102,6 @@ def waveTestNodes(k, sin_x):
             output_node.extend(getValTest(sin_x[(j+k)%12], pixel, True))
             IA_table.append(getDictValTest(sin_x[(j+k)%12], pixel, True))    
         teensy_table.append(output_node)
-    print(IA_table)
     return [teensy_table, IA_table]
     
 def waveTestPixels(i, num_wave, sin_x):

@@ -24,7 +24,6 @@ time.sleep(2)
 
 # continuous background reading task
 def background_read():
-    counter = 0
     while True:
         node = t.read_pixels()
         if node:
@@ -51,12 +50,12 @@ def on_start(sid, features, properties):
     for i in range(len(teensy_output)):
         t.write_multiple(teensy_output[i])
         sio.emit('waveTest', IA_output[i])
-        time.sleep(0.6)
+        time.sleep(0.1)
 
 # receive output from Interface App when 'brushing' edit grid events occur (height, color, ID of each pixel)
 @sio.on('roboscopeOutput')
 def update_handling(sid, data):
-    pixel_data = gh.serialSend(data[0])
+    pixel_data = gh.serialSend(data)
     t.write_node(pixel_data)
 
 # on disconnect event handler
