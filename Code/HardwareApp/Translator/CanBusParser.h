@@ -9,22 +9,22 @@
 /*
  * Teensy available speeds:
  * https://www.pjrc.com/teensy/td_uart.html
- * 
+ *
  * 2000000
  * 1000000
- * 250000 
+ * 250000
  * 115200
  * 38400
  */
- 
-#define SERIAL_BAU    1000000 
- 
+
+#define SERIAL_BAU    115200
+
 #define SPPED_BUS     1000000
 #define MSG_LENGTH    8
 
 
 /*
- * 
+ *
 typedef struct CAN_message_t {
     uint32_t id;            // board id, this is based on the local DIP Switch configuration
     uint16_t timestamp;     // timestep of the board
@@ -35,14 +35,14 @@ typedef struct CAN_message_t {
 
    * Msg structure buf[8]
    * [0] : motorID -> local motor
-   * [1] : motorDir 
+   * [1] : motorDir
    * [2] : motorStep
    * [3] : motorTimeActivation
    * [4] : motorEnable
    * [5] : color
    * [6] : motorSensor0
    * [7] : motorSensor1
-   * 
+   *
 */
 
 //---------------------------------------------------------
@@ -72,8 +72,8 @@ class CanBusParser {
     boolean isActiveMsg();
 
     static void printCanMsg(CAN_message_t msg);
-    
-    
+
+
   private:
 
     FlexCAN * canBus;

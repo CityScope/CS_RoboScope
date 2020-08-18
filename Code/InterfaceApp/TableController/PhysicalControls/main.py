@@ -108,4 +108,5 @@ if __name__ == '__main__':
     # physicalController.run();
     while (True):
         physicalController.send_table_data()
+        print(physicalController.serial_com.read_pixels())
     pass
