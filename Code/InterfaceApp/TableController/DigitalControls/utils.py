@@ -23,10 +23,13 @@ def RGB565(color):
     output = [int(val[0:2], 16), int(val[2:4], 16)]
     return output
 
-def setSettings(header):
+def setSettings(header, num_pixels):
     settings.COLS = header["ncols"]
     settings.ROWS = header["nrows"]
     settings.CELL_SIZE = header["cellSize"]
+    settings.NUM_PIXELS = num_pixels
+    settings.NUM_NODES = int(header["ncols"]*header["nrows"]/(settings.NODE_COLS*settings.NODE_ROWS))
+    print(settings.COLS, settings.ROWS, settings.CELL_SIZE, settings.NUM_NODES, settings.NUM_PIXELS)
     
 ## defines heighest building height
 def setMaxHeight(height):
@@ -39,7 +42,7 @@ def getHeight(height):
 ## computes the node and local motor ID needed from pixel ID 
 ## to-do: make general
 def ID_to_table(id):
-    coor = [int(id%settings.COLS), int(id/settings.COLS)]
+    coor = [int(id%8), int(id/8)]
     node = int(coor[1]/settings.NODE_ROWS)*settings.NODE_ROWS+int(coor[0]/settings.NODE_COLS)
     local_id = (coor[1]%settings.NODE_ROWS)*settings.NODE_COLS+(id%settings.NODE_COLS)
     return [node, local_id]

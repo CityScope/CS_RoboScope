@@ -9,15 +9,14 @@ nodes = [[] for i in range (settings.NUM_NODES)]
 # handle on start (fill total_grid with grid information)
 def tableStart(features, properties):
     #reset total_grid and nodes
+    utils.setSettings(properties["header"],len(features))
+    utils.colorMapping(properties["types"])
     global total_grid
     global nodes 
     total_grid = []
     nodes = [[] for i in range (settings.NUM_NODES)]
     
     # set up colorMapping between RGB565 and RGB888
-    utils.colorMapping(properties["types"])
-    utils.setSettings(properties["header"])
-    utils.setMaxHeight(50)
     # fill in total_grid and nodes with grid information
     for feature in features:
         node = utils.ID_to_table(feature["properties"]['id'])[0]
@@ -82,7 +81,7 @@ def waveTest(num_wave):
     #sin wave x values from 0 to pi with defined intervals
     sin_x = [x for x in numpy.arange(0.0, math.pi, interval)]
     
-    for k in range(NUM_PIXELS-num_wave):  
+    for k in range(settings.NUM_PIXELS-num_wave):  
         if num_wave == 0:
             [teensy_table, IA_table] = waveTestNodes(k, sin_x)
         else: 
@@ -147,7 +146,7 @@ def getDictValTest(x, pixel, bool):
     name = utils.getNameofColor(color)
     height = 0
     if bool:
-        height = int(math.sin(x)*MAX_HEIGHT*2)
+        height = int(math.sin(x)*settings.MAX_HEIGHT*2)
     total_grid[pixel]['height'] = height
     data = {'color': color, 'height': height, 'id': pixel, 'interactive': 'Web', 'name': name}
     return data
