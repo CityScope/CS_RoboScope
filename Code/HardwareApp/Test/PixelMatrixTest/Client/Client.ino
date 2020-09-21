@@ -42,7 +42,7 @@ const int MOTOR_ID = 9;
 
 //----------------------------------------------------------------
 void setup(void) {
-  Serial.begin(115200);
+  Serial.begin(2000000);
   delay(500);
   Serial.println("Client CAN Bus FD and CAN BUS 1");
 
@@ -110,18 +110,11 @@ void loop() {
 }
 
 //----------------------------------------------------------------
-  
-  Serial.print("T4: ");
 void canBusSniff(const CANFD_message_t &msg) { // global callback
   Serial.print("MB "); Serial.print(msg.mb);
-  Serial.print(" OVERRUN: "); Serial.print(msg.flags.overrun);
-  Serial.print(" BUS "); Serial.print(msg.bus);
   Serial.print(" LEN: "); Serial.print(msg.len);
-  Serial.print(" EXT: "); Serial.print(msg.flags.extended);
-  Serial.print(" REMOTE: "); Serial.print(msg.flags.remote);
   Serial.print(" TS: "); Serial.print(msg.timestamp);
-  Serial.print(" ID: "); Serial.print(msg.id, HEX);
-  Serial.print(" IDHIT: "); Serial.print(msg.idhit);
+  Serial.print(" ID: "); Serial.print(msg.id);
   
   Serial.print(" Buffer: ");
   for ( uint8_t i = 0; i < msg.len; i++ ) {
@@ -165,8 +158,9 @@ void grid(int node, int local, char* str, int height) {
   if (local%2 == 1) {
     x = (node%4)*2 + 1;
   }
+
   backgroundLayer.drawPixel(x, y, {r,g,b});
-  backgroundLayer.drawPixel(x+10, y, {height,height,255}); 
+  backgroundLayer.drawPixel(x+16, y, {height,height,height}); 
 }
 
 //----------------------------------------------------------------
