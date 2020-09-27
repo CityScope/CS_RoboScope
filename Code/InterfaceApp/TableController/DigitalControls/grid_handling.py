@@ -1,18 +1,15 @@
-import utils 
 import math
 import sys
 # insert at 1, 0 is the script path (or '' in REPL)
 sys.path.insert(1, '../PhysicalControls')
 from main import PhysicalController
+from collections import Counter 
 
 class GridHandling:
     def __init__(self):
         self.PC = None
         self.scale = 1
         self.Utils = Utils()
-        self.selectedPixels = []
-        self.pixel_to_coords = {}
-        self.coords_to_pixels = {}
 
     def tableStart(self, features, properties):
         #reset total_grid and nodes
@@ -27,27 +24,34 @@ class GridHandling:
         self.selectedPixels = pixels
         self.Utils.updateSettings(int(self.Utils.TABLE_COLS*scale), 
                                   int(self.Utils.TABLE_ROWS*scale), 
-                                  len(pixels))
-        self.Utils.setMaxHeight(pixels)
+                                  len(pixels), scale)
+        self.table_to_grid = {}
+        self.ids_to_table = {}
+        x1, y1 = self.Utils.getGridCoords(pixels[0]["id"])
+        for x,y,table_coord,r_scale in self.get_coords_loop(self.Utils.VIEW_ROWS, self.Utils.VIEW_COLS, scale):
+            cell_coords = [(x+i,y+j, (y+j)*self.Utils.VIEW_COLS+(x+i)) for i in range(r_scale) for j in range(r_scale) if x+i < self.Utils.VIEW_COLS and y+j < self.Utils.VIEW_ROWS]
+            pixel_group = [pixels[scaled_id] for a,b,scaled_id in cell_coords]
+            color = Counter([tuple(pixel["color"]) for pixel in pixel_group]).most_common(1)[0][0]
+            avg_height = sum([pixel["height"] for pixel in pixel_group])/len(pixel_group)
+            self.PC.update_pixel(table_coord, self.Utils.getHeight(avg_height), color)
             
-        if scale==int(scale):
-            x1, y1 = self.Utils.getGridCoords(pixels[0]["id"])
-            for i in pixels:
-                x, y = self.Utils.getGridCoords(i["id"])
-                scaled_coords = (int((x-x1)/scale), int((y-y1)/scale))
-                self.pixel_to_coords[i["id"]] = scaled_coords
-                try:
-                    self.coords_to_pixels[scaled_coords].append(i["id"])
-                except KeyError:
-                    self.coords_to_pixels[scaled_coords] = [i["id"]]
-                if i["name"] != 'None':
-                    self.PC.update_pixel(scaled_coords, self.Utils.getHeight(i['height']), i['color'])
-            self.PC.send_table_data()
-        
-    def serialSend(self, pixel): 
-        coords = self.pixel_assignment[pixel['id']]
-        node_id = self.Utils.pixel_assignment[(coords[1], coords[0])][0] 
-        self.PC.update_pixel(coords, pixel['height'], pixel['color'])
+            self.table_to_grid[table_coord] = [[a,b, pixels[scaled_id]] for a,b,scaled_id in cell_coords]
+            for pixel in pixel_group:
+                self.ids_to_table[pixel["id"]] = table_coord
+        self.PC.display_table()
+                                
+    def serialSend(self, in_px): 
+        table_coord = self.ids_to_table[in_px['id']]
+        pixel_group = self.table_to_grid[table_coord]
+        print(pixel_group)
+        for i in range(len(pixel_group)):
+            if pixel_group[i][2]['id'] == in_px["id"]:
+                pixel_group[i][2] = in_px
+        print(pixel_group)
+        color = Counter([tuple(pixel[2]["color"]) for pixel in pixel_group]).most_common(1)[0][0]
+        avg_height = sum([pixel[2]["height"] for pixel in pixel_group])/len(pixel_group)
+        node_id = self.Utils.pixel_assignment[(table_coord[1], table_coord[0])][0] 
+        self.PC.update_pixel(table_coord, self.Utils.getHeight(avg_height), color)
         self.PC.send_node_data(node_id)
 
     def serialReceive(self, pixels):  
@@ -62,6 +66,16 @@ class GridHandling:
             output.append(data)
         return output
         
+    def get_coords_loop(self, rows, cols, scale):
+        use_scale = scale
+        if (scale!=int(scale)):
+            use_scale = math.ceil(scale)
+        
+        for y in range(0,rows,math.floor(scale)):
+            for x in range(0, cols, math.floor(scale)):
+                table_coord = (int(x/scale), int(y/scale))
+                yield(x,y,table_coord,use_scale)
+        
 class Utils:
     def __init__(self):
         self.GRID_COLS = 8
@@ -71,6 +85,7 @@ class Utils:
         self.VIEW_COLS = 8
         self.VIEW_ROWS = 12
         self.VIEW_PIXELS = 96
+        self.SCALE = 1
         
         self.TABLE_COLS = 8
         self.TABLE_ROWS = 12
@@ -79,7 +94,7 @@ class Utils:
         self.NUM_NODES_ROW = 4
 
         self.CELL_SIZE = 40
-        self.MAX_HEIGHT = 50
+        self.FLOOR_HEIGHT = 5
         self.rgb888Dict = {}
         self.rgb565Dict = {}
     
@@ -89,10 +104,11 @@ class Utils:
         self.CELL_SIZE = header["cellSize"]
         self.NUM_PIXELS = num_pixels
     
-    def updateSettings(self, cols, rows, len_pixels):
+    def updateSettings(self, cols, rows, len_pixels, scale):
         self.VIEW_COLS = cols
         self.VIEW_ROWS = rows
         self.VIEW_PIXELS = len_pixels
+        self.SCALE = scale
         
     def setColorMapping(self, types): 
         for i in types.keys():
@@ -101,14 +117,12 @@ class Utils:
             self.rgb888Dict[tuple(rgbColor)] = [i,color565]
             self.rgb565Dict[tuple(color565)] = [i, rgbColor]
     
-    def setMaxHeight(self, pixels):
-        self.MAX_HEIGHT = max(pixels, key= lambda p: p["height"])["height"]
-
     def getHeight(self, height):
-        use_height = height
+        new_pixel_dim = math.sqrt(self.CELL_SIZE)*self.SCALE
+        use_height = round((height*self.FLOOR_HEIGHT*2.5)/new_pixel_dim, 3)
         if height is None: 
             use_height = 0
-        return use_height/self.MAX_HEIGHT
+        return use_height
     
     def createPixelAssignment(self):
         pixelMapping = {}
