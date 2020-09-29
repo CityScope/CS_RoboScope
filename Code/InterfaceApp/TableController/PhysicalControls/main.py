@@ -16,7 +16,7 @@ class PixelData:
                 str(self.height),
                 str(color565[0]),
                 str(color565[1])]
-                
+
     def RGB565(self, color):
         val = ("%0.4X" % ( ((color[0] & 0xf8)<<8) + ((color[1] & 0xfc)<<3)+(color[2]>>3)))
         output = [int(val[0:2], 16), int(val[2:4], 16)]
@@ -49,7 +49,7 @@ class PhysicalController:
         self.node_location = {}
 
         self.assign_nodes(pixel_assignment)
-        self.serial_com = Translator('/dev/cu.usbmodem6893170', 2000000)
+        self.serial_com = Translator('COM4', 115200)
         # reference as y,x
         # self.display_table()
         self.send_pixel_data((0,0))
@@ -96,6 +96,7 @@ class PhysicalController:
                 temp.extend(self.total_grid[row][col].get_serial_data()[1:])
             table_data.append(temp)
         self.serial_com.write_multiple(table_data)
+        return table_data
 
 
 pixel_assignment = {(0,0): (0,0), (0,1): (0,1),
@@ -108,6 +109,9 @@ physicalController = PhysicalController(pixel_assignment=pixel_assignment)
 if __name__ == '__main__':
     # physicalController.run();
     while (True):
-        physicalController.send_table_data()
+        print("Sending data:")
+        tb = physicalController.send_table_data()
+        print(tb)
+        print("Receiving data:")
         print(physicalController.serial_com.read_pixels())
     pass
