@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <FlexCAN_T4.h>
-FlexCAN_T4<CAN1, RX_SIZE, TX_SIZE_16> Can0;
+FlexCAN_T4FD<CAN3, RX_SIZE_256, TX_SIZE_16> Can0;
 
 
 #define START 0  //example definition
@@ -49,6 +49,12 @@ void translate_pixels(Pixel buf) {
   sprintf(str, "%d,%d,%s,%d,%X,%X", buf.node, buf.local_id, bin(buf.inter), buf.height, buf.color1, buf.color2);
   LED = !LED;
   digitalWrite(13, LED);
+
+  CANFD_message_t msg;
+
+  for (uint8_t i = 0; i < 30; i++) msg.buf[i] = str[i];
+      
+  Can0.write(msg);
 }
 
 void send_pixels(Pixel buf[], int buf_size) {
@@ -68,15 +74,19 @@ void setup() {
 
 
   Can0.begin();
-  Can0.setBaudRate(1000000);
-  Can0.setMaxMB(16);
-  Can0.enableFIFO();
-  Can0.enableFIFOInterrupt();
+  CANFD_timings_t config;
+  config.clock = CLK_24MHz;
+  config.baudrate = 1000000;
+  config.baudrateFD = 2000000;
+  config.propdelay = 190;
+  config.bus_length = 1;
+  config.sample = 70;
+  Can0.setBaudRate(config);
   Can0.onReceive(canSniff);
   Can0.mailboxStatus();
 }
 
-void canSniff(const CAN_message_t &msg) {
+void canSniff(const CANFD_message_t &msg) {
   Serial.print("MB "); Serial.print(msg.mb);
   Serial.print("  OVERRUN: "); Serial.print(msg.flags.overrun);
   Serial.print("  LEN: "); Serial.print(msg.len);
@@ -104,8 +114,11 @@ void loop() {
       }
       Pixel buf = {0, 0, 0, 0, 0, 0};
       buf = {temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]};
-      Can0.write(buf);
+
       translate_pixels(buf);
+
+      
+
     }
   }
   number_fsm(digitalRead(8));
