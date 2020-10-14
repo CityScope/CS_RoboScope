@@ -10,12 +10,17 @@ class PixelData:
         self.height=height
 
     def get_serial_data(self):
+        color565 = self.RGB565(self.color)
         return [str(self.node),
                 str(self.pixel),
                 str(self.height),
-                str(self.color[0]),
-                str(self.color[1]),
-                str(self.color[2])]
+                str(color565[0]),
+                str(color565[1])]
+
+    def RGB565(self, color):
+        val = ("%0.4X" % ( ((color[0] & 0xf8)<<8) + ((color[1] & 0xfc)<<3)+(color[2]>>3)))
+        output = [int(val[0:2], 16), int(val[2:4], 16)]
+        return output
 
     def update_pixel(self, height, color):
         self.update_height(height)
@@ -44,12 +49,9 @@ class PhysicalController:
         self.node_location = {}
 
         self.assign_nodes(pixel_assignment)
-
-
-        self.serial_com = Translator()
-
+        self.serial_com = Translator('COM4', 115200)
         # reference as y,x
-        self.display_table()
+        # self.display_table()
         self.send_pixel_data((0,0))
 
     def display_table(self):
@@ -66,12 +68,12 @@ class PhysicalController:
             (node_id, pixel_id) = pixel_assignment[(row,col)]
             self.total_grid[row][col] = PixelData(node=node_id, pixel=pixel_id)
             try:
-                self.node_location[0].append((row, col))
+                self.node_location[node_id].append((row, col))
             except KeyError:
-                self.node_location[0] = [(row, col)]
+                self.node_location[node_id] = [(row, col)]
 
     # Takes in a position as (x,y)
-    def update_pixel(pos, height, color):
+    def update_pixel(self, pos, height, color):
         (col, row) = pos
         self.total_grid[row][col].update_pixel(height, color)
 
@@ -83,18 +85,18 @@ class PhysicalController:
     def send_node_data(self, node_id):
         node_data = [str(node_id)]
         for (row, col) in self.node_location[node_id]:
-            node_data.append(self.total_grid[row][col].get_serial_data()[1:])
-
+            node_data.extend(self.total_grid[row][col].get_serial_data()[1:])
         self.serial_com.write_node(node_data)
 
     def send_table_data(self):
         table_data = []
         for node_id in self.node_location:
-            table_data.append(str(node_id))
+            temp = [str(node_id)]
             for (row, col) in self.node_location[node_id]:
-                table_data.append(self.total_grid[row][col].get_serial_data()[1:])
-
+                temp.extend(self.total_grid[row][col].get_serial_data()[1:])
+            table_data.append(temp)
         self.serial_com.write_multiple(table_data)
+        return table_data
 
 
 pixel_assignment = {(0,0): (0,0), (0,1): (0,1),
@@ -107,6 +109,9 @@ physicalController = PhysicalController(pixel_assignment=pixel_assignment)
 if __name__ == '__main__':
     # physicalController.run();
     while (True):
-        physicalController.send_table_data()
+        print("Sending data:")
+        tb = physicalController.send_table_data()
+        print(tb)
+        print("Receiving data:")
         print(physicalController.serial_com.read_pixels())
     pass

@@ -30,7 +30,7 @@ struct Pixel {
 
 //----------------------------------------------------------------
 void setup(void) {
-  Serial.begin(115200);
+  Serial.begin(2000000);
   delay(500);
 
   canBusFD.begin();
@@ -73,6 +73,7 @@ void loop() {
       for (int k = 0; k < len; k++) {
         process_node();
       }
+      Serial.read();
     }
   }
   
