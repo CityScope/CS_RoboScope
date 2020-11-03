@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.5.2">
+<eagle version="9.6.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -4789,9 +4789,9 @@ Source: http://www.nxp.com/documents/data_sheet/PESD1CAN.pdf</description>
 <attribute name="NAME" x="364.49" y="150.9014" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="364.49" y="155.702" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="J4" gate="G$1" x="223.52" y="144.78" smashed="yes" rot="R180">
-<attribute name="VALUE" x="228.6" y="154.686" size="1.778" layer="96" font="vector" rot="R180"/>
-<attribute name="NAME" x="228.6" y="134.112" size="1.778" layer="95" font="vector" rot="R180"/>
+<instance part="J4" gate="G$1" x="233.68" y="144.78" smashed="yes" rot="R180">
+<attribute name="VALUE" x="238.76" y="154.686" size="1.778" layer="96" font="vector" rot="R180"/>
+<attribute name="NAME" x="238.76" y="134.112" size="1.778" layer="95" font="vector" rot="R180"/>
 </instance>
 </instances>
 <busses>
@@ -4918,8 +4918,8 @@ Source: http://www.nxp.com/documents/data_sheet/PESD1CAN.pdf</description>
 </segment>
 <segment>
 <pinref part="J4" gate="G$1" pin="1"/>
-<wire x1="218.44" y1="149.86" x2="210.82" y2="149.86" width="0.1524" layer="91"/>
-<label x="210.82" y="149.86" size="1.016" layer="95" rot="R180" xref="yes"/>
+<wire x1="228.6" y1="149.86" x2="220.98" y2="149.86" width="0.1524" layer="91"/>
+<label x="220.98" y="149.86" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="LED_16" class="0">
@@ -5278,8 +5278,8 @@ Source: http://www.nxp.com/documents/data_sheet/PESD1CAN.pdf</description>
 </segment>
 <segment>
 <pinref part="J4" gate="G$1" pin="4"/>
-<wire x1="218.44" y1="142.24" x2="210.82" y2="142.24" width="0.1524" layer="91"/>
-<label x="210.82" y="142.24" size="1.016" layer="95" rot="R180" xref="yes"/>
+<wire x1="228.6" y1="142.24" x2="220.98" y2="142.24" width="0.1524" layer="91"/>
+<label x="220.98" y="142.24" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="GPIO_17" class="0">
@@ -5290,8 +5290,8 @@ Source: http://www.nxp.com/documents/data_sheet/PESD1CAN.pdf</description>
 </segment>
 <segment>
 <pinref part="J4" gate="G$1" pin="5"/>
-<wire x1="218.44" y1="139.7" x2="210.82" y2="139.7" width="0.1524" layer="91"/>
-<label x="210.82" y="139.7" size="1.016" layer="95" rot="R180" xref="yes"/>
+<wire x1="228.6" y1="139.7" x2="220.98" y2="139.7" width="0.1524" layer="91"/>
+<label x="220.98" y="139.7" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="GPIO_18" class="0">
@@ -5302,8 +5302,8 @@ Source: http://www.nxp.com/documents/data_sheet/PESD1CAN.pdf</description>
 </segment>
 <segment>
 <pinref part="J4" gate="G$1" pin="6"/>
-<wire x1="218.44" y1="137.16" x2="210.82" y2="137.16" width="0.1524" layer="91"/>
-<label x="210.82" y="137.16" size="1.016" layer="95" rot="R180" xref="yes"/>
+<wire x1="228.6" y1="137.16" x2="220.98" y2="137.16" width="0.1524" layer="91"/>
+<label x="220.98" y="137.16" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="CAN_RX3" class="0">
@@ -5498,8 +5498,8 @@ Source: http://www.nxp.com/documents/data_sheet/PESD1CAN.pdf</description>
 </segment>
 <segment>
 <pinref part="J4" gate="G$1" pin="2"/>
-<wire x1="218.44" y1="147.32" x2="210.82" y2="147.32" width="0.1524" layer="91"/>
-<label x="210.82" y="147.32" size="1.016" layer="95" rot="R180" xref="yes"/>
+<wire x1="228.6" y1="147.32" x2="220.98" y2="147.32" width="0.1524" layer="91"/>
+<label x="220.98" y="147.32" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -5586,8 +5586,8 @@ Source: http://www.nxp.com/documents/data_sheet/PESD1CAN.pdf</description>
 </segment>
 <segment>
 <pinref part="J4" gate="G$1" pin="3"/>
-<wire x1="218.44" y1="144.78" x2="210.82" y2="144.78" width="0.1524" layer="91"/>
-<label x="210.82" y="144.78" size="1.016" layer="95" rot="R180" xref="yes"/>
+<wire x1="228.6" y1="144.78" x2="220.98" y2="144.78" width="0.1524" layer="91"/>
+<label x="220.98" y="144.78" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="GPIO_19" class="0">
