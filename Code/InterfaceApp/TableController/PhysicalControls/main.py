@@ -49,7 +49,7 @@ class PhysicalController:
         self.node_location = {}
 
         self.assign_nodes(pixel_assignment)
-        self.serial_com = Translator('COM4', 115200)
+        self.serial_com = Translator('COM5', 115200)
         # reference as y,x
         # self.display_table()
         self.send_pixel_data((0,0))

@@ -64,7 +64,7 @@
 #define NEO_PIXEL_PIN   2
 
 //DIP SWITCH
-#define MUX_S0         26         
+#define MUX_S0         26
 #define MUX_S1         27
 #define MUX_S2         28
 #define MUX_S3         31
@@ -94,3 +94,12 @@
 #define SX1509_06_SWITCH_LEDBOX       2
 #define SX1509_07_SWITCH_LEDBOX       1
 #define SX1509_08_SWITCH_LEDBOX       0
+
+#define NEO_PIN_01       16
+#define NEO_PIN_02       17
+#define NEO_PIN_03       2
+#define NEO_PIN_04       3
+#define NEO_PIN_05       4
+#define NEO_PIN_06       24
+#define NEO_PIN_07       25
+#define NEO_PIN_08       13

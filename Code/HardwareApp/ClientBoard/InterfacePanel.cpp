@@ -4,7 +4,7 @@
 // constructor
 InterfacePanel::InterfacePanel() {
 
-  Serial.println("Setting up LEDs");
+  Serial.println("Setting up interaction buttons");
 
 
   //push down

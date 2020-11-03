@@ -2,6 +2,7 @@
 #define URBAN_PANEL_H
 
 #include <Arduino.h>
+#include <Adafruit_NeoPixel.h>
 #include "BoardPins.h"
 #include "StepperMotor.h"
 #include "InterfacePanel.h"
@@ -31,6 +32,8 @@ class UrbanPanel {
 
     void setPixelPosition(int i, float pos);
 
+    void setPixelColor(int i, int r, int g, int b);
+
     void pixelLoop(int i);
 
     void limitswitch();
@@ -42,6 +45,9 @@ class UrbanPanel {
     volatile unsigned * waitTimeMicros[MOTORS_PER_PANEL];
     InterfacePanel * interfacePanel;
     volatile boolean limitActivated = false;
+
+    Adafruit_NeoPixel * pixels[MOTORS_PER_PANEL];
+    int NUMPIXELS = 4;
 
 };
 #endif

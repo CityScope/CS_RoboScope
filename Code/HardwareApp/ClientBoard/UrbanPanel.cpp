@@ -3,6 +3,8 @@
 UrbanPanel::UrbanPanel(int panelId) {
   id = panelId;
 
+
+
   // Set up the motors
   int motorDirPins[]  = {DIR_PIN_01, DIR_PIN_02 , DIR_PIN_03, DIR_PIN_04, DIR_PIN_05, DIR_PIN_06, DIR_PIN_07, DIR_PIN_08};
   int motorStepPins[] = {STEP_PIN_01, STEP_PIN_02, STEP_PIN_03, STEP_PIN_04, STEP_PIN_05, STEP_PIN_06, STEP_PIN_07, STEP_PIN_08};
@@ -13,13 +15,33 @@ UrbanPanel::UrbanPanel(int panelId) {
     //threads.addThread(motorThreadTimer, i);
     motors[i]->setRPM(GRPM);
     motors[i]->init();
+
   }
 
   interfacePanel = new InterfacePanel();
   //displayPanel = new DisplayPanel();
 
+  Serial.println("Setting up neo pixel LEDs");
+
+  
+  const byte NEO_PIN[8] = {NEO_PIN_01, NEO_PIN_02, NEO_PIN_03, NEO_PIN_04,
+                         NEO_PIN_05, NEO_PIN_06, NEO_PIN_07, NEO_PIN_08
+                        };
+
+  for (int i = 0; i < 8; i++) {
+    pixels[i] = new Adafruit_NeoPixel(NUMPIXELS, NEO_PIN[i], NEO_GRBW + NEO_KHZ800);
+    pixels[i]->begin();
+    pixels[i]->clear();
+  }
+
 }
 
+void UrbanPanel::setPixelColor(int i, int r, int g, int b) {
+  for (int j = 0; j < NUMPIXELS; j++) {
+    pixels[i]->setPixelColor(j, pixels[i]->Color(r, g, b));
+  }
+  pixels[i]->show();
+}
 
 int UrbanPanel::getPushState(int i) {
   return interfacePanel->getPushCurrentState(i);
