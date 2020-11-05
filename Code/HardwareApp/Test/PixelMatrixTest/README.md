@@ -8,7 +8,7 @@ This code tests the serial and CAN bus communication pipeline from the CS CitySc
 -  Information is sent pixel by pixel 
 -  Features: button input to send defined data to interface app as a test
 
-## CANFD_Server (The Actual Translator)
+## Server 
 
 -  Combination of serial communication code and CAN bus messaging 
 -  Will send data received from Digital Controls to connected clients through CAN bus msgs
@@ -19,7 +19,7 @@ This code tests the serial and CAN bus communication pipeline from the CS CitySc
     + Char array in the form:
         * "nodeID,height,interaction,color1,color2,height..."
     
-## CANFD_Client
+## Client
 
 -  Will read and process data from CANFD_Server
 -  Displays information on pixel matrix using SmartMatrix3 library
