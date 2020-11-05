@@ -65,6 +65,7 @@ void loop() {
   
   if (Serial.available() > 0) {
     operation = Serial.read();
+    Serial.println(operation);
     if (operation == 'W') {
       process_node();
     } else if (operation == 'T') {

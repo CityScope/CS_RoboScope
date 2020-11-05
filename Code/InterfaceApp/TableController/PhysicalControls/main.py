@@ -52,7 +52,7 @@ class PhysicalController:
         self.serial_com = Translator('COM5', 115200)
         # reference as y,x
         # self.display_table()
-        self.send_pixel_data((0,0))
+        # self.send_pixel_data((0,0))
 
     def display_table(self):
         for row in self.total_grid:
@@ -72,6 +72,8 @@ class PhysicalController:
             except KeyError:
                 self.node_location[node_id] = [(row, col)]
 
+    def read_pixel_data(self):
+        return self.serial_com.read_pixels()
     # Takes in a position as (x,y)
     def update_pixel(self, pos, height, color):
         (col, row) = pos
@@ -104,14 +106,7 @@ pixel_assignment = {(0,0): (0,0), (0,1): (0,1),
                     (2,0): (0,4), (2,1): (0,5),
                     (3,0): (0,6), (3,1): (0,7)}
 
-physicalController = PhysicalController(pixel_assignment=pixel_assignment)
+# physicalController = PhysicalController(pixel_assignment=pixel_assignment)
 
 if __name__ == '__main__':
-    # physicalController.run();
-    while (True):
-        print("Sending data:")
-        tb = physicalController.send_table_data()
-        print(tb)
-        print("Receiving data:")
-        print(physicalController.serial_com.read_pixels())
     pass
