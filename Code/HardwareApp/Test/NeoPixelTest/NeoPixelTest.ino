@@ -6,7 +6,7 @@
 const byte NEO_PIN  = 2; // LED connected to pin 15
 
 // How many Neopixels are attached to the Arduino?
-#define NUMpixels      2
+#define NUMpixels      16
 
 //pixels
 Adafruit_NeoPixel * pixels;
