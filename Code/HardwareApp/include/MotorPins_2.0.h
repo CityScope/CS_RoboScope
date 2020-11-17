@@ -1,17 +1,8 @@
 /*
-   MOTOR PINS
-
-   PREFIX G -> Global
-*/
-
-
-//Number of motors that each panel has
-#define MOTORS_PER_PANEL 8
-
-#define PIXELS_PER_URBAN_PIXEL 2
-
-#define NUM_URBAN_PIXELS 2
-
+ * MOTOR PINS
+ *
+ * PREFIX G -> Global
+ */
 
 // MOTOR 1
 #define DIR_PIN_01     6
@@ -46,34 +37,18 @@
 #define STEP_PIN_08    26
 
 //Global Values
-#define GMOTOR_STEPS  200*16  // 200 200 * 16
-#define GRPM          120 // 200
+#define GMOTOR_STEPS  200 *8 //200
 
+#define GRPM          120 //120
 
-#define INTERRUPT_PIN_SWITCH_01       28
-#define INTERRUPT_PIN_SWITCH_02       29
+//Global pin values
+#define GENABLE_PIN    33
+#define GM0_PIN        11
+#define GM1_PIN        12
+
 
 #define TRQ1_PIN 32 
 #define TRQ2_PIN 33
-
-//MUX SWITH AND LED
-#define SX1509_01_SWITCH_STOP      15 // LED connected to pin 8
-#define SX1509_02_SWITCH_STOP      14 // LED connected to pin 9
-#define SX1509_03_SWITCH_STOP      13 // LED connected to pin 10
-#define SX1509_04_SWITCH_STOP      12 // LED connected to pin 11
-#define SX1509_05_SWITCH_STOP      11 // LED connected to pin 12
-#define SX1509_06_SWITCH_STOP      10 // LED connected to pin 13
-#define SX1509_07_SWITCH_STOP       9 // LED connected to pin 14
-#define SX1509_08_SWITCH_STOP       8 // LED connected to pin 15
-
-#define SX1509_01_SWITCH_LEDBOX       7
-#define SX1509_02_SWITCH_LEDBOX       6
-#define SX1509_03_SWITCH_LEDBOX       5
-#define SX1509_04_SWITCH_LEDBOX       4
-#define SX1509_05_SWITCH_LEDBOX       3
-#define SX1509_06_SWITCH_LEDBOX       2
-#define SX1509_07_SWITCH_LEDBOX       1
-#define SX1509_08_SWITCH_LEDBOX       0
 
 //Sleep and enable
 
@@ -95,7 +70,7 @@
 
 //5
 #define SX1509_05_MSLEEP         9 //  SLEEP PIN on the SX1509
-#define SX1509_05_MENABLE        8  // ENABLE PIN on the SX15092
+#define SX1509_05_MENABLE        8  // ENABLE PIN on the SX1509
 
 //6
 #define SX1509_06_MSLEEP         1 //  SLEEP PIN on the SX1509
@@ -111,6 +86,3 @@
 
 //
 #define SX1509_ADDRESS_00  0x3E
-#define SX1509_ADDRESS_01  0x3F
-#define SX1509_ADDRESS_10  0x71
-#define SX1509_ADDRESS_11  0x70
