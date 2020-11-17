@@ -959,6 +959,49 @@ USE AT YOUR OWN RISK!&lt;p&gt;
 </deviceset>
 </devicesets>
 </library>
+<library name="switch_3p_4.7mm">
+<packages>
+<package name="3P">
+<pad name="P$1" x="-1.7" y="0.1" drill="0.77"/>
+<pad name="P$2" x="3" y="0.1" drill="0.77"/>
+<pad name="P$3" x="7.7" y="0.1" drill="0.77"/>
+<wire x1="-5.9" y1="-2.6" x2="-5.9" y2="3.5" width="0.127" layer="21"/>
+<wire x1="-5.9" y1="3.5" x2="13.66" y2="3.5" width="0.127" layer="21"/>
+<wire x1="13.66" y1="3.5" x2="13.66" y2="-2.6" width="0.127" layer="21"/>
+<wire x1="13.66" y1="-2.6" x2="-5.9" y2="-2.6" width="0.127" layer="21"/>
+</package>
+</packages>
+<symbols>
+<symbol name="3P">
+<pin name="P$1" x="-48.26" y="12.7" length="middle"/>
+<pin name="P$2" x="-48.26" y="5.08" length="middle"/>
+<pin name="P$3" x="-48.26" y="-2.54" length="middle"/>
+<wire x1="-43.18" y1="17.78" x2="-27.94" y2="17.78" width="0.254" layer="94"/>
+<wire x1="-27.94" y1="17.78" x2="-27.94" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="-27.94" y1="-7.62" x2="-43.18" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="-43.18" y1="-7.62" x2="-43.18" y2="17.78" width="0.254" layer="94"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="SWITCH_3P_4.7">
+<gates>
+<gate name="G$1" symbol="3P" x="35.56" y="-5.08"/>
+</gates>
+<devices>
+<device name="" package="3P">
+<connects>
+<connect gate="G$1" pin="P$1" pad="P$1"/>
+<connect gate="G$1" pin="P$2" pad="P$2"/>
+<connect gate="G$1" pin="P$3" pad="P$3"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -981,6 +1024,7 @@ USE AT YOUR OWN RISK!&lt;p&gt;
 <part name="X2" library="con-JST VH" deviceset="B2P-VH" device=""/>
 <part name="X3" library="con-JST VH" deviceset="B2P-VH" device=""/>
 <part name="X4" library="con-JST VH" deviceset="B2P-VH" device=""/>
+<part name="U$1" library="switch_3p_4.7mm" deviceset="SWITCH_3P_4.7" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -1035,6 +1079,7 @@ USE AT YOUR OWN RISK!&lt;p&gt;
 <attribute name="VALUE" x="52.07" y="0" size="1.778" layer="96"/>
 <attribute name="NAME" x="52.07" y="10.922" size="1.778" layer="95"/>
 </instance>
+<instance part="U$1" gate="G$1" x="134.62" y="10.16" smashed="yes"/>
 </instances>
 <busses>
 </busses>
@@ -1137,6 +1182,30 @@ USE AT YOUR OWN RISK!&lt;p&gt;
 <pinref part="Q1" gate="G$1" pin="1"/>
 <wire x1="-5.08" y1="25.4" x2="0" y2="25.4" width="0.1524" layer="91"/>
 <label x="0" y="25.4" size="1.016" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="R4" gate="G$1" pin="1"/>
+<wire x1="43.18" y1="76.2" x2="38.1" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$2" class="0">
+<segment>
+<pinref part="R4" gate="G$1" pin="2"/>
+<wire x1="53.34" y1="76.2" x2="71.12" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="R3" gate="G$1" pin="1"/>
+<wire x1="91.44" y1="76.2" x2="86.36" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="101.6" y1="76.2" x2="124.46" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

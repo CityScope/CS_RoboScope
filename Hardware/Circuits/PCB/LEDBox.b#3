@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.1.3">
+<eagle version="9.5.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -184,6 +184,7 @@
 </layers>
 <board>
 <fusionsync huburn="a.cGVyc29uYWw6dWUyYmFkZWI5" projecturn="a.cGVyc29uYWw6dWUyYmFkZWI5IzIwMTkwNzI5MjA1OTgzMzU2" f3durn="urn:adsk.wipprod:dm.lineage:m6M7IwLGQeCdvwcJjumHSg" pcbguid="eed20cc3-44ca-4a70-8a87-7657d5d2af55" lastpulledtime="" lastsyncedchangeguid="c4263555-0fd4-94cd-85e2-e43b784a0ed8"/>
+<fusionteam huburn="a.cGVyc29uYWw6dWUyYmFkZWI5" projecturn="a.cGVyc29uYWw6dWUyYmFkZWI5IzIwMTkwNzI5MjA1OTgzMzU2" folderUrn="urn:adsk.wipprod:fs.folder:co.fyRBnQNXQZ2K2Ph0YUv8vg" urn="urn:adsk.wipprod:dm.lineage:N41nUebqTaO0nGd6K4BbkA"  versionUrn="urn:adsk.wipprod:fs.file:vf.N41nUebqTaO0nGd6K4BbkA?version=3" camFileUrn="" camFileVersionUrn="" lastpublishedchangeguid="acd2ba34-f1b5-65f4-59b4-86d853f093b3"/>
 <plain>
 <text x="21.326" y="14.682" size="0.4064" layer="21">VCC</text>
 <text x="21.286" y="15.698" size="0.4064" layer="21">GND</text>
@@ -1835,42 +1836,95 @@ design rules under a new name.</description>
 </pass>
 </autorouter>
 <elements>
-<element name="LED1" library="SK6812" package="LED5050_W" value="" x="23.248" y="24.194"/>
-<element name="LED2" library="SK6812" package="LED5050_W" value="" x="4.934" y="3.6"/>
-<element name="J2" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" value="" x="25" y="13.476" rot="MR270">
+<element name="LED1" library="SK6812" package="LED5050_W" value="" x="23.248" y="24.194" smashed="yes">
+<attribute name="NAME" x="21.343" y="27.088" size="0.8128" layer="25" ratio="18"/>
+<attribute name="VALUE" x="21.47" y="20.819" size="0.4064" layer="27" ratio="10"/>
+</element>
+<element name="LED2" library="SK6812" package="LED5050_W" value="" x="4.934" y="3.6" smashed="yes">
+<attribute name="NAME" x="3.029" y="6.494" size="0.8128" layer="25" ratio="18"/>
+<attribute name="VALUE" x="3.156" y="0.225" size="0.4064" layer="27" ratio="10"/>
+</element>
+<element name="J2" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" value="" x="25" y="13.476" smashed="yes" rot="MR270">
+<attribute name="NAME" x="25.381" y="14.873" size="0.6096" layer="26" font="vector" ratio="20" rot="MR270"/>
 <attribute name="PROD_ID" value="CONN-08249" x="25" y="13.476" size="1.778" layer="28" rot="MR270" display="off"/>
 <attribute name="SF_ID" value="GPS-00579" x="25" y="13.476" size="1.778" layer="28" rot="MR270" display="off"/>
+<attribute name="VALUE" x="26.27" y="15.127" size="0.6096" layer="28" font="vector" ratio="20" rot="MR270"/>
 </element>
-<element name="J1" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X04_NO_SILK" package3d_urn="urn:adsk.eagle:package:38094/1" value="" x="19.632" y="9.976" rot="R90">
+<element name="J1" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X04_NO_SILK" package3d_urn="urn:adsk.eagle:package:38094/1" value="" x="19.632" y="9.976" smashed="yes" rot="R90">
+<attribute name="NAME" x="18.235" y="8.706" size="0.6096" layer="25" font="vector" ratio="20" rot="R90"/>
 <attribute name="PROD_ID" value="CONN-09696" x="19.632" y="9.976" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="VALUE" x="21.664" y="8.706" size="0.6096" layer="27" font="vector" ratio="20" rot="R90"/>
 </element>
-<element name="R4_DOWN" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="7.112" y="16.967" rot="R180"/>
-<element name="SWITCH_M4" library="switch-tact" package="DTSM-3" value="DTSM-3" x="14.73" y="23.956" rot="R180"/>
-<element name="C1" library="rc-master-smd" package="C0805" value="0.1uf" x="23.26" y="20.262"/>
-<element name="C2" library="rc-master-smd" package="C0805" value="0.1uf" x="4.934" y="7.78"/>
-<element name="R1_UP" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="2.794" y="16.967" rot="R180"/>
-<element name="SWITCH_M1" library="switch-tact" package="DTSM-3" value="DTSM-3" x="13.97" y="4.318"/>
-<element name="LED3" library="SK6812" package="LED5050_W" value="" x="4.826" y="24.384"/>
-<element name="C3" library="rc-master-smd" package="C0805" value="0.1uf" x="4.826" y="20.32"/>
-<element name="LED4" library="SK6812" package="LED5050_W" value="" x="23.114" y="3.556"/>
-<element name="C4" library="rc-master-smd" package="C0805" value="0.1uf" x="23.114" y="7.62"/>
-<element name="SWU" library="Switch" library_urn="urn:adsk.eagle:library:11396471" package="B3F-1000" package3d_urn="urn:adsk.eagle:package:10899221/2" value="B3F-1000" x="13.97" y="4.318">
+<element name="R4_DOWN" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="7.112" y="16.967" smashed="yes" rot="R180">
+<attribute name="NAME" x="8.382" y="15.697" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="8.382" y="19.507" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="SWITCH_M4" library="switch-tact" package="DTSM-3" value="DTSM-3" x="14.73" y="23.956" smashed="yes" rot="R180">
+<attribute name="NAME" x="17.27" y="19.416" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="17.27" y="28.766" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C1" library="rc-master-smd" package="C0805" value="0.1uf" x="23.26" y="20.262" smashed="yes">
+<attribute name="NAME" x="21.482" y="21.532" size="0.8128" layer="25" ratio="18"/>
+<attribute name="VALUE" x="21.482" y="18.484" size="0.6096" layer="27" ratio="10"/>
+</element>
+<element name="C2" library="rc-master-smd" package="C0805" value="0.1uf" x="4.934" y="7.78" smashed="yes">
+<attribute name="NAME" x="3.156" y="9.05" size="0.8128" layer="25" ratio="18"/>
+<attribute name="VALUE" x="3.156" y="6.002" size="0.6096" layer="27" ratio="10"/>
+</element>
+<element name="R1_UP" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="2.794" y="16.967" smashed="yes" rot="R180">
+<attribute name="NAME" x="4.064" y="15.697" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="4.064" y="19.507" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="SWITCH_M1" library="switch-tact" package="DTSM-3" value="DTSM-3" x="13.97" y="4.318" smashed="yes">
+<attribute name="NAME" x="11.43" y="8.858" size="1.27" layer="25"/>
+<attribute name="VALUE" x="11.43" y="-0.492" size="1.27" layer="27"/>
+</element>
+<element name="LED3" library="SK6812" package="LED5050_W" value="" x="4.826" y="24.384" smashed="yes">
+<attribute name="NAME" x="2.921" y="27.278" size="0.8128" layer="25" ratio="18"/>
+<attribute name="VALUE" x="3.048" y="21.009" size="0.4064" layer="27" ratio="10"/>
+</element>
+<element name="C3" library="rc-master-smd" package="C0805" value="0.1uf" x="4.826" y="20.32" smashed="yes">
+<attribute name="NAME" x="3.048" y="21.59" size="0.8128" layer="25" ratio="18"/>
+<attribute name="VALUE" x="3.048" y="18.542" size="0.6096" layer="27" ratio="10"/>
+</element>
+<element name="LED4" library="SK6812" package="LED5050_W" value="" x="23.114" y="3.556" smashed="yes">
+<attribute name="NAME" x="21.209" y="6.45" size="0.8128" layer="25" ratio="18"/>
+<attribute name="VALUE" x="21.336" y="0.181" size="0.4064" layer="27" ratio="10"/>
+</element>
+<element name="C4" library="rc-master-smd" package="C0805" value="0.1uf" x="23.114" y="7.62" smashed="yes">
+<attribute name="NAME" x="21.336" y="8.89" size="0.8128" layer="25" ratio="18"/>
+<attribute name="VALUE" x="21.336" y="5.842" size="0.6096" layer="27" ratio="10"/>
+</element>
+<element name="SWU" library="Switch" library_urn="urn:adsk.eagle:library:11396471" package="B3F-1000" package3d_urn="urn:adsk.eagle:package:10899221/2" value="B3F-1000" x="13.97" y="4.318" smashed="yes">
 <attribute name="CREATED_BY" value="PCBLayout.com" x="4.064" y="17.018" size="1.778" layer="27" display="off"/>
 <attribute name="DIGI_KEY_PART_NUMBER" value="SW400-ND" x="4.064" y="17.018" size="1.778" layer="27" display="off"/>
 <attribute name="MANUFACTURER" value="Omron Electronics Inc-EMC Div" x="4.064" y="17.018" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="B3F-1000" x="4.064" y="17.018" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="9.525959375" y="9.136040625" size="1.270009375" layer="25" ratio="10"/>
 <attribute name="PACKAGE" value="SPST-NO" x="4.064" y="17.018" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="9.82183125" y="-0.79775" size="1.27223125" layer="27" ratio="10"/>
 </element>
-<element name="R13_S" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="2.794" y="12.192" rot="R180"/>
-<element name="JP1" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NO_NO-SILK_ROUND" package3d_urn="urn:adsk.eagle:package:39278/1" value="JUMPER-SMT_2_NO_NO-SILK_ROUND" x="7.366" y="13.97" rot="MR90"/>
-<element name="SWD" library="Switch" library_urn="urn:adsk.eagle:library:11396471" package="B3F-1000" package3d_urn="urn:adsk.eagle:package:10899221/2" value="B3F-1000" x="14.478" y="23.876">
+<element name="R13_S" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="2.794" y="12.192" smashed="yes" rot="R180">
+<attribute name="NAME" x="4.064" y="10.922" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="4.064" y="14.732" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="JP1" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NO_NO-SILK_ROUND" package3d_urn="urn:adsk.eagle:package:39278/1" value="JUMPER-SMT_2_NO_NO-SILK_ROUND" x="7.366" y="13.97" smashed="yes" rot="MR90">
+<attribute name="NAME" x="9.3345" y="13.97" size="0.6096" layer="26" font="vector" ratio="20" rot="MR90" align="bottom-center"/>
+<attribute name="VALUE" x="5.3975" y="13.97" size="0.6096" layer="28" font="vector" ratio="20" rot="MR90" align="top-center"/>
+</element>
+<element name="SWD" library="Switch" library_urn="urn:adsk.eagle:library:11396471" package="B3F-1000" package3d_urn="urn:adsk.eagle:package:10899221/2" value="B3F-1000" x="14.478" y="23.876" smashed="yes">
 <attribute name="CREATED_BY" value="PCBLayout.com" x="4.572" y="36.322" size="1.778" layer="27" display="off"/>
 <attribute name="DIGI_KEY_PART_NUMBER" value="SW400-ND" x="4.572" y="36.322" size="1.778" layer="27" display="off"/>
 <attribute name="MANUFACTURER" value="Omron Electronics Inc-EMC Div" x="4.572" y="36.322" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="B3F-1000" x="4.572" y="36.322" size="1.778" layer="27" display="off"/>
+<attribute name="NAME" x="10.033959375" y="28.694040625" size="1.270009375" layer="25" ratio="10"/>
 <attribute name="PACKAGE" value="SPST-NO" x="4.572" y="36.322" size="1.778" layer="27" display="off"/>
+<attribute name="VALUE" x="10.32983125" y="18.76025" size="1.27223125" layer="27" ratio="10"/>
 </element>
-<element name="R13_S1" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="7.112" y="12.192" rot="R180"/>
+<element name="R13_S1" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="7.112" y="12.192" smashed="yes" rot="R180">
+<attribute name="NAME" x="8.382" y="10.922" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="8.382" y="14.732" size="1.27" layer="27" rot="R180"/>
+</element>
 </elements>
 <signals>
 <signal name="N$2">

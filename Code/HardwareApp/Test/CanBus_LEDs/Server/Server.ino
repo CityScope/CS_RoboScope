@@ -20,7 +20,7 @@ long initial_timer;
 int node = 0;
 int local = 0;
 
-//format for received pixel data 
+//format for received pixel data
 struct Pixel {
   byte inter;
   byte height;
@@ -52,17 +52,17 @@ void setup(void) {
 
   pinMode(LED_15, OUTPUT);
   pinMode(LED_16, OUTPUT);
-  
+
   Serial.println("Init server done");
-  primary_timer=millis();
-  initial_timer=millis();
+  primary_timer = millis();
+  initial_timer = millis();
 }
 
 //----------------------------------------------------------------
 void loop() {
   digitalWrite(LED_15, digitalRead(KEY_PIN_01));
   digitalWrite(LED_16, digitalRead(KEY_PIN_04));
-  
+
   if (Serial.available() > 0) {
     operation = Serial.read();
     Serial.println(operation);
@@ -76,8 +76,13 @@ void loop() {
       }
       Serial.read();
     }
+
+    if (operation == 'S') {
+      test_pixels();
+      Serial.println("Send Test Pixels");
+    }
   }
-  
+
   CANFD_message_t msg;
   if (canBusFD.read(msg)) {
     send_pixels(msg);
@@ -86,11 +91,11 @@ void loop() {
 
 //----------------------------------------------------------------
 //use this to process an entire node's information coming from Serial
-void process_node(){
+void process_node() {
   Pixel buf[8];
   node = Serial.parseInt();
   Serial.read();
-  
+
   for (int j = 0; j < 8; j++) {
     byte temp[4] = {0};
     for (int i = 0; i < 4; i++) {
@@ -106,7 +111,7 @@ void process_node(){
 //use this to send data to the table
 void translate_pixels(int node, Pixel* buf) {
   CANMotorMessage msg = CANMotorMessage(node);
-  for (int i =0; i < 8; i++) {
+  for (int i = 0; i < 8; i++) {
     msg.addMessage(i, buf[i].height, buf[i].inter, buf[i].color1, buf[i].color2);
   }
   canBusFD.write(msg.getCANmessage());
@@ -120,27 +125,41 @@ void send_pixels(CANFD_message_t msg) {
   sprintf(temp, "%d", msg.id);
   memcpy(str, temp, strlen(temp));
   memset (temp, 0, sizeof(temp));
-  
+
   for ( uint8_t i = 0; i < msg.len; i++ ) {
     sprintf(temp, ",%d", msg.buf[i]);
-    memcpy(str+strlen(str), temp, strlen(temp));
+    memcpy(str + strlen(str), temp, strlen(temp));
     memset (temp, 0, sizeof(temp));
   }
   Serial.println(str);
 }
 
 //----------------------------------------------------------------
+void test_pixels() {
+  Pixel buf[8];
+  for (int j = 0; j < 8; j++) {
+    byte temp[4] = {0};
+    for (int i = 0; i < 4; i++) {
+      temp[i] = int(random(0, 255));
+    }
+    buf[j] = {temp[0], temp[1], temp[2], temp[3]};
+  }
+  translate_pixels(node, buf);
+
+}
+
+//----------------------------------------------------------------
 void test() {
-  if (millis()-initial_timer>20000) {
+  if (millis() - initial_timer > 20000) {
     if ((millis() - primary_timer) > 10000) {
-       Pixel buf[1] = {0};
-       buf[0] = {170, 10, 255, 128};
-       if (node==95) {
-        node=0;
-       } else {
+      Pixel buf[1] = {0};
+      buf[0] = {170, 10, 255, 128};
+      if (node == 95) {
+        node = 0;
+      } else {
         node++;
-       }
-       primary_timer = millis();
+      }
+      primary_timer = millis();
     }
   }
 }

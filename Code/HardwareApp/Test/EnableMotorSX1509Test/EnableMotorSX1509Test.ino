@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "Stepper.h"
-#include "MotorPins.h"
+//#i nclude "MotorPins.h"
+#include "MotorPinsOld.h"
 #include <SparkFunSX1509.h>
 
 
@@ -203,6 +204,18 @@ void loop() {
       }
       Serial.println("8");
     }
+
+    if (key == 'b') {
+      for (int i = 0; i < numMotors; i++) {
+        if (activateMotors[i] ==  1) {
+          motors[i]->startMoveBackward(50);
+          motors[i]->start(sx);
+          motors[i]->sleepOff(sx);
+        }
+      }
+      Serial.println("ON ALL");
+    }
+
 
     if (key == 'n') {
       for (int i = 0; i < numMotors; i++) {

@@ -183,7 +183,7 @@
 <layer number="255" name="routoute" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
-<fusionsync huburn="a.cGVyc29uYWw6dWUyYmFkZWI5" projecturn="a.cGVyc29uYWw6dWUyYmFkZWI5IzIwMTkwNzI5MjA1OTgzMzU2" f3durn="urn:adsk.wipprod:dm.lineage:m6M7IwLGQeCdvwcJjumHSg" pcbguid="eed20cc3-44ca-4a70-8a87-7657d5d2af55" lastpulledtime="" lastsyncedchangeguid="c4263555-0fd4-94cd-85e2-e43b784a0ed8"/>
+<fusionsync huburn="a.cGVyc29uYWw6dWUyYmFkZWI5" projecturn="a.cGVyc29uYWw6dWUyYmFkZWI5IzIwMTkwNzI5MjA1OTgzMzU2" f3durn="urn:adsk.wipprod:dm.lineage:mkGb1imxSbqdn5AGzfcxTg" pcbguid="4129be0b-5349-4aed-8831-2b5f8f2916f7" lastpulledtime="" lastsyncedchangeguid="7d1ffd36-9ad2-5190-24a6-9f90e3f6ed93"/>
 <fusionteam huburn="a.cGVyc29uYWw6dWUyYmFkZWI5" projecturn="a.cGVyc29uYWw6dWUyYmFkZWI5IzIwMTkwNzI5MjA1OTgzMzU2" folderUrn="urn:adsk.wipprod:fs.folder:co.fyRBnQNXQZ2K2Ph0YUv8vg" urn="urn:adsk.wipprod:dm.lineage:N41nUebqTaO0nGd6K4BbkA"  versionUrn="urn:adsk.wipprod:fs.file:vf.N41nUebqTaO0nGd6K4BbkA?version=3" camFileUrn="" camFileVersionUrn="" lastpublishedchangeguid="acd2ba34-f1b5-65f4-59b4-86d853f093b3"/>
 <plain>
 <text x="21.326" y="14.682" size="0.4064" layer="21">VCC</text>
