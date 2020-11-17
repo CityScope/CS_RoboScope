@@ -1,7 +1,7 @@
 /*************************************************************
-Interaction Test
+  Interaction Test
 
-Code Test the Interaction Board
+  Code Test the Interaction Board
   BUTTONS
   SWITCHES
   LEDS
@@ -60,24 +60,24 @@ const byte TOUCH_08_SX02 = 0; // LED connected to pin 15
 
 
 //MUX
-const byte DIP_01_SX03 = 5; // LED connected to pin 8
-const byte DIP_02_SX03 = 6; // LED connected to pin 9
-const byte DIP_03_SX03 = 7; // LED connected to pin 10
-const byte DIP_04_SX03 = 8; // LED connected to pin 11
-const byte DIP_05_SX03 = 9; // LED connected to pin 12
-const byte DIP_06_SX03 = 10; // LED connected to pin 13
-const byte DIP_07_SX03 = 11; // LED connected to pin 14
-const byte DIP_08_SX03 = 12; // LED connected to pin 15
-const byte DIP_09_SX03 = 13; // LED connected to pin 14
-const byte DIP_10_SX03 = 14; // LED connected to pin 15
+const byte DIP_01_SX03 = 6; // LED connected to pin 8
+const byte DIP_02_SX03 = 7; // LED connected to pin 9
+const byte DIP_03_SX03 = 8; // LED connected to pin 10
+const byte DIP_04_SX03 = 9; // LED connected to pin 11
+const byte DIP_05_SX03 = 10; // LED connected to pin 12
+const byte DIP_06_SX03 = 11; // LED connected to pin 13
+const byte DIP_07_SX03 = 12; // LED connected to pin 14
+const byte DIP_08_SX03 = 13; // LED connected to pin 15
+const byte DIP_09_SX03 = 14; // LED connected to pin 14
+const byte DIP_10_SX03 = 15; // LED connected to pin 15
 
-const byte STATUS_PIN_SX03 = 3;
+const byte STATUS_PIN_SX03 = 5; //3 bottom 5 top
 
 //NEO PIXELS PINS
 const  byte NEO_PIN_01 = 16;
 const  byte NEO_PIN_02 = 17;
-const  byte NEO_PIN_03 = 2;
-const  byte NEO_PIN_04 = 3;
+const  byte NEO_PIN_03 = 14;//2;
+const  byte NEO_PIN_04 = 15;///3;
 const  byte NEO_PIN_05 = 4;
 const  byte NEO_PIN_06 = 24;
 const  byte NEO_PIN_07 = 25;
@@ -119,9 +119,9 @@ void setup()
   Serial.begin(9600);
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
-  delay(3000);
+  delay(2000);
 
-  Serial.println("SX1509: ");
+  Serial.println("Mux SX1509: ");
 
   if (!sx00.begin(SX1509_ADDRESS_00) ) {
     Serial.println("Failed 0");
@@ -130,6 +130,7 @@ void setup()
   } else {
     Serial.println("Connected 0");
   }
+  delay(500);
 
   if (!sx01.begin(SX1509_ADDRESS_01) ) {
     Serial.println("Failed 01");
@@ -137,6 +138,7 @@ void setup()
   } else {
     Serial.println("Connected 1");
   }
+  delay(500);
 
   int count = 0;
   if (!sx02.begin(SX1509_ADDRESS_11)) {
@@ -145,6 +147,7 @@ void setup()
   } else {
     Serial.println("Connected 2");
   }
+  delay(500);
 
   if (!sx03.begin(SX1509_ADDRESS_10)) {
     Serial.println("Failed sx 3");
@@ -154,7 +157,7 @@ void setup()
   }
 
 
-  delay(2000);
+  delay(500);
   digitalWrite(13, LOW);
 
   //sx 00
@@ -214,6 +217,7 @@ void setup()
 
   sx03.pinMode(STATUS_PIN_SX03, OUTPUT);
 
+  Serial.println("Done Mux Pis");
 
   //reset and init the neopixels
   for (int i = 0; i < 8; i++) {
@@ -263,10 +267,14 @@ void setup()
   }
   pixels[7]->show();
 
+  Serial.println("Done LEDs");
+
   //status pinTest
   sx03.digitalWrite(STATUS_PIN_SX03, HIGH);
   delay(2000);
   sx03.digitalWrite(STATUS_PIN_SX03, LOW);
+
+  Serial.println("Done Init");
 }
 
 
@@ -308,11 +316,15 @@ void loop() {
     colorChange = true;
     colorId = 0;
   }
+
   if (sx01.digitalRead(DOWN_02_SX01) == HIGH) {
     Serial.println("PIN 02 DOWN");
     colorChange = true;
     colorId = 1;
   }
+
+
+
   if (sx01.digitalRead(DOWN_03_SX01) == HIGH) {
     Serial.println("PIN 03 DOWN");
     colorChange = true;
@@ -344,6 +356,8 @@ void loop() {
     colorChange = true;
     colorId = 7;
   }
+
+
   //sx up
   if (sx01.digitalRead(UP_01_SX01) == HIGH) {
     Serial.println("PIN 01 UP");
@@ -408,10 +422,10 @@ void loop() {
 
   /*
     for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < NUMPIXELS; j++) {
-        pixels[i]->setPixelColor(j, pixels[i]->Color(255, 0, 255)); // Moderately bright green color.
-      }
-       pixels[i]->show();
+    for (int j = 0; j < NUMPIXELS; j++) {
+    pixels[i]->setPixelColor(j, pixels[i]->Color(255, 0, 255)); // Moderately bright green color.
+    }
+    pixels[i]->show();
     }
   */
 
@@ -424,6 +438,30 @@ void loop() {
     }
     pixels[colorId]->show();
     colorChange = false;
+  }
+
+
+  if (Serial.available() > 0) {
+    char key = Serial.read();
+
+    if (key == 'p') {
+
+      //reset and init the neopixels
+      for (int i = 0; i < 8; i++) {
+        pixels[i] = new Adafruit_NeoPixel(NUMPIXELS, NEO_PIN[i], NEO_GRBW + NEO_KHZ800);
+        pixels[i]->begin();
+        pixels[i]->clear();
+      }
+
+      //set pixels to different colors
+      for (int j = 0; j < 8; j++) {
+        pixels[j]->setPixelColor(0, pixels[j]->Color(0, 0, 0, 255)); // Moderately bright green color.
+        pixels[j]->setPixelColor(1, pixels[j]->Color(0, 0, 0, 255)); // Moderately bright green color.
+        pixels[j]->show();
+      }
+
+      Serial.println("Done LEDs");
+    }
   }
 
 

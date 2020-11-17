@@ -38,22 +38,25 @@ class GridHandling:
             self.table_to_grid[table_coord] = [[a,b, pixels[scaled_id]] for a,b,scaled_id in cell_coords]
             for pixel in pixel_group:
                 self.ids_to_table[pixel["id"]] = table_coord
-        self.PC.display_table()
+        self.PC.send_table_data()
                                 
     def serialSend(self, in_px): 
         table_coord = self.ids_to_table[in_px['id']]
         pixel_group = self.table_to_grid[table_coord]
-        print(pixel_group)
         for i in range(len(pixel_group)):
             if pixel_group[i][2]['id'] == in_px["id"]:
                 pixel_group[i][2] = in_px
-        print(pixel_group)
         color = Counter([tuple(pixel[2]["color"]) for pixel in pixel_group]).most_common(1)[0][0]
         avg_height = sum([pixel[2]["height"] for pixel in pixel_group])/len(pixel_group)
         node_id = self.Utils.pixel_assignment[(table_coord[1], table_coord[0])][0] 
         self.PC.update_pixel(table_coord, self.Utils.getHeight(avg_height), color)
         self.PC.send_node_data(node_id)
 
+    def serialRead(self):
+        if self.PC:
+            return self.PC.read_pixel_data()
+        return None
+        
     def serialReceive(self, pixels):  
         output = []
         node = int(pixels[0])
@@ -122,7 +125,7 @@ class Utils:
         use_height = round((height*self.FLOOR_HEIGHT*2.5)/new_pixel_dim, 3)
         if height is None: 
             use_height = 0
-        return use_height
+        return math.ceil(use_height)
     
     def createPixelAssignment(self):
         pixelMapping = {}

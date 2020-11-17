@@ -3,7 +3,7 @@
 #include "MotorPins.h"
 
 //Motor 1
-Stepper motor01(0, GMOTOR_STEPS, DIR_PIN_01, STEP_PIN_01, GENABLE_PIN, GM0_PIN, GM1_PIN);
+Stepper motor01(0, GMOTOR_STEPS, DIR_PIN_02, STEP_PIN_02, GENABLE_PIN);
 
 //false -> backwards
 //true  -> forwards
