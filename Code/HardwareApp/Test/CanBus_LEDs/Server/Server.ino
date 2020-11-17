@@ -75,6 +75,12 @@ void loop() {
         process_node();
       }
       Serial.read();
+    } else if (operation == 'a') {
+      //turn neopixels white
+      test_white();
+    } else if (operation == 'b') {
+      //turn neopixels white
+      test_white();
     }
 
     if (operation == 'S') {
@@ -135,31 +141,19 @@ void send_pixels(CANFD_message_t msg) {
 }
 
 //----------------------------------------------------------------
-void test_pixels() {
-  Pixel buf[8];
-  for (int j = 0; j < 8; j++) {
-    byte temp[4] = {0};
-    for (int i = 0; i < 4; i++) {
-      temp[i] = int(random(0, 255));
-    }
-    buf[j] = {temp[0], temp[1], temp[2], temp[3]};
+void test_white() {
+  CANMotorMessage msg = CANMotorMessage(node);
+  for (int i =0; i < 8; i++) {
+    msg.addMessage(i, 10, i, 255, 255);
   }
-  translate_pixels(node, buf);
-
+  canBusFD.write(msg.getCANmessage());
 }
 
 //----------------------------------------------------------------
-void test() {
-  if (millis() - initial_timer > 20000) {
-    if ((millis() - primary_timer) > 10000) {
-      Pixel buf[1] = {0};
-      buf[0] = {170, 10, 255, 128};
-      if (node == 95) {
-        node = 0;
-      } else {
-        node++;
-      }
-      primary_timer = millis();
-    }
+void test_red() {
+  CANMotorMessage msg = CANMotorMessage(node);
+  for (int i =0; i < 8; i++) {
+    msg.addMessage(i, 10, i, 251, 10);
   }
+  canBusFD.write(msg.getCANmessage());
 }
