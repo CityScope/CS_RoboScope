@@ -99,15 +99,16 @@ class PhysicalController:
         return table_data
 
 
-pixel_assignment = {(0,0): (0,0), (0,1): (0,1),
-                    (1,0): (0,2), (1,1): (0,3),
-                    (2,0): (0,4), (2,1): (0,5),
-                    (3,0): (0,6), (3,1): (0,7)}
-
-physicalController = PhysicalController(pixel_assignment=pixel_assignment)
 
 if __name__ == '__main__':
     # physicalController.run();
+    pixel_assignment = {(0,0): (0,0), (0,1): (0,1),
+                        (1,0): (0,2), (1,1): (0,3),
+                        (2,0): (0,4), (2,1): (0,5),
+                        (3,0): (0,6), (3,1): (0,7)}
+
+    physicalController = PhysicalController(pixel_assignment=pixel_assignment)
+    
     while (True):
         print("Sending data:")
         tb = physicalController.send_table_data()
