@@ -1,7 +1,16 @@
 #include <FlexCAN_T4.h>
 #include <string.h>
 #include "message.h"
-
+/* CANBUS_LED Test
+ * Serial input: 
+ * - a: turn neopixels white
+ * - b: turn neopixels blue
+ * - c,{int 0-255},{int 0-255}: turn neopixels into given rgb565 color
+ * - Example Interface inputs to use:
+ *   - W0,0,20,224,195,1,8,27,214,2,20,224,195,3,8,27,214,4,20,224,195,5,20,224,195,6,8,105,243,7,8,105,243E
+ *   - W0,0,8,252,211,1,20,224,195,2,8,27,214,3,8,27,214,4,8,27,214,5,8,27,214,6,8,105,243,7,8,105,243E
+ */
+ 
 FlexCAN_T4FD<CAN3, RX_SIZE_512, TX_SIZE_512> canBusFD;
 
 //key pins
@@ -152,7 +161,7 @@ void test_white() {
 }
 
 //----------------------------------------------------------------
-void test_red() {
+void test_blue() {
   CANMotorMessage msg = CANMotorMessage(0);
   for (int i =0; i < 8; i++) {
     msg.addMessage(i, 10, i, 251, 10);
