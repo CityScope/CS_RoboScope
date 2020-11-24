@@ -85,18 +85,22 @@ void loop() {
       }
       Serial.read();
     } else if (operation == 'a') {
+      node = Serial.parseInt();
       //turn neopixels white
-      test_white();
+      test_white(node);
     } else if (operation == 'b') {
+      node = Serial.parseInt();
       //turn neopixels white
-      test_red();
+      test_blue(node);
     } else if (operation == 'c') {
       //turn neopixels white
       Serial.read();
       int f = Serial.parseInt();
       Serial.read();
       int s = Serial.parseInt();
-      test_color(f,s);
+      Serial.read();
+      node = Serial.parseInt();
+      test_color(f,s,node);
     }
   }
 
@@ -152,8 +156,8 @@ void send_pixels(CANFD_message_t msg) {
 }
 
 //----------------------------------------------------------------
-void test_white() {
-  CANMotorMessage msg = CANMotorMessage(0);
+void test_white(int node) {
+  CANMotorMessage msg = CANMotorMessage(node);
   for (int i =0; i < 8; i++) {
     msg.addMessage(i, 10, i, 255, 255);
   }
@@ -161,8 +165,8 @@ void test_white() {
 }
 
 //----------------------------------------------------------------
-void test_blue() {
-  CANMotorMessage msg = CANMotorMessage(0);
+void test_blue(int node) {
+  CANMotorMessage msg = CANMotorMessage(node);
   for (int i =0; i < 8; i++) {
     msg.addMessage(i, 10, i, 251, 10);
   }
@@ -170,8 +174,8 @@ void test_blue() {
 }
 
 //----------------------------------------------------------------
-void test_color(int f, int s) {
-  CANMotorMessage msg = CANMotorMessage(0);
+void test_color(int f, int s, int node) {
+  CANMotorMessage msg = CANMotorMessage(node);
   for (int i =0; i < 8; i++) {
     msg.addMessage(i, 10, i, f, s);
   }
