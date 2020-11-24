@@ -1,7 +1,16 @@
 #include <FlexCAN_T4.h>
 #include <string.h>
 #include "message.h"
-
+/* CANBUS_LED Test
+ * Serial input: 
+ * - a: turn neopixels white
+ * - b: turn neopixels blue
+ * - c,{int 0-255},{int 0-255}: turn neopixels into given rgb565 color
+ * - Example Interface inputs to use:
+ *   - W0,0,20,224,195,1,8,27,214,2,20,224,195,3,8,27,214,4,20,224,195,5,20,224,195,6,8,105,243,7,8,105,243E
+ *   - W0,0,8,252,211,1,20,224,195,2,8,27,214,3,8,27,214,4,8,27,214,5,8,27,214,6,8,105,243,7,8,105,243E
+ */
+ 
 FlexCAN_T4FD<CAN3, RX_SIZE_512, TX_SIZE_512> canBusFD;
 
 //key pins
@@ -75,11 +84,23 @@ void loop() {
         process_node();
       }
       Serial.read();
-    }
-
-    if (operation == 'S') {
-      test_pixels();
-      Serial.println("Send Test Pixels");
+    } else if (operation == 'a') {
+      node = Serial.parseInt();
+      //turn neopixels white
+      test_white(node);
+    } else if (operation == 'b') {
+      node = Serial.parseInt();
+      //turn neopixels white
+      test_blue(node);
+    } else if (operation == 'c') {
+      //turn neopixels white
+      Serial.read();
+      int f = Serial.parseInt();
+      Serial.read();
+      int s = Serial.parseInt();
+      Serial.read();
+      node = Serial.parseInt();
+      test_color(f,s,node);
     }
   }
 
@@ -135,31 +156,28 @@ void send_pixels(CANFD_message_t msg) {
 }
 
 //----------------------------------------------------------------
-void test_pixels() {
-  Pixel buf[8];
-  for (int j = 0; j < 8; j++) {
-    byte temp[4] = {0};
-    for (int i = 0; i < 4; i++) {
-      temp[i] = int(random(0, 255));
-    }
-    buf[j] = {temp[0], temp[1], temp[2], temp[3]};
+void test_white(int node) {
+  CANMotorMessage msg = CANMotorMessage(node);
+  for (int i =0; i < 8; i++) {
+    msg.addMessage(i, 10, i, 255, 255);
   }
-  translate_pixels(node, buf);
-
+  canBusFD.write(msg.getCANmessage());
 }
 
 //----------------------------------------------------------------
-void test() {
-  if (millis() - initial_timer > 20000) {
-    if ((millis() - primary_timer) > 10000) {
-      Pixel buf[1] = {0};
-      buf[0] = {170, 10, 255, 128};
-      if (node == 95) {
-        node = 0;
-      } else {
-        node++;
-      }
-      primary_timer = millis();
-    }
+void test_blue(int node) {
+  CANMotorMessage msg = CANMotorMessage(node);
+  for (int i =0; i < 8; i++) {
+    msg.addMessage(i, 10, i, 251, 10);
   }
+  canBusFD.write(msg.getCANmessage());
+}
+
+//----------------------------------------------------------------
+void test_color(int f, int s, int node) {
+  CANMotorMessage msg = CANMotorMessage(node);
+  for (int i =0; i < 8; i++) {
+    msg.addMessage(i, 10, i, f, s);
+  }
+  canBusFD.write(msg.getCANmessage());
 }

@@ -87,11 +87,13 @@ void reading(const CANFD_message_t &msg) {
   for ( uint8_t i = 0; i < msg.len; i++ ) {
     Serial.print(msg.buf[i]); Serial.print(" ");
   } Serial.println(" ");
+  if (msg.id==0){
     for ( uint8_t i = 0; i < 8; i++ ) {
       char str[15];
       sprintf(str, "%X%X", msg.buf[i*4+2], msg.buf[i*4+3]); 
       grid(msg.id, i, str, msg.buf[i*4]);
     }
+  }
 }
 
 //----------------------------------------------------------------

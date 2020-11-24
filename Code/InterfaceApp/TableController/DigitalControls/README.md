@@ -4,11 +4,7 @@ This server is the layer of communication between the Interface App and the phys
 
 ## websocketServer.py 
 
-This main server file sets up communication with the Translator Teensy and runs the sockets that connect to the Interface App. For more information about sockets and socket.io, check out the documentation for the [python-socketio library](https://python-socketio.readthedocs.io/en/latest/)
-
-## serial_lib.py 
-
-This file defines a Translator class, that can initialize and close serial communication to a port, and can read and write messages from and to the port. 
+This main server file sets up communication with and runs the sockets that connect to the Interface App. For more information about sockets and socket.io, check out the documentation for the [python-socketio library](https://python-socketio.readthedocs.io/en/latest/)
 
 ## grid_handling.py
 
@@ -19,10 +15,6 @@ This file is for all computation and data processing methods needed to be able t
 -   run `$ npm install`
 
 -   install Flask 
-
--   Change port in `serial_lib.py` to correct Teensy/Arduino port for your computer
-    
-    * Use CANFD_Server for this  
  
 -   Run the server with `python websocketServer.py`
   

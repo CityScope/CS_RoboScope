@@ -36,7 +36,7 @@ class PixelData:
         return (self.color, self.height)
 
 class PhysicalController:
-    def __init__ (self, pixel_assignment, grid_size=(4, 2)):
+    def __init__ (self, pixel_assignment, grid_size=(4, 2), com_port = 'COM5', BAUDRATE=115200):
         self.grid_size = grid_size
         self.total_pixel_count = grid_size[0] * grid_size[1]
 
@@ -49,7 +49,7 @@ class PhysicalController:
         self.node_location = {}
 
         self.assign_nodes(pixel_assignment)
-        self.serial_com = Translator('COM5', 115200)
+        self.serial_com = Translator(com_port, BAUDRATE)
         # reference as y,x
         # self.display_table()
         # self.send_pixel_data((0,0))
@@ -101,12 +101,20 @@ class PhysicalController:
         return table_data
 
 
-pixel_assignment = {(0,0): (0,0), (0,1): (0,1),
-                    (1,0): (0,2), (1,1): (0,3),
-                    (2,0): (0,4), (2,1): (0,5),
-                    (3,0): (0,6), (3,1): (0,7)}
-
-# physicalController = PhysicalController(pixel_assignment=pixel_assignment)
 
 if __name__ == '__main__':
+    # physicalController.run();
+    pixel_assignment = {(0,0): (0,0), (0,1): (0,1),
+                        (1,0): (0,2), (1,1): (0,3),
+                        (2,0): (0,4), (2,1): (0,5),
+                        (3,0): (0,6), (3,1): (0,7)}
+
+    physicalController = PhysicalController(pixel_assignment=pixel_assignment)
+
+    while (True):
+        print("Sending data:")
+        tb = physicalController.send_table_data()
+        print(tb)
+        print("Receiving data:")
+        print(physicalController.serial_com.read_pixels())
     pass
