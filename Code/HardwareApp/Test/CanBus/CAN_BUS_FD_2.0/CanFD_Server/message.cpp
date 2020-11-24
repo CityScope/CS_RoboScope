@@ -1,6 +1,4 @@
 #include "message.h"
-#include "functions.h"
-
 
 //board id, can bus type
 //----------------------------------------------------------------
@@ -29,15 +27,13 @@ CANMotorMessage::CANMotorMessage(int panel_id, int msg_size) {
 
 
 //----------------------------------------------------------------
-void CANMotorMessage::addMessage(int des, uint8_t color[], uint8_t steps, uint8_t interaction) {
-  uint16_t two_color = (((color[0] & 0b11111000) << 8) + ((color[1] & 0b11111100) << 3) + (color[2] >> 3));
-  uint8_t colors[2] = {convertFrom16To8(two_color)};
-  uint8_t msg[4] = {colors[0], colors[1], steps, interaction};
-  memcpy(this->msg.buf + des * 4, msg, 4);
+void CANMotorMessage::addMessage(uint8_t steps, uint8_t interaction, uint8_t color1, uint8_t color2) {
+  uint8_t msg[4] = {steps, interaction, color1, color2};
+  memcpy(this->msg.buf, msg, 4);
 }
 
 //----------------------------------------------------------------
 CANFD_message_t CANMotorMessage::getCANmessage() {
-  this->msg.len = 64;
+  this->msg.len = 4;
   return this->msg;
 }

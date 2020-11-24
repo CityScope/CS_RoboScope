@@ -1,3 +1,5 @@
+
+
 //----------------------------------------------------------------
 void sendCanBusMsg(uint8_t input) {
   if (input == HIGH) {
@@ -10,7 +12,7 @@ void sendCanBusMsg(uint8_t input) {
     msg.addMessage(2, colors, 01000000, 00001011);
     msg.addMessage(5, colors, 01111110, 01111111);
     msg.addMessage(6, colors, 01111110, 01111111);
-    canBus.write(msg.returnCANmessage());
+    canBus.write(msg.getCANmessage());
     Serial.println();
   }
 }
@@ -26,7 +28,7 @@ void sendFDMsg(uint8_t input) {
     msg.addMessage(2, colors, 01000000, 00001011);
     msg.addMessage(5, colors, 01111110, 01111111);
     msg.addMessage(6, colors, 01111110, 01111111);
-    canBusFD.write(msg.returnCANmessage());
+    FD.write(msg.getCANmessage());
     Serial.println();
   }
 }
