@@ -4,8 +4,9 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include "BoardPins.h"
-#include "StepperMotor.h"
+#include "Stepper.h"
 #include "InterfacePanel.h"
+#include <SparkFunSX1509.h>
 
 class UrbanPanel {
   public:
@@ -38,11 +39,24 @@ class UrbanPanel {
 
     void limitswitch();
 
+    void stopMotor(int i);
+
+    void setTrq1Mode(int i);
+
+    void setTrq2Mode(int i);
+
 
   private:
     int id;
-    StepperMotor * motors[MOTORS_PER_PANEL];
+
+    SX1509 motorSX;
+    int trq1Mode = 1;
+    int trq2Mode = 0;
+
+    Stepper * motors[MOTORS_PER_PANEL];
     volatile unsigned * waitTimeMicros[MOTORS_PER_PANEL];
+
+
     InterfacePanel * interfacePanel;
     volatile boolean limitActivated = false;
 

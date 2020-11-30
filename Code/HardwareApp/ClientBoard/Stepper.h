@@ -1,11 +1,13 @@
 #include <Arduino.h>
 #include "DRV8880.h"
+#include <SparkFunSX1509.h>
+#include "BoardPins.h"
 #include "Timer.h"
 
 /*
    Control for DRV8834 stepper motor driver
 */
-class StepperMotor {
+class Stepper {
   public:
 
     //direction pin
@@ -14,7 +16,9 @@ class StepperMotor {
     //step pin
     int STEP_PIN;
 
+    //activators
     int ENABLE_PIN;
+    int SLEEP_PIN;
 
     //Microstepping control pins
     int M0_PIN;
@@ -27,37 +31,49 @@ class StepperMotor {
     //driver id;
     int id;
 
-    boolean enableMotor;
-
     //DRV8880 class
-    DRV8880  * motor;
+    DRV8880 * motor;
 
-    bool stopMotor;
+    int enableMotor;
+
     bool motorLock;
 
+    Timer * timerBack;
+
+
     //constructor
-    StepperMotor(int m_id, int steps, int dir_pin, int step_pin, int sleep_pin, int m0_pin, int m1_pin) {
+    Stepper(int m_id, int steps, int dir_pin, int step_pin, int enable_pin, int sleep_pin, int m0_pin, int m1_pin) {
       id  = m_id;
       motorSteps = steps;
 
       //pins
       DIR_PIN   = dir_pin;
       STEP_PIN  = step_pin;
-      ENABLE_PIN = sleep_pin;
+      ENABLE_PIN = enable_pin;
+      SLEEP_PIN = sleep_pin;
       M0_PIN = m0_pin;
       M1_PIN = m1_pin;
-
-      pinMode(ENABLE_PIN, OUTPUT);
-      digitalWrite(ENABLE_PIN, HIGH);
-      enableMotor = true;
 
       //init motor driver
       motor = new DRV8880(motorSteps, DIR_PIN, STEP_PIN);//, ENABLE_PIN, M0_PIN, M1_PIN);
 
-      timerBack = new Timer(500);
-
-      stopMotor = false;
       motorLock = false;
+      timerBack = new Timer(500);
+    }
+
+    //init mux
+    void initMux(SX1509 & sxm) {
+
+      //enabler
+      sxm.pinMode(ENABLE_PIN, OUTPUT);
+      sxm.digitalWrite(ENABLE_PIN, LOW);
+
+      //sleep
+     // sxm.pinMode(SLEEP_PIN, OUTPUT);
+     //m
+    // sxm.digitalWrite(SLEEP_PIN, HIGH); //sleep on
+
+      enableMotor = true;
     }
 
     void setRPM(int RPM) {
@@ -65,7 +81,7 @@ class StepperMotor {
     }
 
     //delete pointer memory
-    ~StepperMotor() {
+    ~Stepper() {
       //delete motor;
     }
 
@@ -74,7 +90,7 @@ class StepperMotor {
 
       // if using enable/disable on ENABLE pin (active LOW) instead of SLEEP uncomment next line
 
-      // motor->setEnableActiveState(LOW);
+      motor->setEnableActiveState(LOW);
 
       motor->enable();
 
@@ -99,25 +115,34 @@ class StepperMotor {
       return motor->nextAction();
     }
 
-    void stop() {
-      motor->disable();
-    }
-
-    void moveBackward() {
-      motor->move(motorSteps);
-      //  motor->rotate(-360);
-      // motor->runToPosition();
-    }
-
-    void enable() {
-      digitalWrite(ENABLE_PIN, HIGH);
+    void start(SX1509 & sxm) {
+      sxm.digitalWrite(ENABLE_PIN, HIGH);
       enableMotor = true;
     }
-    void disable() {
-      digitalWrite(ENABLE_PIN, LOW);
+
+    void stop(SX1509 & sxm) {
+      sxm.digitalWrite(ENABLE_PIN, LOW);
       enableMotor = false;
     }
 
+    bool isEnable() {
+      return enableMotor;
+    }
+
+    int getMotorSleepStatus(SX1509 & sxm) {
+      return sxm.digitalRead(SLEEP_PIN);
+    }
+
+
+
+    void sleepOn(SX1509 & sxm) {
+      sxm.digitalWrite(SLEEP_PIN, LOW);
+
+    }
+
+    void sleepOff(SX1509 & sxm) {
+      sxm.digitalWrite(SLEEP_PIN, HIGH);
+    }
 
     bool updateLock(unsigned long time) {
       timerBack->update(time);
@@ -130,24 +155,22 @@ class StepperMotor {
 
     //activate limit
     void activeLimit() {
-      stopMotor = true;
       motorLock = false;
     }
 
     void resetlimit() {
       motorLock = true;
-      stopMotor = false;
-    }
-
-    bool isMotorStop() {
-      return stopMotor;
     }
 
     bool isMotorLock() {
       return motorLock;
     }
 
-
+    void moveBackward() {
+      motor->move(motorSteps);
+      //  motor->rotate(-360);
+      // motor->runToPosition();
+    }
 
     //print out information
     void printMotorInfo() {
@@ -166,7 +189,5 @@ class StepperMotor {
       Serial.print("M1 PIN: ");
       Serial.println(M1_PIN);
     }
-
-    Timer * timerBack;
 
 };

@@ -3,19 +3,34 @@
 UrbanPanel::UrbanPanel(int panelId) {
   id = panelId;
 
-
+  int muxCounter = 0;
+  while (muxCounter != 3) {
+    if (!motorSX.begin(SX1509_ADDRESS_00) ) {
+      Serial.print("Failed 00 ");
+      Serial.print(" " + SX1509_ADDRESS_00);
+      Serial.print(" ");
+      Serial.println(muxCounter);
+      delay(100);
+      muxCounter++;
+    } else {
+      Serial.println("Connected 00");
+      Serial.print(" " + SX1509_ADDRESS_00);
+      Serial.print(" ");
+      Serial.println(muxCounter);
+      break;
+    }
+  }
 
   // Set up the motors
   int motorDirPins[]  = {DIR_PIN_01, DIR_PIN_02 , DIR_PIN_03, DIR_PIN_04, DIR_PIN_05, DIR_PIN_06, DIR_PIN_07, DIR_PIN_08};
   int motorStepPins[] = {STEP_PIN_01, STEP_PIN_02, STEP_PIN_03, STEP_PIN_04, STEP_PIN_05, STEP_PIN_06, STEP_PIN_07, STEP_PIN_08};
 
-  for (int i = 0; i < MOTORS_PER_PANEL; i++) {
-    motors[i] = new StepperMotor(i, GMOTOR_STEPS, motorDirPins[i], motorStepPins[i], GENABLE_PIN, GM0_PIN, GM1_PIN);
-    //waitTimeMicros[i] = 0;
-    //threads.addThread(motorThreadTimer, i);
-    motors[i]->setRPM(GRPM);
-    motors[i]->init();
+  int motorEnablePins[] = {SX1509_01_MENABLE, SX1509_02_MENABLE, SX1509_03_MENABLE, SX1509_04_MENABLE, SX1509_05_MENABLE, SX1509_06_MENABLE, SX1509_07_MENABLE, SX1509_08_MENABLE};
+  int motorSleepPins[]  = {SX1509_01_MSLEEP, SX1509_02_MSLEEP, SX1509_03_MSLEEP, SX1509_04_MSLEEP, SX1509_05_MSLEEP, SX1509_06_MSLEEP, SX1509_07_MSLEEP, SX1509_08_MSLEEP};
 
+
+  for (int i = 0; i < MOTORS_PER_PANEL; i++) {
+    motors[i] = new Stepper(0, GMOTOR_STEPS, motorDirPins[i], motorStepPins[i], motorEnablePins[i], motorSleepPins[i], GM0_PIN, GM1_PIN);
   }
 
   interfacePanel = new InterfacePanel();
@@ -23,7 +38,7 @@ UrbanPanel::UrbanPanel(int panelId) {
 
   Serial.println("Setting up neo pixel LEDs");
 
-  
+
   const byte NEO_PIN[8] = {NEO_PIN_01, NEO_PIN_02, NEO_PIN_03, NEO_PIN_04,
                          NEO_PIN_05, NEO_PIN_06, NEO_PIN_07, NEO_PIN_08
                         };
@@ -58,24 +73,39 @@ void UrbanPanel::init() {
     //threads.addThread(motorThreadTimer, i);
     motors[i]->setRPM(GRPM);
     motors[i]->init();
+    motors[i]->initMux(motorSX);
+    motors[i]->printMotorInfo();
   }
   interfacePanel->init();
 
+  delay(2000);
 
+  pinMode(TRQ1_PIN, OUTPUT);
+  pinMode(TRQ2_PIN, OUTPUT);
+
+  if (trq1Mode == 1) {
+    digitalWrite(TRQ1_PIN, HIGH);
+  }
+
+  if (trq2Mode == 1) {
+    digitalWrite(TRQ2_PIN, HIGH);
+  }
 }
 
 void UrbanPanel::motorTimerUpdate() {
   for (int i = 0; i < MOTORS_PER_PANEL; i++) {
-    if (motors[i]->isMotorStop()) {
-      motors[i]->disable();
+    if (motors[i]->getMotorSleepStatus(motorSX)) {
+      motors[i]->stop(motorSX);
+      motors[i]->sleepOn(motorSX);
       //Waiting lock
 
       if (!motors[i]->isMotorLock()) {
         bool lock = motors[i]->updateLock(millis());
 
         if (lock) {
-          motors[i]->enable();
           motors[i]->startMoveForward(5);
+          motors[i]->start(motorSX);
+          motors[i]->sleepOff(motorSX);
           motors[i]->resetlimit();
         }
       }
@@ -98,6 +128,8 @@ void UrbanPanel::motorTimerUpdate() {
     for (int i = 0; i < MOTORS_PER_PANEL; i++) {
       if (interfacePanel->getLimitSwitchState(i)) {
         motors[i]->activeLimit();
+        motors[i]->stop(motorSX);
+        motors[i]->sleepOn(motorSX);
       }
       if (interfacePanel->getLimitState(i)) {
         interfacePanel->resetLimitSwitch(i);
@@ -107,6 +139,8 @@ void UrbanPanel::motorTimerUpdate() {
     for (int i = 0; i < MOTORS_PER_PANEL; i++) {
       if (interfacePanel->getPushSwitchState(i)) {
         motors[i]->activeLimit();
+        motors[i]->stop(motorSX);
+        motors[i]->sleepOn(motorSX);
       }
       if (interfacePanel->getPushState(i)) {
         interfacePanel->resetPushSwitch(i);
@@ -123,14 +157,70 @@ void UrbanPanel::limitswitch() {
   limitActivated = true;
 }
 
-
 /*
 */
 void UrbanPanel::movePixelUp(int i, int steps) {
   //motorPanel->startMove
   //motors[i]->moveForward();
   motors[i]->startMoveForward(steps);
+  motors[i]->start(motorSX);
+  motors[i]->sleepOff(motorSX);
 
+}
+
+void UrbanPanel::stopMotor(int i) {
+  motors[i]->stop(motorSX);
+  motors[i]->sleepOn(motorSX);
+}
+
+void UrbanPanel::setTrq1Mode(int i) {
+  if (i != 0 || i != 1) {
+    Serial.println("Set trq mode to either 1 or 0");
+    return;
+  }
+
+  trq1Mode = i;
+  switch (trq1Mode) {
+    case 1:
+      digitalWrite(TRQ1_PIN, HIGH);
+      Serial.println("Amp Mode");
+      Serial.print(trq1Mode);
+      Serial.print(" ");
+      Serial.println(trq2Mode);
+      break;
+    case 0:
+      digitalWrite(TRQ1_PIN, LOW);
+      Serial.println("Amp Mode");
+      Serial.print(trq1Mode);
+      Serial.print(" ");
+      Serial.println(trq2Mode);
+      break;
+  }
+}
+
+void UrbanPanel::setTrq2Mode(int i) {
+  if (i != 0 || i != 1) {
+    Serial.println("Set trq mode to either 1 or 0");
+    return;
+  }
+
+  trq2Mode = i;
+  switch (trq1Mode) {
+    case 1:
+      digitalWrite(TRQ2_PIN, HIGH);
+      Serial.println("Amp Mode");
+      Serial.print(trq1Mode);
+      Serial.print(" ");
+      Serial.println(trq2Mode);
+      break;
+    case 0:
+      digitalWrite(TRQ2_PIN, LOW);
+      Serial.println("Amp Mode");
+      Serial.print(trq1Mode);
+      Serial.print(" ");
+      Serial.println(trq2Mode);
+      break;
+  }
 }
 
 void UrbanPanel::movePixelDown(int i, int steps) {
@@ -155,6 +245,6 @@ void UrbanPanel::pixelLoop(int i) {
       motors[i]->stop();
     }*/
     if (waitTimeMicros[i] <= 0) {
-      motors[i]->stop();
+      motors[i]->stop(motorSX);
     }
 }
