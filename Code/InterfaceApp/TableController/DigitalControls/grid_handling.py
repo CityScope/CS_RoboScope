@@ -17,7 +17,8 @@ class GridHandling:
         self.Utils.setColorMapping(properties["types"])
         self.PC = PhysicalController(
                     pixel_assignment=self.Utils.createPixelAssignment(), 
-                    grid_size=(self.Utils.TABLE_ROWS, self.Utils.TABLE_COLS))
+                    grid_size=(self.Utils.TABLE_ROWS, self.Utils.TABLE_COLS),
+                    com_port ='/dev/cu.usbmodem6893170', BAUDRATE=2000000)
     
     def setSelected(self, scale, pixels):
         self.scale= scale
@@ -63,9 +64,8 @@ class GridHandling:
         for i in range(1, len(pixels)): 
             pixel = [int(j) for j in pixels[i]]
             id = self.PC.node_location[node][i-1]
-            [name, color] = utils.getRGB888([pixel[2], pixel[3]])
+            [name, color] = self.Utils.getRGB888([pixel[2], pixel[3]])
             data = {'color': color, 'height': pixel[0], 'id': id, 'interactive': 'Web', 'name': name}
-            updateTotal(data) 
             output.append(data)
         return output
         
@@ -153,19 +153,19 @@ class Utils:
     
     ## get name of type that matches inputted rgb888 color
     def getNameofColor(self, color): 
-        return rgb888Dict[tuple(color)][0]
+        return self.rgb888Dict[tuple(color)][0]
         
     ## get rgb888 color that matches inputted rgb565 color
     def getRGB888(self, color): 
         absVal = 510
         index = 0
-        for i in rgb565Dict.keys(): 
+        for i in self.rgb565Dict.keys(): 
             tempabs = abs(i[0]-color[0]) + abs(i[1]-color[1])
             if tempabs < absVal:
                 absVal = tempabs
                 index = i        
-        return rgb565Dict[index]
+        return self.rgb565Dict[index]
     
     ## get rgb565 color that matches inputted rgb888 color
     def getRGB565(color): 
-        return rgb888Dict[tuple(color)][1]
+        return self.rgb888Dict[tuple(color)][1]
