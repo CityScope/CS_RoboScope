@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "UrbanPanel.h"
+#include "message.h"
 #include <TeensyThreads.h>
 #include <FlexCAN_T4.h>
 
@@ -11,6 +12,8 @@ FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> Can2;
 UrbanPanel * urbanPanel;
 
 int panelID = 0;
+bool keyboardInput = false;
+unsigned long timer;
 
 void setup() {
   Serial.begin(2000000);
@@ -96,57 +99,12 @@ void loop() {
   urbanPanel->motorTimerUpdate();
   FD.events();
 
+
   if (Serial.available() > 0) {
-    char key = Serial.read();
-    if (key == 'q') {
-      urbanPanel->movePixelUp(0,5);
-    }
-    if (key == 'w') {
-      urbanPanel->movePixelUp(1,5);
-    }
-    if (key == 'e') {
-      urbanPanel->movePixelUp(2,5);
-    }
-    if (key == 'r') {
-      urbanPanel->movePixelUp(3,5);
-    }
-    if (key == 't') {
-      urbanPanel->movePixelUp(4,5);
-    }
-    if (key == 'y') {
-      urbanPanel->movePixelUp(5,5);
-    }
-    if (key == 'u') {
-      urbanPanel->movePixelUp(6,5);
-    }
-    if (key == 'i') {
-      urbanPanel->movePixelUp(7,5);
-    }
+    test(Serial.parseInt());
 
-
-    if (key == 'a') {
-      urbanPanel->movePixelDown(0,5);
-    }
-    if (key == 's') {
-      urbanPanel->movePixelDown(1,5);
-    }
-    if (key == 'd') {
-      urbanPanel->movePixelDown(2,5);
-    }
-    if (key == 'f') {
-      urbanPanel->movePixelDown(3,5);
-    }
-    if (key == 'g') {
-      urbanPanel->movePixelDown(4,5);
-    }
-    if (key == 'h') {
-      urbanPanel->movePixelDown(5,5);
-    }
-    if (key == 'j') {
-      urbanPanel->movePixelDown(6,5);
-    }
-    if (key == 'k') {
-      urbanPanel->movePixelDown(7,5);
+    if (keyboardInput) {
+      keyboardInputTest();
     }
 
 
@@ -168,8 +126,83 @@ void loop() {
   }
 }
 
-// void pLoop(int i) {
-//   while(1) {
-//   urbanPanel->pixelLoop(i);
-//   }
-// }
+void keyboardInputTest() {
+  char key = Serial.read();
+  if (key == 'q') {
+    urbanPanel->movePixelUp(0,5);
+  }
+  if (key == 'w') {
+    urbanPanel->movePixelUp(1,5);
+  }
+  if (key == 'e') {
+    urbanPanel->movePixelUp(2,5);
+  }
+  if (key == 'r') {
+    urbanPanel->movePixelUp(3,5);
+  }
+  if (key == 't') {
+    urbanPanel->movePixelUp(4,5);
+  }
+  if (key == 'y') {
+    urbanPanel->movePixelUp(5,5);
+  }
+  if (key == 'u') {
+    urbanPanel->movePixelUp(6,5);
+  }
+  if (key == 'i') {
+    urbanPanel->movePixelUp(7,5);
+  }
+
+
+  if (key == 'a') {
+    urbanPanel->movePixelDown(0,5);
+  }
+  if (key == 's') {
+    urbanPanel->movePixelDown(1,5);
+  }
+  if (key == 'd') {
+    urbanPanel->movePixelDown(2,5);
+  }
+  if (key == 'f') {
+    urbanPanel->movePixelDown(3,5);
+  }
+  if (key == 'g') {
+    urbanPanel->movePixelDown(4,5);
+  }
+  if (key == 'h') {
+    urbanPanel->movePixelDown(5,5);
+  }
+  if (key == 'j') {
+    urbanPanel->movePixelDown(6,5);
+  }
+  if (key == 'k') {
+    urbanPanel->movePixelDown(7,5);
+  }
+}
+
+void setPixel(int node, int local, char* str, int height) {
+  uint64_t color = (uint64_t) strtoull(str, 0, 16);
+  int r = ((((color >> 11) & 0x1F) * 527) + 23) >> 6;
+  int g = ((((color >> 5) & 0x3F) * 259) + 33) >> 6;
+  int b = (((color & 0x1F) * 527) + 23) >> 6;
+
+  urbanPanel->movePixelUp(local, height);
+  urbanPanel->setPixelColor(local, r, g, b);
+
+}
+
+void test(int node) {
+  CANMotorMessage msg = CANMotorMessage(node);
+  for (int i =0; i < 8; i++) {
+    msg.addMessage(i, 10, 170, 105, 243);
+  }
+  FD.write(msg.getCANmessage());
+
+  char str[15];
+  sprintf(str, "%X%X", 105, 243);
+  for (int i =0; i < 8; i++) {
+    grid(node,i,str,10);
+  }
+  change=true;
+  timer = millis();
+}

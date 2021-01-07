@@ -61,7 +61,7 @@ class UrbanPanel {
     volatile boolean limitActivated = false;
 
     Adafruit_NeoPixel * pixels[MOTORS_PER_PANEL];
-    int NUMPIXELS = 4;
+    int NUMPIXELS = 4; //number of neo pixels per pixel
 
 };
 #endif
