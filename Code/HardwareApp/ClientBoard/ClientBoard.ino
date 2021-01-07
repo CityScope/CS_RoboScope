@@ -11,7 +11,7 @@ FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> Can2;
 
 UrbanPanel * urbanPanel;
 
-int panelID = 0;
+int nodeID = 0; //TODO Set for each motor control board
 bool keyboardInput = false;
 unsigned long timer;
 
@@ -23,7 +23,7 @@ void setup() {
 
   //Motor Panel
   Serial.println("Setting Motors");
-  urbanPanel = new UrbanPanel(panelID);
+  urbanPanel = new UrbanPanel(nodeID);
   urbanPanel->init();
 
 
@@ -192,6 +192,9 @@ void setPixel(int node, int local, char* str, int height) {
 }
 
 void test(int node) {
+  if (node != nodeID) {
+    return
+  }
   CANMotorMessage msg = CANMotorMessage(node);
   for (int i =0; i < 8; i++) {
     msg.addMessage(i, 10, 170, 105, 243);
@@ -201,7 +204,7 @@ void test(int node) {
   char str[15];
   sprintf(str, "%X%X", 105, 243);
   for (int i =0; i < 8; i++) {
-    grid(node,i,str,10);
+    setPixel(node, i, str, 10);
   }
   change=true;
   timer = millis();
