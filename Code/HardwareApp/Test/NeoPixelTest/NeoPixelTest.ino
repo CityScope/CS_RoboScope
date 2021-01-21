@@ -3,32 +3,41 @@
 
 
 // SX1509 pin definitions:
-const byte NEO_PIN  = 2; // LED connected to pin 15
+const byte NEO_PIN  = 14; // LED connected to pin 15
 
 // How many Neopixels are attached to the Arduino?
-#define NUMpixels      16
+#define NUMpixels      2
 
 //pixels
 Adafruit_NeoPixel * pixels;
 
+const int selectPins[3] = {15, 16, 17};
 
 void setup()
 {
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
 
+  for (int i = 0; i < 3; i++) {
+    pinMode(selectPins[i], OUTPUT);
+    digitalWrite(selectPins[i], LOW);
+  }
+
+  digitalWrite(selectPins[0], LOW);
+  digitalWrite(selectPins[1], LOW);
+  digitalWrite(selectPins[2], LOW);
 
   delay(5000);
   digitalWrite(13, LOW);
 
 
-  pixels = new Adafruit_NeoPixel(NUMpixels, NEO_PIN, NEO_GRBW + NEO_KHZ800);
+  pixels = new Adafruit_NeoPixel(NUMpixels, NEO_PIN, NEO_RGBW + NEO_KHZ800);
   pixels->begin();
 }
 
 void loop()
 {
-  
+
   rainbow(50);
 
 }
@@ -36,7 +45,7 @@ void loop()
 
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
-  for(uint16_t i=0; i<pixels->numPixels(); i++) {
+  for (uint16_t i = 0; i < pixels->numPixels(); i++) {
     pixels->setPixelColor(i, c);
     pixels->show();
     delay(wait);
@@ -114,15 +123,15 @@ void rainbowCycle(uint8_t wait) {
 // The colours are a transition r - g - b - back to r.
 uint32_t Wheel(byte WheelPos) {
   WheelPos = 255 - WheelPos;
-  if(WheelPos < 85) {
-    return  pixels->Color(255 - WheelPos * 3, 0, WheelPos * 3,0);
+  if (WheelPos < 85) {
+    return  pixels->Color(255 - WheelPos * 3, 0, WheelPos * 3, 0);
   }
-  if(WheelPos < 170) {
+  if (WheelPos < 170) {
     WheelPos -= 85;
-    return  pixels->Color(0, WheelPos * 3, 255 - WheelPos * 3,0);
+    return  pixels->Color(0, WheelPos * 3, 255 - WheelPos * 3, 0);
   }
   WheelPos -= 170;
-  return pixels->Color(WheelPos * 3, 255 - WheelPos * 3, 0,0);
+  return pixels->Color(WheelPos * 3, 255 - WheelPos * 3, 0, 0);
 }
 
 void rainbow(uint8_t wait) {
