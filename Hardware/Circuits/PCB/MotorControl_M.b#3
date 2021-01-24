@@ -8,7 +8,7 @@
 </settings>
 <grid distance="10" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="1" altunitdist="mil" altunit="mil"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
 <layer number="2" name="Route2" color="16" fill="1" visible="no" active="no"/>
 <layer number="3" name="Route3" color="17" fill="1" visible="no" active="no"/>
 <layer number="4" name="Route4" color="18" fill="1" visible="no" active="no"/>
@@ -1911,20 +1911,11 @@
 <text x="14.224" y="72.136" size="1.778" layer="22" rot="MR0">LIMIT_01</text>
 <text x="72.136" y="71.374" size="1.778" layer="22" rot="MR0">LIMIT_02</text>
 <text x="57.912" y="105.664" size="1.4224" layer="21">3</text>
-<text x="64.262" y="63.5" size="0.8128" layer="21">Motor</text>
-<text x="63.5" y="76.454" size="0.8128" layer="21">NEOPixel</text>
-<text x="72.898" y="122.936" size="0.8128" layer="21" ratio="10">5V</text>
-<text x="72.644" y="124.968" size="0.8128" layer="21" ratio="10">3V</text>
-<text x="72.136" y="118.872" size="0.8128" layer="21" ratio="10">NEO</text>
-<text x="62.738" y="123.698" size="0.8128" layer="21" ratio="10">GND</text>
-<text x="62.484" y="121.666" size="0.8128" layer="21" ratio="10">GND</text>
-<text x="2.54" y="94.488" size="0.8128" layer="21" ratio="10">GND</text>
-<text x="29.972" y="115.062" size="0.8128" layer="21" ratio="10">GND</text>
-<text x="52.578" y="112.776" size="0.8128" layer="21" ratio="10">GND</text>
-<text x="62.484" y="107.442" size="0.8128" layer="21" ratio="10">SDA</text>
-<text x="62.484" y="105.664" size="0.8128" layer="21" ratio="10">SCL</text>
-<text x="62.484" y="119.634" size="0.8128" layer="21" ratio="10">INT</text>
-<text x="62.484" y="117.602" size="0.8128" layer="21" ratio="10">INT</text>
+<text x="63.754" y="63.246" size="0.8128" layer="21">Motor</text>
+<text x="63.754" y="76.2" size="0.8128" layer="21">NEOPixel</text>
+<text x="72.39" y="122.682" size="0.8128" layer="21" ratio="10">5V</text>
+<text x="72.39" y="124.714" size="0.8128" layer="21" ratio="10">3V</text>
+<text x="72.136" y="120.396" size="0.8128" layer="21" ratio="10">NEO</text>
 </plain>
 <libraries>
 <library name="SparkFun-Connectors" urn="urn:adsk.eagle:library:513">
