@@ -6463,7 +6463,7 @@ Source: http://www.semiconductors.philips.com/acrobat_download/datasheets/74HC_H
 <part name="POWER_MCU" library="con-JST VH" deviceset="B2P-VH" device="" value="B2P-VH"/>
 <part name="U$3" library="Teensy4" deviceset="TEENSY_4.0_WITH_SMD_HEADER_PINS" device="" override_package3d_urn="urn:adsk.eagle:package:24671514/2" override_package_urn="urn:adsk.eagle:footprint:24671517/1" value="TEENSY_4.0_WITH_SMD_HEADER_PINS"/>
 <part name="R8" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="10KOHM-1/10W-1%(0603)" device="0603" value="120"/>
-<part name="D3" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="PESD1CAN" device="" package3d_urn="urn:adsk.eagle:package:43389/2"/>
+<part name="PES_D3" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="PESD1CAN" device="" package3d_urn="urn:adsk.eagle:package:43389/2"/>
 <part name="C6" library="SparkFun-Capacitors" deviceset="0.1UF-25V(+80/-20%)(0603)" device="" value="0.1uf"/>
 <part name="R10" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="10KOHM-1/10W-1%(0603)" device="0603" value="500"/>
 <part name="CAN_INPUT1" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_02" device="-JST-2MM-SMT" package3d_urn="urn:adsk.eagle:package:38042/1" override_package3d_urn="urn:adsk.eagle:package:25353547/2" override_package_urn="urn:adsk.eagle:footprint:37657/1"/>
@@ -6471,7 +6471,7 @@ Source: http://www.semiconductors.philips.com/acrobat_download/datasheets/74HC_H
 <part name="C4" library="SparkFun-Capacitors" deviceset="0.1UF-25V(+80/-20%)(0603)" device="" value="0.1uf"/>
 <part name="CAN_INPUT4" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_02" device="-JST-2MM-SMT" package3d_urn="urn:adsk.eagle:package:38042/1" override_package3d_urn="urn:adsk.eagle:package:25353559/2" override_package_urn="urn:adsk.eagle:footprint:37657/1"/>
 <part name="R4" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="10KOHM-1/10W-1%(0603)" device="0603" value="120Ohms"/>
-<part name="D5" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="PESD1CAN" device="" package3d_urn="urn:adsk.eagle:package:43389/2"/>
+<part name="PES_D5" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="PESD1CAN" device="" package3d_urn="urn:adsk.eagle:package:43389/2"/>
 <part name="C5" library="SparkFun-Capacitors" deviceset="0.1UF-25V(+80/-20%)(0603)" device="" value="0.1uf"/>
 <part name="CAN_INPUT5" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_02" device="-JST-2MM-SMT" package3d_urn="urn:adsk.eagle:package:38042/1" override_package3d_urn="urn:adsk.eagle:package:25353561/2" override_package_urn="urn:adsk.eagle:footprint:37657/1"/>
 <part name="MCP2562_2.0" library="MCP2562-E_SN" deviceset="MCP2562-E/SN" device="" override_package3d_urn="urn:adsk.eagle:package:25353519/2" override_package_urn="urn:adsk.eagle:footprint:25353520/1"/>
@@ -6717,7 +6717,7 @@ to disable the mux.</text>
 <attribute name="NAME" x="191.2874" y="-107.95" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="186.182" y="-105.41" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="D3" gate="G$1" x="208.28" y="-137.16" smashed="yes" rot="R270">
+<instance part="PES_D3" gate="G$1" x="208.28" y="-137.16" smashed="yes" rot="R270">
 <attribute name="NAME" x="213.36" y="-132.08" size="1.778" layer="95" rot="R270"/>
 <attribute name="VALUE" x="200.66" y="-132.08" size="1.778" layer="96" rot="R270"/>
 </instance>
@@ -6746,7 +6746,7 @@ to disable the mux.</text>
 <attribute name="NAME" x="536.7274" y="-107.95" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="531.622" y="-105.41" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="D5" gate="G$1" x="553.72" y="-137.16" smashed="yes" rot="R270">
+<instance part="PES_D5" gate="G$1" x="553.72" y="-137.16" smashed="yes" rot="R270">
 <attribute name="NAME" x="558.8" y="-132.08" size="1.778" layer="95" rot="R270"/>
 <attribute name="VALUE" x="546.1" y="-132.08" size="1.778" layer="96" rot="R270"/>
 </instance>
@@ -7637,7 +7637,7 @@ to disable the mux.</text>
 </net>
 <net name="CAN_H" class="0">
 <segment>
-<pinref part="D3" gate="G$1" pin="1"/>
+<pinref part="PES_D3" gate="G$1" pin="1"/>
 <wire x1="210.82" y1="-109.22" x2="238.76" y2="-109.22" width="0.1524" layer="91"/>
 <wire x1="210.82" y1="-129.54" x2="210.82" y2="-109.22" width="0.1524" layer="91"/>
 <pinref part="CAN_INPUT" gate="G$1" pin="2"/>
@@ -7665,7 +7665,7 @@ to disable the mux.</text>
 <wire x1="243.84" y1="-121.92" x2="248.92" y2="-121.92" width="0.1524" layer="91"/>
 <junction x="243.84" y="-121.92"/>
 <wire x1="205.74" y1="-121.92" x2="243.84" y2="-121.92" width="0.1524" layer="91"/>
-<pinref part="D3" gate="G$1" pin="2"/>
+<pinref part="PES_D3" gate="G$1" pin="2"/>
 <wire x1="205.74" y1="-129.54" x2="205.74" y2="-121.92" width="0.1524" layer="91"/>
 <wire x1="157.48" y1="-116.84" x2="157.48" y2="-121.92" width="0.1524" layer="91"/>
 <pinref part="MCP2562FD" gate="G$1" pin="CANL"/>
@@ -7740,7 +7740,7 @@ to disable the mux.</text>
 <label x="12.7" y="132.08" size="1.016" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="D3" gate="G$1" pin="3"/>
+<pinref part="PES_D3" gate="G$1" pin="3"/>
 <wire x1="208.28" y1="-142.24" x2="208.28" y2="-147.32" width="0.1524" layer="91"/>
 <label x="208.28" y="-147.32" size="1.016" layer="95" rot="R270" xref="yes"/>
 </segment>
@@ -7768,7 +7768,7 @@ to disable the mux.</text>
 <label x="66.04" y="-134.62" size="1.016" layer="95" rot="R270" xref="yes"/>
 </segment>
 <segment>
-<pinref part="D5" gate="G$1" pin="3"/>
+<pinref part="PES_D5" gate="G$1" pin="3"/>
 <wire x1="553.72" y1="-142.24" x2="553.72" y2="-147.32" width="0.1524" layer="91"/>
 <label x="553.72" y="-147.32" size="1.016" layer="95" rot="R270" xref="yes"/>
 </segment>
@@ -8105,7 +8105,7 @@ to disable the mux.</text>
 </net>
 <net name="CAN_H2" class="0">
 <segment>
-<pinref part="D5" gate="G$1" pin="1"/>
+<pinref part="PES_D5" gate="G$1" pin="1"/>
 <wire x1="556.26" y1="-109.22" x2="584.2" y2="-109.22" width="0.1524" layer="91"/>
 <wire x1="556.26" y1="-129.54" x2="556.26" y2="-109.22" width="0.1524" layer="91"/>
 <pinref part="CAN_INPUT4" gate="G$1" pin="2"/>
@@ -8133,7 +8133,7 @@ to disable the mux.</text>
 <wire x1="589.28" y1="-121.92" x2="594.36" y2="-121.92" width="0.1524" layer="91"/>
 <junction x="589.28" y="-121.92"/>
 <wire x1="551.18" y1="-121.92" x2="589.28" y2="-121.92" width="0.1524" layer="91"/>
-<pinref part="D5" gate="G$1" pin="2"/>
+<pinref part="PES_D5" gate="G$1" pin="2"/>
 <wire x1="551.18" y1="-129.54" x2="551.18" y2="-121.92" width="0.1524" layer="91"/>
 <wire x1="502.92" y1="-116.84" x2="502.92" y2="-121.92" width="0.1524" layer="91"/>
 <pinref part="MCP2562_2.0" gate="G$1" pin="CANL"/>

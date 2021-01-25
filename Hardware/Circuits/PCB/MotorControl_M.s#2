@@ -8484,9 +8484,9 @@ to disable the mux.</text>
 <segment>
 <pinref part="U4" gate="G$1" pin="VCC"/>
 <wire x1="-129.54" y1="132.08" x2="-149.86" y2="132.08" width="0.1524" layer="91"/>
-<label x="-160.02" y="132.08" size="1.016" layer="95" rot="R180" xref="yes"/>
+<label x="-165.1" y="132.08" size="1.016" layer="95" rot="R180" xref="yes"/>
 <pinref part="C8" gate="G$1" pin="1"/>
-<wire x1="-149.86" y1="132.08" x2="-160.02" y2="132.08" width="0.1524" layer="91"/>
+<wire x1="-149.86" y1="132.08" x2="-165.1" y2="132.08" width="0.1524" layer="91"/>
 <wire x1="-149.86" y1="127" x2="-149.86" y2="132.08" width="0.1524" layer="91"/>
 <junction x="-149.86" y="132.08"/>
 </segment>
@@ -8949,10 +8949,10 @@ to disable the mux.</text>
 <pinref part="U4" gate="G$1" pin="!E!"/>
 <wire x1="-129.54" y1="114.3" x2="-157.48" y2="114.3" width="0.1524" layer="91"/>
 <pinref part="R14" gate="G$1" pin="1"/>
-<wire x1="-157.48" y1="114.3" x2="-160.02" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="-157.48" y1="114.3" x2="-165.1" y2="114.3" width="0.1524" layer="91"/>
 <wire x1="-157.48" y1="114.3" x2="-157.48" y2="96.52" width="0.1524" layer="91"/>
 <junction x="-157.48" y="114.3"/>
-<label x="-160.02" y="114.3" size="1.016" layer="95" rot="R180" xref="yes"/>
+<label x="-165.1" y="114.3" size="1.016" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
 <pinref part="U$3" gate="G$1" pin="15/A1/RX3"/>
