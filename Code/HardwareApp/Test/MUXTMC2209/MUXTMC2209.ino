@@ -24,6 +24,13 @@ TMC2209Stepper driver(&SERIAL_PORT, R_SENSE, DRIVER_ADDRESS);
 const int selectPins[3] = {5, 6, 7};
 
 void setup() {
+
+  Serial.begin(250000);
+  delay(1000);
+
+  Serial.println("starting motors");
+
+
   pinMode(EN_PIN_01, OUTPUT);
   pinMode(STEP_PIN_01, OUTPUT);
   pinMode(DIR_PIN_01, OUTPUT);
@@ -45,9 +52,11 @@ void setup() {
     digitalWrite(selectPins[i], LOW);
   }
 
+  Serial.println("Init motors");
+
   //SPI.begin();                    // SPI drivers
-  SERIAL_PORT.begin(115200);      // HW UART drivers
-  // driver.beginSerial(115200);     // SW UART drivers
+  SERIAL_PORT.begin(250000);      // HW UART drivers
+  //   driver.beginSerial(250000);     // SW UART drivers
 
   driver.begin();                 //  SPI: Init CS pins and possible SW SPI pins
   // UART: Init SW UART (if selected) with default 115200 baudrate
@@ -58,6 +67,22 @@ void setup() {
   //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
   driver.en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
   driver.pwm_autoscale(true);     // Needed for stealthChop
+
+
+  Serial.print(F("\nTesting connection... 0 "));
+  uint8_t result = driver.test_connection();
+  delay(500);
+  if (result) {
+    Serial.println(F("failed!"));
+    Serial.print(F("Likely cause: "));
+    switch (result) {
+      case 1: Serial.println(F("loose connection")); break;
+      case 2: Serial.println(F("Likely cause: no power")); break;
+    }
+    Serial.println(F("Fix the problem and reset board."));
+    // abort();
+  }
+  Serial.println(F("OK"));
 
 
 
@@ -73,6 +98,22 @@ void setup() {
   driver.pwm_autoscale(true);     // Needed for stealthChop
 
 
+  Serial.print(F("\nTesting connection... 1 "));
+  result = driver.test_connection();
+
+  if (result) {
+    Serial.println(F("failed!"));
+    Serial.print(F("Likely cause: "));
+    switch (result) {
+      case 1: Serial.println(F("loose connection")); break;
+      case 2: Serial.println(F("Likely cause: no power")); break;
+    }
+    Serial.println(F("Fix the problem and reset board."));
+    //abort();
+  }
+  Serial.println(F("OK"));
+
+
   digitalWrite(selectPins[0], HIGH);
   digitalWrite(selectPins[1], HIGH);
   digitalWrite(selectPins[2], HIGH);
@@ -84,6 +125,25 @@ void setup() {
   driver.en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
   driver.pwm_autoscale(true);     // Needed for stealthChop
 
+  //pinMode(9, OUTPUT);
+  //digitalWrite(9, LOW);
+
+  Serial.print(F("\nTesting connection... 2 "));
+  result = driver.test_connection();
+  delay(500);
+  if (result) {
+    Serial.println(F("failed!"));
+    Serial.print(F("Likely cause: "));
+    switch (result) {
+      case 1: Serial.println(F("loose connection")); break;
+      case 2: Serial.println(F("Likely cause: no power")); break;
+    }
+    Serial.println(F("Fix the problem and reset board."));
+    //abort();
+  }
+  Serial.println(F("OK"));
+
+
 }
 
 bool shaft0 = true;
@@ -92,7 +152,7 @@ bool shaft2 = true;
 void loop() {
   // put your main code here, to run repeatedly:
   // Run 5000 steps and switch direction in software
-  for (uint16_t i = 50000; i > 0; i--) {
+  for (uint16_t i = 5000; i > 0; i--) {
     digitalWrite(STEP_PIN_01, HIGH);
     digitalWrite(STEP_PIN_02, HIGH);
     digitalWrite(STEP_PIN_03, HIGH);
@@ -109,11 +169,19 @@ void loop() {
   digitalWrite(selectPins[2], LOW);
   driver.shaft(shaft0);
 
+  int result = driver.test_connection();
+  Serial.print(F("Con 0 "));
+  Serial.println(result);
+
   shaft1 = !shaft1;
   digitalWrite(selectPins[0], HIGH);
   digitalWrite(selectPins[1], LOW);
   digitalWrite(selectPins[2], HIGH);
   driver.shaft(shaft1);
+
+  result = driver.test_connection();
+  Serial.print(F("Con 1 "));
+  Serial.println(result);
 
   shaft2 = !shaft2;
   digitalWrite(selectPins[0], HIGH);
@@ -121,8 +189,11 @@ void loop() {
   digitalWrite(selectPins[2], HIGH);
   driver.shaft(shaft2);
 
+  result = driver.test_connection();
+  Serial.print(F("Con 2 "));
+  Serial.println(result);
 
-  //
+  Serial.println("");
 
 
 }
