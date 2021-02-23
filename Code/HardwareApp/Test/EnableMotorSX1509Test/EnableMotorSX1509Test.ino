@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include "Stepper.h"
-//#i nclude "MotorPins.h"
-#include "MotorPinsOld.h"
+#include "MotorPins.h"
+//#include "MotorPinsOld.h"
 #include <SparkFunSX1509.h>
-
+#include <Adafruit_NeoPixel.h>
 
 
 SX1509 sx;
@@ -40,6 +40,17 @@ int motorSleepPins[]  = {SX1509_01_MSLEEP, SX1509_02_MSLEEP, SX1509_03_MSLEEP, S
 
 int trq1Mode = 1;
 int trq2Mode = 0;
+
+//Maximun number of pixels per board
+Adafruit_NeoPixel * pixels[8];
+
+const byte NUMPIXELS = 4;
+
+//NEO PIXELS PINS
+const byte NEO_PIN[8] = {NEO_PIN_01, NEO_PIN_02, NEO_PIN_03, NEO_PIN_04,
+                         NEO_PIN_05, NEO_PIN_06, NEO_PIN_07, NEO_PIN_08
+                        };
+
 //------------------------
 void setup() {
   Serial.begin(9600);
@@ -55,14 +66,14 @@ void setup() {
   while (muxCounter != 3) {
     if (!sx.begin(SX1509_ADDRESS_00) ) {
       Serial.print("Failed 00 ");
-      Serial.print(" " + SX1509_ADDRESS_00);
+      Serial.print(SX1509_ADDRESS_00);
       Serial.print(" ");
       Serial.println(muxCounter);
       delay(100);
       muxCounter++;
     } else {
       Serial.println("Connected 00");
-      Serial.print(" " + SX1509_ADDRESS_00);
+      Serial.print(SX1509_ADDRESS_00);
       Serial.print(" ");
       Serial.println(muxCounter);
       break;
@@ -102,6 +113,21 @@ void setup() {
     digitalWrite(TRQ2_PIN, HIGH);
   }
 
+  //LED
+  for (int i = 0; i < 8; i++) {
+    pixels[i] = new Adafruit_NeoPixel(NUMPIXELS, NEO_PIN[i], NEO_GRBW + NEO_KHZ800);
+    pixels[i]->begin();
+    pixels[i]->clear();
+  }
+  //set pixels to different colors
+  for (int j = 0; j < 8; j++) {
+    for (int i = 0; i < NUMPIXELS; i++) {
+      pixels[j]->setPixelColor(i, pixels[j]->Color(0, 0, 0, 255)); // Moderately bright green color.
+    }
+    pixels[j]->show();
+  }
+  Serial.println("Done LEDs");
+
 }
 
 
@@ -134,6 +160,18 @@ void loop() {
       }
       Serial.println("1");
     }
+
+    if (key == 'Q') {
+      indexMotor = 0;
+      if ( motors[indexMotor]->isEnable()) {
+        motors[indexMotor]->stop(sx);
+      } else {
+        motors[indexMotor]->startMoveBackward(10);
+        motors[indexMotor]->start(sx);
+      }
+      Serial.println("1");
+    }
+    ////
     if (key == '2') {
       indexMotor = 1;
       if ( motors[indexMotor]->isEnable()) {
@@ -144,6 +182,18 @@ void loop() {
       }
       Serial.println("2");
     }
+    if (key == 'W') {
+      indexMotor = 1;
+      if ( motors[indexMotor]->isEnable()) {
+        motors[indexMotor]->stop(sx);
+      } else {
+        motors[indexMotor]->startMoveBackward(20);
+        motors[indexMotor]->start(sx);
+      }
+      Serial.println("2");
+    }
+
+    ////
     if (key == '3') {
       indexMotor = 2;
       if ( motors[indexMotor]->isEnable()) {
@@ -154,6 +204,18 @@ void loop() {
       }
       Serial.println("3");
     }
+    if (key == 'E') {
+      indexMotor = 2;
+      if ( motors[indexMotor]->isEnable()) {
+        motors[indexMotor]->stop(sx);
+      } else {
+        motors[indexMotor]->startMoveBackward(20);
+        motors[indexMotor]->start(sx);
+      }
+      Serial.println("4");
+    }
+
+    ///
     if (key == '4') {
       indexMotor = 3;
       if ( motors[indexMotor]->isEnable()) {
@@ -162,8 +224,19 @@ void loop() {
         motors[indexMotor]->startMoveForward(20);
         motors[indexMotor]->start(sx);
       }
+      Serial.println("5");
+    }
+    if (key == 'R') {
+      indexMotor = 3;
+      if ( motors[indexMotor]->isEnable()) {
+        motors[indexMotor]->stop(sx);
+      } else {
+        motors[indexMotor]->startMoveBackward(20);
+        motors[indexMotor]->start(sx);
+      }
       Serial.println("4");
     }
+    ///
     if (key == '5') {
       indexMotor = 4;
       if ( motors[indexMotor]->isEnable()) {
@@ -172,8 +245,20 @@ void loop() {
         motors[indexMotor]->startMoveForward(20);
         motors[indexMotor]->start(sx);
       }
-      Serial.println("5");
+      Serial.println("6");
     }
+    if (key == 'T') {
+      indexMotor = 4;
+      if ( motors[indexMotor]->isEnable()) {
+        motors[indexMotor]->stop(sx);
+      } else {
+        motors[indexMotor]->startMoveBackward(20);
+        motors[indexMotor]->start(sx);
+      }
+      Serial.println("6");
+    }
+
+    //
     if (key == '6') {
       indexMotor = 5;
       if ( motors[indexMotor]->isEnable()) {
@@ -182,8 +267,20 @@ void loop() {
         motors[indexMotor]->startMoveForward(20);
         motors[indexMotor]->start(sx);
       }
-      Serial.println("6");
+      Serial.println("7");
     }
+    if (key == 'Y') {
+      indexMotor = 5;
+      if ( motors[indexMotor]->isEnable()) {
+        motors[indexMotor]->stop(sx);
+      } else {
+        motors[indexMotor]->startMoveBackward(20);
+        motors[indexMotor]->start(sx);
+      }
+      Serial.println("7");
+    }
+
+    //
     if (key == '7') {
       indexMotor = 6;
       if ( motors[indexMotor]->isEnable()) {
@@ -192,8 +289,20 @@ void loop() {
         motors[indexMotor]->startMoveForward(20);
         motors[indexMotor]->start(sx);
       }
-      Serial.println("7");
+      Serial.println("8");
     }
+    if (key == 'U') {
+      indexMotor = 6;
+      if ( motors[indexMotor]->isEnable()) {
+        motors[indexMotor]->stop(sx);
+      } else {
+        motors[indexMotor]->startMoveBackward(20);
+        motors[indexMotor]->start(sx);
+      }
+      Serial.println("8");
+    }
+
+    //
     if (key == '8') {
       indexMotor = 7;
       if ( motors[indexMotor]->isEnable()) {
@@ -204,7 +313,18 @@ void loop() {
       }
       Serial.println("8");
     }
+    if (key == 'I') {
+      indexMotor = 7;
+      if ( motors[indexMotor]->isEnable()) {
+        motors[indexMotor]->stop(sx);
+      } else {
+        motors[indexMotor]->startMoveBackward(20);
+        motors[indexMotor]->start(sx);
+      }
+      Serial.println("8");
+    }
 
+    //
     if (key == 'b') {
       for (int i = 0; i < numMotors; i++) {
         if (activateMotors[i] ==  1) {
@@ -238,12 +358,6 @@ void loop() {
       Serial.println("OFF ALL");
     }
 
-
-    if (key == 'c') {
-      motors[indexMotor]->startMoveForward(5);
-      Serial.println("fowards");
-    }
-
     if (key == 'q') {
       motors[indexMotor]->stop(sx);
       motors[indexMotor]->sleepOn(sx);
@@ -262,17 +376,80 @@ void loop() {
     }
 
     if (key == 's') {
-      motors[indexMotor]->start(sx);
-      Serial.println("start");
+      for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < NUMPIXELS; i++) {
+          pixels[j]->setPixelColor(i, pixels[j]->Color(0, 0, 0, 10)); // Moderately bright green color.
+        }
+        pixels[j]->show();
+      }
     }
 
     if (key == 'z') {
-      motors[indexMotor]->sleepOn(sx);
-      Serial.println("sleep ON");
+      //motor up and change color
+
+      //indexMotor = 2;
+      //motors[indexMotor]->startMoveBackward(1);
+      //motors[indexMotor]->start(sx);
+
+      int r = int(random(255));
+      int g = int(random(255));
+      int b = int(random(255));
+      int w = 0;
+
+      if (r >= 254 && g >= 254 && b >= 254) {
+        w = 255;
+      }
+      for (int i = 0; i < NUMPIXELS; i++) {
+        pixels[indexMotor]->setPixelColor(i, pixels[indexMotor]->Color(0, 0, 0, w));// White
+        pixels[indexMotor]->show();
+      }
+
+
     }
     if (key == 'x') {
-      motors[indexMotor]->sleepOff(sx);
-      Serial.println("sleep OFF");
+      indexMotor = 2;
+      //motors[indexMotor]->startMoveBackward(1);
+      //motors[indexMotor]->start(sx);
+
+      int r = int(random(255));
+      int g = int(random(255));
+      int b = int(random(255));
+      int w = 0;
+
+      if (r >= 254 && g >= 254 && b >= 254) {
+        w = 255;
+      }
+      for (int i = 0; i < NUMPIXELS; i++) {
+        pixels[indexMotor]->setPixelColor(i, pixels[indexMotor]->Color(r, g, b, w));// White
+        pixels[indexMotor]->show();
+      }
+
+    }
+
+    if (key == 'c') {
+      //motor up and change color
+
+      indexMotor = 0;
+      motors[indexMotor]->startMoveForward(1);
+      motors[indexMotor]->start(sx);
+
+      for (int i = 0; i < NUMPIXELS; i++) {
+        pixels[indexMotor]->setPixelColor(i, pixels[indexMotor]->Color(0, 0, 0, 255));// White
+        pixels[indexMotor]->show();
+      }
+
+
+    }
+    if (key == 'v') {
+      indexMotor = 2;
+      motors[indexMotor]->startMoveForward(1);
+      motors[indexMotor]->start(sx);
+
+      for (int i = 0; i < NUMPIXELS; i++) {
+        pixels[indexMotor]->setPixelColor(i, pixels[indexMotor]->Color(0, 0, 0, 255));// White
+        pixels[indexMotor]->show();
+      }
+
     }
 
 
@@ -308,6 +485,7 @@ void loop() {
       Serial.print(" ");
       Serial.println(trq2Mode);
     }
+
 
   }
 }

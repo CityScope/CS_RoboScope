@@ -1,17 +1,17 @@
 
 #include <TMCStepper.h>
 
-#define EN_PIN_01           20 // Enable //14 17
-#define DIR_PIN_01          22 // Direction //16 19
-#define STEP_PIN_01         21 // Step . //15 18
+#define EN_PIN_01           10 // Enable //14 17
+#define DIR_PIN_01          6 // Direction //16 19
+#define STEP_PIN_01         5 // Step . //15 18
 
-#define EN_PIN_02           17 // Enable //14 17
-#define DIR_PIN_02          19 // Direction //16 19
-#define STEP_PIN_02         18 // Step . //15 18
+#define EN_PIN_02           6 // Enable //14 17
+#define DIR_PIN_02          8 // Direction //16 19
+#define STEP_PIN_02         7 // Step . //15 18
 
-#define EN_PIN_03           14 // Enable //14 17
-#define DIR_PIN_03          16 // Direction //16 19
-#define STEP_PIN_03         15 // Step . //15 18
+#define EN_PIN_03           4 // Enable //14 17
+#define DIR_PIN_03          10 // Direction //16 19
+#define STEP_PIN_03         9 // Step . //15 18
 
 #define SERIAL_PORT Serial2
 #define DRIVER_ADDRESS 0b00
@@ -60,9 +60,11 @@ void setup() {
 
   driver.begin();                 //  SPI: Init CS pins and possible SW SPI pins
   // UART: Init SW UART (if selected) with default 115200 baudrate
+
+  
   driver.toff(5);                 // Enables driver in software
   driver.rms_current(300);        // Set motor RMS current
-  driver.microsteps(32);          // Set microsteps to 1/16th
+  driver.microsteps(64);          // Set microsteps to 1/16th
 
   //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
   driver.en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
@@ -91,7 +93,7 @@ void setup() {
   digitalWrite(selectPins[2], HIGH);
 
   driver.rms_current(300);        // Set motor RMS current
-  driver.microsteps(32);          // Set microsteps to 1/16th
+  driver.microsteps(64);          // Set microsteps to 1/16th
 
   //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
   driver.en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
@@ -119,11 +121,13 @@ void setup() {
   digitalWrite(selectPins[2], HIGH);
 
   driver.rms_current(300);        // Set motor RMS current
-  driver.microsteps(32);          // Set microsteps to 1/16th
+  driver.microsteps(64);          // Set microsteps to 1/16th
 
   //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
   driver.en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
   driver.pwm_autoscale(true);     // Needed for stealthChop
+
+  
 
   //pinMode(9, OUTPUT);
   //digitalWrite(9, LOW);
@@ -152,15 +156,15 @@ bool shaft2 = true;
 void loop() {
   // put your main code here, to run repeatedly:
   // Run 5000 steps and switch direction in software
-  for (uint16_t i = 5000; i > 0; i--) {
+  for (uint16_t i = 50000; i > 0; i--) {
     digitalWrite(STEP_PIN_01, HIGH);
     digitalWrite(STEP_PIN_02, HIGH);
     digitalWrite(STEP_PIN_03, HIGH);
-    delayMicroseconds(160);
+    delayMicroseconds(16);
     digitalWrite(STEP_PIN_01, LOW);
     digitalWrite(STEP_PIN_02, LOW);
     digitalWrite(STEP_PIN_03, LOW);
-    delayMicroseconds(160);
+    delayMicroseconds(16);
   }
 
   shaft0 = !shaft0;

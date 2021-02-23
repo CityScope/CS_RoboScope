@@ -20,7 +20,7 @@ const byte NEO_PIN[8] = {NEO_PIN_01, NEO_PIN_02, NEO_PIN_03, NEO_PIN_04,
                         };
 
 //Maximun number of pixels per board
-const byte NUMPIXELS = 2;
+const byte NUMPIXELS = 4;
 //Pixels
 
 Adafruit_NeoPixel * pixels[8];
@@ -84,7 +84,7 @@ void setup() {
 
   int muxCounter = 0;
   while (muxCounter != 3) {
-    if (!sx00.begin(Wire, SX1509_ADDRESS_00) ) {
+    if (!sx00.begin(SX1509_ADDRESS_00) ) {
       Serial.print("Failed 00 ");
       Serial.print(" " + SX1509_ADDRESS_00);
       Serial.print(" ");
@@ -104,7 +104,7 @@ void setup() {
   ///--------------------------------------------
 
   while (muxCounter != 3) {
-    if (!sx01.begin(Wire, SX1509_ADDRESS_01) ) {
+    if (!sx01.begin(SX1509_ADDRESS_01) ) {
       Serial.print("Failed 01");
       Serial.print(" " + SX1509_ADDRESS_01);
       Serial.print(" ");
@@ -124,7 +124,7 @@ void setup() {
   ///--------------------------------------------
 
   while (muxCounter != 3) {
-    if (!sx02.begin(Wire, SX1509_ADDRESS_10) ) {
+    if (!sx02.begin(SX1509_ADDRESS_10) ) {
       Serial.print("Failed 02");
       Serial.print(" " + SX1509_ADDRESS_10);
       Serial.print(" ");
@@ -144,7 +144,7 @@ void setup() {
   //---------------------------------------
 
   while (muxCounter != 3) {
-    if (!sx03.begin(Wire, SX1509_ADDRESS_11) ) {
+    if (!sx03.begin(SX1509_ADDRESS_11) ) {
       Serial.print("Failed 03 ");
       Serial.print(" " + SX1509_ADDRESS_11);
       Serial.print(" ");
@@ -281,7 +281,7 @@ void loop() {
 
   ///Limit and push buttons
   //checkLimit();
-  //checkPushDown();
+  /checkPushDown();
 
   //CAN BUS
   /*
