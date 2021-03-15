@@ -1,8 +1,6 @@
 #include <FlexCAN_T4.h>
 #include <Arduino.h>
-#include "UrbanPanel.h"
 #include <TeensyThreads.h>
-
 #include <Wire.h> // Include the I2C library (required)
 #include <SparkFunSX1509.h> // Include SX1509 library
 #include <Adafruit_NeoPixel.h>
@@ -11,11 +9,7 @@
 FlexCAN_T4FD<CAN3, RX_SIZE_512, TX_SIZE_64>   FD;   // fd port
 FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16>     canBus;  // can1 port
 
-UrbanPanel * urbanPanel;
-int panelID = 0;
-
 int local_name = 0;
-int msg_array[8] = {1, 2, 3, 4, 32, 6, 7, 8};
 
 unsigned long timer;
 int counter; 
@@ -47,9 +41,6 @@ void setup(void) {
   delay(500);
   Serial.println("Client CAN Bus FD and CAN BUS 1");
 
-//  urbanPanel = new UrbanPanel(panelID);
-//  urbanPanel->init();
-  
   FD.begin();
   CANFD_timings_t config;
   config.clock = CLK_40MHz;
@@ -74,7 +65,14 @@ void setup(void) {
 //----------------------------------------------------------------
 void loop() {
   FD.events();
-//  urbanPanel->motorTimerUpdate();
+//  if (Serial.available()>0){
+//    int node = Serial.parseInt();
+//    CANMotorMessage msg = CANMotorMessage(node);
+//    for (int i = 0; i < 8; i++) {
+//      msg.addMessage(i, 10, 20, 224, 195);
+//    }
+//    FD.write(msg.getCANmessage(32));
+//  }
 }
 
 //----------------------------------------------------------------
@@ -87,7 +85,7 @@ void reading(const CANFD_message_t &msg) {
   for ( uint8_t i = 0; i < msg.len; i++ ) {
     Serial.print(msg.buf[i]); Serial.print(" ");
   } Serial.println(" ");
-  if (msg.id==0){
+  if (msg.id==local_name){
     for ( uint8_t i = 0; i < 8; i++ ) {
       char str[15];
       sprintf(str, "%X%X", msg.buf[i*4+2], msg.buf[i*4+3]); 
@@ -104,16 +102,12 @@ void grid(int node, int local, char* str, int height) {
   int b = (((color & 0x1F) * 527) + 23) >> 6;
   
   for (int j = 0; j < NUMPIXELS; j++) {
-    pixels[local]->setPixelColor(j, pixels[local]->Color(r, g, b)); // Moderately bright green color.
+    pixels[local]->setPixelColor(j, pixels[local]->gamma32(pixels[local]->Color(r, g, b))); // Moderately bright green color.
   }
   pixels[local]->show();
-//  urbanPanel->movePixelUp(local,height);
 }
 
 //----------------------------------------------------------------
-void limitswitch() {
-  urbanPanel->limitswitch();
-}
 
 //----------------------------------------------------------------
 void initPixel() {

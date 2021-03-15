@@ -55,8 +55,8 @@ void CANMotorMessage::addMessage(int des, uint8_t steps, uint8_t interaction, ui
 }
 
 //----------------------------------------------------------------
-CANFD_message_t CANMotorMessage::getCANmessage() {
-  this->msg.len = 32;
+CANFD_message_t CANMotorMessage::getCANmessage(int len) {
+  this->msg.len = len;
   return this->msg;
 }
 
