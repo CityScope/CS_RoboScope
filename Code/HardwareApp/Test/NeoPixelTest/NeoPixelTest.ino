@@ -1,44 +1,69 @@
 #include <Wire.h> // Include the I2C library (required)
 #include <Adafruit_NeoPixel.h>
-
+#include <SparkFunSX1509.h>
 
 // SX1509 pin definitions:
 const byte NEO_PIN  = 14; // LED connected to pin 15
 
 // How many Neopixels are attached to the Arduino?
-#define NUMpixels      2
+#define NUMpixels      4
 
 //pixels
 Adafruit_NeoPixel * pixels;
 
-const int selectPins[3] = {15, 16, 17};
+const int selectPins[3] = {11, 13, 15};
+
+const byte SX1509_ADDRESS_00 = 0x3E;  // SX1509 I2C address
+SX1509 sx00;
 
 void setup()
 {
+  Serial.begin(9600);
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
+  delay(500);
+
+  Serial.println("Mux SX1509: ");
+
+  if (!sx00.begin(SX1509_ADDRESS_00) ) {
+    Serial.println("Failed 0");
+    Serial.println(SX1509_ADDRESS_00);
+    //while (1) ; // If we fail to communicate, loop forever.
+  } else {
+    Serial.println("Connected 0");
+  }
+  delay(250);
+
 
   for (int i = 0; i < 3; i++) {
-    pinMode(selectPins[i], OUTPUT);
-    digitalWrite(selectPins[i], LOW);
+    sx00.pinMode(selectPins[i], OUTPUT);
+    sx00.digitalWrite(selectPins[i], LOW);
   }
 
-  digitalWrite(selectPins[0], LOW);
-  digitalWrite(selectPins[1], LOW);
-  digitalWrite(selectPins[2], LOW);
-
-  delay(5000);
+  delay(500);
   digitalWrite(13, LOW);
+
+  //pinMode(NEO_PIN, OUTPUT);
 
 
   pixels = new Adafruit_NeoPixel(NUMpixels, NEO_PIN, NEO_RGBW + NEO_KHZ800);
   pixels->begin();
+
+  for (int j = 0; j < 8; j++) {
+    enableLED(sx00, j);
+    for (int i = 0; i < NUMpixels; i++) {
+      pixels->setPixelColor(i, pixels->Color(0, 0, 0, 0));
+    }
+  }
+
+  enableLED(sx00, 1);
+
 }
 
 void loop()
 {
 
-  rainbow(50);
+  rainbow(25);
 
 }
 
@@ -143,5 +168,41 @@ void rainbow(uint8_t wait) {
     }
     pixels->show();
     delay(wait);
+  }
+}
+
+void enableLED(SX1509 sx, int id) {
+  if (id == 0) {
+    sx.digitalWrite(selectPins[0], HIGH);
+    sx.digitalWrite(selectPins[1], HIGH);
+    sx.digitalWrite(selectPins[2], HIGH);
+  } else if ( id == 1) {
+    sx.digitalWrite(selectPins[0], HIGH);
+    sx.digitalWrite(selectPins[1], LOW);
+    sx.digitalWrite(selectPins[2], HIGH);
+  } else if ( id == 2) {
+    sx.digitalWrite(selectPins[0], LOW);
+    sx.digitalWrite(selectPins[1], HIGH);
+    sx.digitalWrite(selectPins[2], HIGH);
+  } else if ( id == 3) {
+    sx.digitalWrite(selectPins[0], LOW);
+    sx.digitalWrite(selectPins[1], LOW);
+    sx.digitalWrite(selectPins[2], HIGH);
+  } else if ( id == 4) {
+    sx.digitalWrite(selectPins[0], HIGH);
+    sx.digitalWrite(selectPins[1], HIGH);
+    sx.digitalWrite(selectPins[2], LOW);
+  } else if ( id == 5) {
+    sx.digitalWrite(selectPins[0], LOW);
+    sx.digitalWrite(selectPins[1], HIGH);
+    sx.digitalWrite(selectPins[2], LOW);
+  } else if ( id == 6) {
+    sx.digitalWrite(selectPins[0], HIGH);
+    sx.digitalWrite(selectPins[1], LOW);
+    sx.digitalWrite(selectPins[2], LOW);
+  } else if ( id == 7) {
+    sx.digitalWrite(selectPins[0], LOW);
+    sx.digitalWrite(selectPins[1], LOW);
+    sx.digitalWrite(selectPins[2], LOW);//7
   }
 }

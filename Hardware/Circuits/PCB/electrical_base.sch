@@ -709,9 +709,9 @@ USE AT YOUR OWN RISK!&lt;p&gt;
 <library name="switch_3p_4.7mm">
 <packages>
 <package name="3P">
-<pad name="P$1" x="-1.7" y="0.1" drill="0.77"/>
-<pad name="P$2" x="3" y="0.1" drill="0.77"/>
-<pad name="P$3" x="7.7" y="0.1" drill="0.77"/>
+<pad name="P$1" x="-1.7" y="0.1" drill="1.016" diameter="1.8796"/>
+<pad name="P$2" x="3" y="0.1" drill="1.016" diameter="1.8796"/>
+<pad name="P$3" x="7.7" y="0.1" drill="1.016" diameter="1.8288"/>
 <wire x1="-5.9" y1="-2.6" x2="-5.9" y2="3.5" width="0.127" layer="21"/>
 <wire x1="-5.9" y1="3.5" x2="13.66" y2="3.5" width="0.127" layer="21"/>
 <wire x1="13.66" y1="3.5" x2="13.66" y2="-2.6" width="0.127" layer="21"/>

@@ -37,7 +37,7 @@
 #define STEP_PIN_08    26
 
 //Global Values
-#define GMOTOR_STEPS  200 *8 //200
+#define GMOTOR_STEPS  200 *16 //200
 
 #define GRPM          120 //120
 
@@ -86,3 +86,14 @@
 
 //
 #define SX1509_ADDRESS_00  0x3E
+
+
+//NEO PIXELS
+#define  NEO_PIN_01       16
+#define  NEO_PIN_02       17
+#define  NEO_PIN_03       14//2;
+#define  NEO_PIN_04       15///3;
+#define  NEO_PIN_05       4
+#define  NEO_PIN_06       24
+#define  NEO_PIN_07       25
+#define  NEO_PIN_08       13

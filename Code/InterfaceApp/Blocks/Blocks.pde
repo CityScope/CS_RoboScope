@@ -32,8 +32,8 @@ int bkgColor = 50;
 Grid  tableGrid;
 
 //grid size
-int gridX = 8;
-int gridY = 12;
+int gridX = 32;
+int gridY = 48;
 
 //block size  32mm legos
 int blockSize = 32*2;
@@ -253,7 +253,7 @@ void draw() {
   //real map
 
   if (enableMap) {
-    // map.draw(gridStartX, gridStartY, wTable, hTable);
+     //map.draw(gridStartX, gridStartY, wTable, hTable);
   }
 
   if (!recording) {
@@ -332,7 +332,7 @@ void keyPressed() {
 
   //test can 
   if (key == '2') {
-    sendCanMsgTest();
+    //sendCanMsgTest();
   }
 
   if (key == '2') { 

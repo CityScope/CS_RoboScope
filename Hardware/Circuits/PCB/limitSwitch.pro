@@ -2,24 +2,24 @@ EAGLE AutoRouter Statistics:
 
 Job           : /Users/thomas/Documents/RoboScope/CS_RoboScope/Hardware/Circuits/PCB/limitSwitch.brd
 
-Start at      : 12:11:16 (12/8/20)
-End at        : 12:12:26 (12/8/20)
-Elapsed time  : 00:01:09
+Start at      : 21:47:12 (1/31/21)
+End at        : 21:48:00 (1/31/21)
+Elapsed time  : 00:00:47
 
 Signals       :    14   RoutingGrid: 3.93701 mil  Layers: 2
-Connections   :    48   predefined:  17 ( 0 Vias )
+Connections   :    52   predefined:  51 ( 31 Vias )
 
-Router memory :   19104384
+Router memory :   19571456
 
 Passname          : TopRouter     Route Optimize1 Optimize2 Optimize3 Optimize4 Optimize5 Optimize6 Optimize7 Optimize8 Optimize9Optimize10Optimize11Optimize12
 
-Time per pass     :  00:00:21  00:00:05  00:00:03  00:00:03  00:00:04  00:00:03  00:00:04  00:00:03  00:00:04  00:00:04  00:00:03  00:00:04  00:00:04  00:00:04
+Time per pass     :  00:00:43  00:00:00  00:00:00  00:00:01  00:00:00  00:00:00  00:00:01  00:00:00  00:00:00  00:00:00  00:00:01  00:00:00  00:00:00  00:00:01
 Number of Ripups  :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
 max. Level        :         0         1         0         0         0         0         0         0         0         0         0         0         0         0
 max. Total        :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
 
-Routed            :         0        30        30        30        30        30        30        30        30        30        30        30        30        30
-Vias              :         0        30        30        30        30        30        30        30        27        27        27        27        27        27
-Resolution        :    35.4 %    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %    97.9 %
+Routed            :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
+Vias              :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
+Resolution        :    98.1 %    98.1 %    98.1 %    98.1 %    98.1 %    98.1 %    98.1 %    98.1 %    98.1 %    98.1 %    98.1 %    98.1 %    98.1 %    98.1 %
 
-Final             : 97.9% finished
+Final             : 98.0% finished
