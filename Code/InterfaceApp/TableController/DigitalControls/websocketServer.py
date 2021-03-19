@@ -22,10 +22,10 @@ time.sleep(2)
 # continuous background reading task
 def background_read():
     while True:
-        node = gh.serialRead()
-        if node:
-            return_data = gh.serialReceive(node)
-            sio.emit('roboscopeInput', return_data)
+        data = gh.serialReceive()
+        if data is not None:
+            print(data)
+            sio.emit('roboscopeInput', data)
         time.sleep(1)
 
 # on connect event handler (connects to port 8080 as does the web socket client in the Interface App)       
@@ -39,6 +39,7 @@ def connect(sid, environ):
         
 @sio.on('onInit')
 def on_start(sid, features, properties):
+    print("onInit")
     gh.tableStart(features, properties)
 
 # receive data when 'brushing' edit grid events occur (height, color, ID of each pixel)

@@ -1,9 +1,11 @@
 import math
 import sys
+import time
 # insert at 1, 0 is the script path (or '' in REPL)
 sys.path.insert(1, '../PhysicalControls')
 from main import PhysicalController
 from collections import Counter 
+from colour import Color
 from utils import Utils
 
 class GridHandling:
@@ -25,82 +27,98 @@ class GridHandling:
         '''
         Handle updates from interface app on scale or translate change
         '''
-        #update settings, pixels, and scale
+        #update settings, pixels, scale, and range of heights
         self.scale= scale
         self.selectedPixels = pixels
-        self.Utils.updateSettings(int(self.Utils.TABLE_COLS*scale), 
-                                  int(self.Utils.TABLE_ROWS*scale), 
-                                  len(pixels), scale)
+        self.Utils.updateSettings(int(self.Utils.TABLE_COLS/scale), 
+                                   int(self.Utils.TABLE_ROWS/scale), 
+                                   len(pixels), self.scale)
+        # iterate through cells
         self.table_to_grid = {}
         self.ids_to_table = {}
-        for x,y,table_coord,r_scale in self.get_coords_loop():
-            #get all (x,y) coordinates in range of current pixel (one pixel if scale is 1)
-            cell_coords = [(x+i,y+j, (y+j)*self.Utils.VIEW_COLS+(x+i)) for i in range(r_scale) for j in range(r_scale) if x+i < self.Utils.VIEW_COLS and y+j < self.Utils.VIEW_ROWS]
-            #get pixel data for all cells in cell_coords
-            pixel_group = [pixels[scaled_id] for a,b,scaled_id in cell_coords]
-            print(pixel_group)
-            #get average color and height for current pixel
-            color = Counter([tuple(pixel["color"]) for pixel in pixel_group]).most_common(1)[0][0]
-            avg_height = sum([pixel["height"] for pixel in pixel_group])/len(pixel_group)
-            #update PC with new information
-            self.PC.update_pixel(table_coord, self.Utils.getHeight(avg_height), color)
-            #update table_to_grid and ids_to_table to keep mapping up to date
-            self.table_to_grid[table_coord] = [[a,b, pixels[scaled_id]] for a,b,scaled_id in cell_coords]
-            for pixel in pixel_group:
-                self.ids_to_table[pixel["id"]] = table_coord
-        #send all data
+        for y in range(0,self.Utils.VIEW_ROWS):
+            for x in range(0, self.Utils.VIEW_COLS):
+                cell_index = y*self.Utils.VIEW_COLS+x
+                table_coords = [(x*scale+i, y*scale+j) for i in range(scale) for j in range(scale)]
+                p = pixels[cell_index]
+                [height, color] = self.colorAndHeight(p)
+                for tc in table_coords: 
+                    self.PC.update_pixel(tc, height, color)
+                    self.table_to_grid[tc] = p
+                self.ids_to_table[p["id"]] = table_coords
+        #send data
         self.PC.send_table_data()
-                                
+                                            
     def serialSend(self, in_px): 
         '''
         handles brush events from the interface app
         '''
-        table_coord = self.ids_to_table[in_px['id']]
-        pixel_group = self.table_to_grid[table_coord]
-        for i in range(len(pixel_group)):
-            if pixel_group[i][2]['id'] == in_px["id"]:
-                pixel_group[i][2] = in_px
-        #compute new color and new height
-        color = Counter([tuple(pixel[2]["color"]) for pixel in pixel_group]).most_common(1)[0][0]
-        avg_height = sum([pixel[2]["height"] for pixel in pixel_group])/len(pixel_group)
-        #get node
-        node_id = self.Utils.pixel_assignment[(table_coord[1], table_coord[0])][0] 
-        #update pixel in physical controller and send NODE data
-        self.PC.update_pixel(table_coord, self.Utils.getHeight(avg_height), color)
-        self.PC.send_node_data(node_id)
-
-    def serialRead(self):
-        if self.PC:
-            return self.PC.read_pixel_data()
-        return None
+        table_coords = self.ids_to_table[in_px['id']]
+        nodes = set()
+        [height, color] = self.colorAndHeight(in_px)
         
-    def serialReceive(self, pixels):  
+        for tc in table_coords:
+            self.PC.update_pixel(tc, height, color)
+            self.table_to_grid[tc] = in_px
+            nodes.add(self.Utils.pixel_assignment[(tc[1], tc[0])][0])
+            
+        for n in nodes:
+            self.PC.send_node_data(n)
+        
+    def serialReceive(self): 
         '''
         handles data received from table
-        '''
-        output = []
-        node = int(pixels[0])
-        for i in range(1, len(pixels)): 
-            pixel = [int(j) for j in pixels[i]]
-            id = self.PC.node_location[node][i-1]
-            [name, color] = self.Utils.getRGB888([pixel[2], pixel[3]])
-            data = {'color': color, 'height': pixel[0], 'id': id, 'interactive': 'Web', 'name': name}
-            output.append(data)
-        return output
+        ''' 
+        if self.PC:
+            pixels = self.PC.read_pixel_data()
+            if pixels: 
+                output = []
+                node = self.PC.node_location[int(pixels[0])]
+                for i in range(1, len(pixels)): 
+                    p = self.RXPixelInfo(pixels[i])
+                    if p is None:
+                        return None
+                    (row, col) = node[i-1]
+                    if sum(p['inter']) != 0:
+                        print(p['inter'])
+                        if p['inter'][0] == 1:
+                            print("short press")
+                        if p['inter'][1] == 1:
+                            print("long press")
+                        if p['inter'][len(p['inter'])-1]==1:
+                            print("double tap")
+                            for i in range(len(self.table_to_grid[(col, row)])):
+                                if self.table_to_grid[(col, row)][i].get("interactive")!= None:
+                                    [name, color] = self.Utils.getNextType(self.table_to_grid[(col, row)][i]["name"])
+                                    data = {'color': color, 'height': 10, 'id': self.table_to_grid[(col, row)][i]['id'], 'interactive': 'Web', 'name': name}
+                                    self.table_to_grid[(col, row)][i] = data
+                                    self.PC.update_pixel((col,row), 10, color)
+                                    output.append(data)      
+                self.PC.send_node_data(int(pixels[0]))         
+                return output    
+        return None
+    
+    def RXPixelInfo(self, pix):
+        try: 
+            p = [int(j) for j in pix]
+            p = {
+                'information': p[0],
+                'pos': p[1],
+                'inter': [int(x) for x in bin(p[2])[2:]],
+                'state': p[3]
+            }
+            if len(p['inter'])!=8:
+                print(len(p['inter']))
+                for i in range(8-len(p['inter'])):
+                    p['inter'].insert(0,0)
+            return p
+        except: 
+            return None 
         
-    def get_coords_loop(self):
-        '''
-        loop through (x,y) cells in selected features
-        - to handle float scales, overlap pixels to get average
-            * use ceil for # of pixels in group, use floor for step of for loop
-        - yields x,y, (x,y) coordinate on table (scaled down of x,y), and ceiled scale
-        '''
-        scale = self.scale
-        use_scale = scale
-        if (scale!=int(scale)):
-            use_scale = math.ceil(scale)
-        
-        for y in range(0,self.Utils.VIEW_ROWS,math.floor(scale)):
-            for x in range(0, self.Utils.VIEW_COLS, math.floor(scale)):
-                table_coord = (int(x/scale), int(y/scale))
-                yield(x,y,table_coord,use_scale)
+    def colorAndHeight(self, p):
+        new_c = p["color"]
+        if p.get("interactive")==None:
+            color = Color(rgb=tuple([c/255 for c in p["color"]]))
+            color.luminance=0.2
+            new_c = [int(c*255) for c in color.rgb]
+        return [self.Utils.getHeight(p["type"], p["height"]), new_c]
