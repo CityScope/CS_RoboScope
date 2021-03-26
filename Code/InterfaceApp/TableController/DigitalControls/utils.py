@@ -52,14 +52,12 @@ class Utils:
                 "meters": types[i].get("meters", 0)
             }
     
-    def getHeight(self, type, height):
-        if height is None: 
+
+    def getHeight(self, type, floors):
+        if floors is None:
             return 0
-        print(height, self.types[type]["meters"])
-        print(height*self.types[type]["meters"]*self.PX_SIZE)
-        print(math.sqrt(self.CELL_SIZE)*self.SCALE)
-        tableHeight = (height*self.types[type]["meters"]*self.PX_SIZE)/(math.sqrt(self.CELL_SIZE)*self.SCALE)
-        print(tableHeight)
+        tableHeight = (floors*self.types[type]["meters"]*self.PX_SIZE*self.SCALE)/math.sqrt(self.CELL_SIZE)
+        print(tableHeight, tableHeight/self.TRAVEL_DIST)
         if tableHeight > self.TRAVEL_DIST:
             return 1
         return tableHeight/self.TRAVEL_DIST
