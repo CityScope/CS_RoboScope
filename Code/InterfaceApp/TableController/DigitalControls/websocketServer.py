@@ -32,14 +32,17 @@ def background_read():
 @sio.on('connect')
 def connect(sid, environ):
     print('connected... ', sid)
-    sio.emit("welcome", "connected to socket server...");
+    dim = gh.Utils.returnTableDimension()
+    sio.emit("welcome", dim);
     global thread
     if thread is None:
         sio.start_background_task(target=background_read)
         
 @sio.on('onInit')
 def on_start(sid, features, properties):
-    print("onInit")
+    print("onInit");
+    dim = gh.Utils.returnTableDimension()
+    sio.emit("tableDim", dim)
     gh.tableStart(features, properties)
 
 # receive data when 'brushing' edit grid events occur (height, color, ID of each pixel)
