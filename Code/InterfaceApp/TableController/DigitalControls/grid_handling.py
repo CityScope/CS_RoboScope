@@ -121,4 +121,4 @@ class GridHandling:
             color = Color(rgb=tuple([c/255 for c in p["color"]]))
             color.luminance=0.2
             new_c = [int(c*255) for c in color.rgb]
-        return [self.Utils.getHeight(p["type"], p["height"]), new_c]
+        return [self.Utils.getHeight(p["name"], p["height"]), new_c]

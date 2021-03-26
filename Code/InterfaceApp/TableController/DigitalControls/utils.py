@@ -21,8 +21,7 @@ class Utils:
         self.PX_SIZE = 40
         self.types = {}
         
-        self.MAX_HEIGHT = 100
-        self.MIN_HEIGHT = 0
+        self.TRAVEL_DIST = 180
     
     def setInitSettings(self, header, num_pixels):
         self.GRID_COLS = header["ncols"]
@@ -56,8 +55,15 @@ class Utils:
     def getHeight(self, type, height):
         if height is None: 
             return 0
-        return height*self.types[type]["meters"]
-        
+        print(height, self.types[type]["meters"])
+        print(height*self.types[type]["meters"]*self.PX_SIZE)
+        print(math.sqrt(self.CELL_SIZE)*self.SCALE)
+        tableHeight = (height*self.types[type]["meters"]*self.PX_SIZE)/(math.sqrt(self.CELL_SIZE)*self.SCALE)
+        print(tableHeight)
+        if tableHeight > self.TRAVEL_DIST:
+            return 1
+        return tableHeight/self.TRAVEL_DIST
+                
     def hextoRGB(self, hex): 
         h = hex.lstrip('#')
         return [int(h[i:i+2], 16) for i in (0, 2, 4)]
@@ -67,4 +73,7 @@ class Utils:
         if index == len(list(self.types.keys()))-1:
             index = -1
         new_name =  list(self.types.keys())[index+1]
-        return [new_name, self.types[new_name].color]        
+        return [new_name, self.types[new_name].color]   
+    
+    def returnTableDimension(self):
+        return [self.TABLE_COLS, self.TABLE_ROWS]   
