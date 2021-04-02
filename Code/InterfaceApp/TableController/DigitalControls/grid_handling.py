@@ -19,10 +19,9 @@ class GridHandling:
         self.Utils.setInitSettings(properties["header"],len(features))
         self.Utils.setColorMapping(properties["types"])
         self.PC = PhysicalController(
-                    pixel_assignment=self.Utils.createPixelAssignment(), 
+                    pixel_assignment=self.Utils.createPixelAssignment(),
                     grid_size=(self.Utils.TABLE_ROWS, self.Utils.TABLE_COLS),
-                    com_port ='/dev/cu.usbmodem6893170', BAUDRATE=2000000)
-    
+                    com_port ='/dev/cu.usbmodem6893181', BAUDRATE=2000000)
     def setSelected(self, scale, pixels):
         '''
         Handle updates from interface app on scale or translate change
