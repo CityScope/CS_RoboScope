@@ -1,27 +1,30 @@
 import math
+import json
 
 class Utils:
     def __init__(self):
+        f = open('config.json')
+        config = json.load(f)
+        #TABLE
+        self.TABLE_COLS = config["TABLE_COLS"]
+        self.TABLE_ROWS = config["TABLE_ROWS"]
+        self.NODE_COLS = config["NODE_COLS"]
+        self.NODE_ROWS = config["NODE_ROWS"]
+        self.NUM_NODES_ROW = config["TABLE_COLS"]/config["NODE_COLS"]
+        self.PX_SIZE = config["PX_SIZE"]
+        self.TRAVEL_DIST = config["TRAVEL_DIST"]
+
+        #WEB APP
         self.GRID_COLS = 8
         self.GRID_ROWS = 12
         self.NUM_PIXELS = 96
-        
+
         self.VIEW_COLS = 8
         self.VIEW_ROWS = 12
         self.VIEW_PIXELS = 96
         self.SCALE = 1
-        
-        self.TABLE_COLS = 8
-        self.TABLE_ROWS = 12
-        self.NODE_COLS = 2
-        self.NODE_ROWS = 4
-        self.NUM_NODES_ROW = 4
-
         self.CELL_SIZE = 40
-        self.PX_SIZE = 40
-        self.types = {}
-        
-        self.TRAVEL_DIST = 180
+        self.types = {}    
     
     def setInitSettings(self, header, num_pixels):
         self.GRID_COLS = header["ncols"]
