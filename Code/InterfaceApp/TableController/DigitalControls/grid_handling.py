@@ -13,6 +13,7 @@ class GridHandling:
         self.PC = None
         self.scale = 1
         self.Utils = Utils()
+        self.com_port = '/dev/cu.usbmodem6893170'
 
     def tableStart(self, features, properties):
         #reset total_grid and nodes
@@ -21,7 +22,7 @@ class GridHandling:
         self.PC = PhysicalController(
                     pixel_assignment=self.Utils.createPixelAssignment(), 
                     grid_size=(self.Utils.TABLE_ROWS, self.Utils.TABLE_COLS),
-                    com_port ='/dev/cu.usbmodem6893170', BAUDRATE=2000000)
+                    com_port =self.com_port, BAUDRATE=2000000)
     
     def setSelected(self, scale, pixels):
         '''
