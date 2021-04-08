@@ -20,7 +20,7 @@ class GridHandling:
         self.Utils.setInitSettings(properties["header"],len(features))
         self.Utils.setColorMapping(properties["types"])
         self.PC = PhysicalController(
-                    pixel_assignment=self.Utils.createPixelAssignment(), 
+                    pixel_assignment=self.Utils.createPixelAssignment(),
                     grid_size=(self.Utils.TABLE_ROWS, self.Utils.TABLE_COLS),
                     com_port =self.com_port, BAUDRATE=2000000)
     
