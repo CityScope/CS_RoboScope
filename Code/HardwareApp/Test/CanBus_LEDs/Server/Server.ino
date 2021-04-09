@@ -74,7 +74,6 @@ void loop() {
 
   if (Serial.available() > 0) {
     operation = Serial.read();
-    Serial.println(operation);
     if (operation == 'W') {
       process_node();
     } else if (operation == 'T') {
@@ -135,7 +134,7 @@ void translate_pixels(int node, Pixel* buf) {
   for (int i = 0; i < 8; i++) {
     msg.addMessage(i, buf[i].height, buf[i].inter, buf[i].color1, buf[i].color2);
   }
-  canBusFD.write(msg.getCANmessage());
+  canBusFD.write(msg.getCANmessage(32));
 }
 
 //----------------------------------------------------------------
@@ -161,7 +160,7 @@ void test_white(int node) {
   for (int i =0; i < 8; i++) {
     msg.addMessage(i, 10, i, 255, 255);
   }
-  canBusFD.write(msg.getCANmessage());
+  canBusFD.write(msg.getCANmessage(32));
 }
 
 //----------------------------------------------------------------
@@ -170,7 +169,7 @@ void test_blue(int node) {
   for (int i =0; i < 8; i++) {
     msg.addMessage(i, 10, i, 251, 10);
   }
-  canBusFD.write(msg.getCANmessage());
+  canBusFD.write(msg.getCANmessage(32));
 }
 
 //----------------------------------------------------------------
@@ -179,5 +178,5 @@ void test_color(int f, int s, int node) {
   for (int i =0; i < 8; i++) {
     msg.addMessage(i, 10, i, f, s);
   }
-  canBusFD.write(msg.getCANmessage());
+  canBusFD.write(msg.getCANmessage(32));
 }

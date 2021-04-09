@@ -37,7 +37,7 @@ class CANMotorMessage {
     void addMessage(int des, uint8_t steps, uint8_t interaction, uint8_t color1, uint8_t color2);
 
     //get CAN Bus Msg
-    CANFD_message_t getCANmessage();
+    CANFD_message_t getCANmessage(int len);
 
     // create interaction byte msg
     uint8_t createInteractionMsg();
