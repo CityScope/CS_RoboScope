@@ -305,9 +305,9 @@ void setup()
 
 
   //reset and init the neopixels
-  pixels = new Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRBW + NEO_KHZ800);
-  pixels->begin();
-  pixels->clear();
+  //pixels = new Adafruit_NeoPixel(NUMPIXELS, NEO_PIN, NEO_GRBW + NEO_KHZ800);
+  //pixels->begin();
+//  pixels->clear();
 
 
   for (int i = 0; i < 8; i++) {
@@ -320,7 +320,7 @@ void setup()
 
 
   for (int  i = 0; i < 8; i++) {
-    changeColorLED(i, colors[i]->red, colors[i]->green, colors[i]->blue, colors[i]->white);
+   // changeColorLED(i, colors[i]->red, colors[i]->green, colors[i]->blue, colors[i]->white);
   }
 
   Serial.println("Done LEDs");
@@ -396,7 +396,7 @@ void checkInterruptSX02() {
 //main interaction test loop
 void loop() {
 
-  checkInterruptSX01();
+ // checkInterruptSX01();
 
   //SX 01
   if (sx02.digitalRead(SWITCH_00_SX02) == HIGH) {
@@ -490,12 +490,14 @@ void loop() {
   if (sx01.digitalRead(UP_05_SX01) == HIGH) {
     Serial.println("PIN 05 UP");
   }
-  if (sx01.digitalRead(UP_06_SX01) == HIGH) {
+  if (sx01.digitalRead(UP_06_SX01) == LOW) {
     Serial.println("PIN 06 UP");
   }
-  if (sx01.digitalRead(UP_07_SX01) == HIGH) {
+  if (sx01.digitalRead(UP_07_SX01) == LOW) {
     Serial.println("PIN 07 UP");
   }
+
+  Serial.println(sx01.digitalRead(UP_07_SX01) );
 
   //sx03
   if (sx03.digitalRead(DIP_01_SX03) == HIGH) {
@@ -529,7 +531,7 @@ void loop() {
     Serial.println("DIP 10 UP");
   }
 
-
+/*
   if (colorChange && colorId != -1) {
 
     updateColor(colorId, 0, 0, 255, 0);
@@ -540,7 +542,7 @@ void loop() {
     colorId = -1;
   }
 
-
+*/
   if (Serial.available() > 0) {
     char key = Serial.read();
 

@@ -183,7 +183,7 @@
 <layer number="255" name="routoute" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
-<fusionsync huburn="a.cGVyc29uYWw6dWUyYmFkZWI5" projecturn="a.cGVyc29uYWw6dWUyYmFkZWI5IzIwMTkwNzI5MjA1OTgzMzU2" f3durn="urn:adsk.wipprod:dm.lineage:GM4ZEc_OSP29j9s8-L7LNw" pcbguid="" lastpulledtime="" lastsyncedchangeguid="" latestrevisionid="5fcd5857-1c82-4cb5-93f5-9338f51db687" lastsyncedrevisionid="5fcd5857-1c82-4cb5-93f5-9338f51db687" lastboardhashguid="42b0bd4e-f63b-377a-8015-644465f7da52" lastpushedtime="2021-02-07T20:38:34Z" linktopcb3d="true"/>
+<fusionsync huburn="a.cGVyc29uYWw6dWUyYmFkZWI5" projecturn="a.cGVyc29uYWw6dWUyYmFkZWI5IzIwMTkwNzI5MjA1OTgzMzU2" f3durn="urn:adsk.wipprod:dm.lineage:GM4ZEc_OSP29j9s8-L7LNw" pcbguid="" lastpulledtime="" lastsyncedchangeguid="" latestrevisionid="224311bf-38f6-4c27-9571-f33dc3fdd045" lastsyncedrevisionid="224311bf-38f6-4c27-9571-f33dc3fdd045" lastboardhashguid="ca7ca505-1c2c-b9d5-e996-92e266c24794" lastpushedtime="2021-02-10T18:55:04Z" linktopcb3d="true"/>
 <fusionteam huburn="a.cGVyc29uYWw6dWUyYmFkZWI5" projecturn="a.cGVyc29uYWw6dWUyYmFkZWI5IzIwMTkwNzI5MjA1OTgzMzU2" folderUrn="urn:adsk.wipprod:fs.folder:co.fyRBnQNXQZ2K2Ph0YUv8vg" urn="urn:adsk.wipprod:dm.lineage:rQL_pLgnQq6Jlu2BYwilPA"  versionUrn="urn:adsk.wipprod:fs.file:vf.rQL_pLgnQq6Jlu2BYwilPA?version=3" camFileUrn="" camFileVersionUrn="" lastpublishedchangeguid="314289ba-19ee-1beb-449e-dcc96c804640"/>
 <plain>
 <wire x1="74.9933" y1="-1.4406" x2="74.9983" y2="-1.4356" width="0.01" layer="48" curve="90"/>
@@ -5382,7 +5382,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 </pass>
 </autorouter>
 <elements>
-<element name="M_01" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" value="" x="71.229" y="14.461" smashed="yes" rot="R90">
+<element name="M_01" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" override_package3d_urn="urn:adsk.eagle:package:26688562/2" override_package_urn="urn:adsk.eagle:footprint:37635/1" value="" x="71.229" y="14.461" smashed="yes" rot="R90">
 <attribute name="NAME" x="71.81" y="13.404" size="0.6096" layer="25" font="vector" ratio="20" rot="R90"/>
 <attribute name="PROD_ID" value="CONN-08249" x="5.429" y="-53.439" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="SF_ID" value="GPS-00579" x="5.429" y="-53.439" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
@@ -5394,19 +5394,19 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="SF_ID" value="GPS-00579" x="-29.852" y="-62.539" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="VALUE" x="32.418" y="12.81" size="0.6096" layer="27" font="vector" ratio="20" rot="R90"/>
 </element>
-<element name="M_03" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" value="" x="71.229" y="54.466" smashed="yes" rot="R90">
+<element name="M_03" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" override_package3d_urn="urn:adsk.eagle:package:26688586/2" override_package_urn="urn:adsk.eagle:footprint:37635/1" value="" x="71.229" y="54.466" smashed="yes" rot="R90">
 <attribute name="NAME" x="72.39" y="53.179" size="0.6096" layer="25" font="vector" ratio="20" rot="R90"/>
 <attribute name="PROD_ID" value="CONN-08249" x="8.829" y="28.166" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="SF_ID" value="GPS-00579" x="8.829" y="28.166" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="VALUE" x="72.499" y="52.815" size="0.6096" layer="27" font="vector" ratio="20" rot="R90"/>
 </element>
-<element name="M_04" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" value="" x="31.148" y="54.466" smashed="yes" rot="R90">
+<element name="M_04" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" override_package3d_urn="urn:adsk.eagle:package:26688590/2" override_package_urn="urn:adsk.eagle:footprint:37635/1" value="" x="31.148" y="54.466" smashed="yes" rot="R90">
 <attribute name="NAME" x="31.969" y="54.759" size="0.6096" layer="25" font="vector" ratio="20" rot="R90"/>
 <attribute name="PROD_ID" value="CONN-08249" x="-26.452" y="19.066" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="SF_ID" value="GPS-00579" x="-26.452" y="19.066" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="VALUE" x="32.418" y="52.815" size="0.6096" layer="27" font="vector" ratio="20" rot="R90"/>
 </element>
-<element name="M_05" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" value="" x="71.229" y="94.471" smashed="yes" rot="R90">
+<element name="M_05" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" override_package3d_urn="urn:adsk.eagle:package:26688606/2" override_package_urn="urn:adsk.eagle:footprint:37635/1" value="" x="71.229" y="94.471" smashed="yes" rot="R90">
 <attribute name="NAME" x="72.33" y="93.334" size="0.6096" layer="25" font="vector" ratio="20" rot="R90"/>
 <attribute name="PROD_ID" value="CONN-08249" x="18.429" y="49.971" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="SF_ID" value="GPS-00579" x="18.429" y="49.971" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
@@ -5432,7 +5432,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="NAME" x="4.852" y="22.996" size="1.27" layer="25"/>
 <attribute name="VALUE" x="4.442" y="18.556" size="1.27" layer="27"/>
 </element>
-<element name="R3" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10k" x="44.305" y="60.791" smashed="yes">
+<element name="R3" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26759737/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10k" x="44.305" y="60.791" smashed="yes">
 <attribute name="NAME" x="43.035" y="62.061" size="1.27" layer="25"/>
 <attribute name="VALUE" x="43.035" y="58.251" size="1.27" layer="27"/>
 </element>
@@ -5481,27 +5481,27 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="PROD_ID" value="IC-11311" x="31.868" y="43.886" size="1.778" layer="27" font="vector" display="off"/>
 <attribute name="VALUE" x="36.228" y="37.626" size="1.27" layer="27"/>
 </element>
-<element name="C1" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" package="0603-CAP" value="0.1uF" x="32.239" y="35.032" smashed="yes" rot="R90">
+<element name="C1" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" package="0603-CAP" override_package3d_urn="urn:adsk.eagle:package:26688584/2" override_package_urn="urn:adsk.eagle:footprint:26688585/1" value="0.1uF" x="32.239" y="35.032" smashed="yes" rot="R90">
 <attribute name="NAME" x="30.867" y="33.813" size="0.8128" layer="21" font="vector" rot="R90"/>
 <attribute name="PROD_ID" value="CAP-00810" x="32.239" y="20.732" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="VALUE" x="33.382" y="34.016" size="0.4064" layer="27" font="vector" rot="R90"/>
 </element>
-<element name="C2" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" package="0603-CAP" value="0.1uF" x="41.27" y="27.246" smashed="yes" rot="R180">
+<element name="C2" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" package="0603-CAP" override_package3d_urn="urn:adsk.eagle:package:26759756/2" override_package_urn="urn:adsk.eagle:footprint:26759757/1" value="0.1uF" x="41.27" y="27.246" smashed="yes" rot="R180">
 <attribute name="NAME" x="41.709" y="25.874" size="0.8128" layer="21" font="vector" rot="R180"/>
 <attribute name="PROD_ID" value="CAP-00810" x="48.17" y="21.546" size="1.778" layer="27" font="vector" rot="R180" display="off"/>
 <attribute name="VALUE" x="42.286" y="28.389" size="0.4064" layer="27" font="vector" rot="R180"/>
 </element>
-<element name="C4" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" package="0603-CAP" value="0.1uF" x="45.022" y="35.212" smashed="yes" rot="R270">
+<element name="C4" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" package="0603-CAP" override_package3d_urn="urn:adsk.eagle:package:26688572/2" override_package_urn="urn:adsk.eagle:footprint:26688573/1" value="0.1uF" x="45.022" y="35.212" smashed="yes" rot="R270">
 <attribute name="NAME" x="43.024" y="34.981" size="0.8128" layer="21" font="vector" rot="R270"/>
 <attribute name="PROD_ID" value="CAP-00810" x="47.722" y="45.212" size="1.778" layer="27" font="vector" rot="R270" display="off"/>
 <attribute name="VALUE" x="43.879" y="36.228" size="0.4064" layer="27" font="vector" rot="R270"/>
 </element>
-<element name="R9" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="41.694" y="43.124" smashed="yes" rot="R90">
+<element name="R9" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26759741/2" override_package_urn="urn:adsk.eagle:footprint:26759743/1" value="10K" x="41.694" y="43.124" smashed="yes" rot="R90">
 <attribute name="NAME" x="41.992" y="45.165" size="0.8128" layer="21" font="vector" rot="R90"/>
 <attribute name="PROD_ID" value="RES-00824" x="41.994" y="30.024" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="VALUE" x="42.837" y="42.108" size="0.4064" layer="27" font="vector" rot="R90"/>
 </element>
-<element name="R10" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="39.654" y="43.124" smashed="yes" rot="R90">
+<element name="R10" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26759744/2" override_package_urn="urn:adsk.eagle:footprint:26759745/1" value="10K" x="39.654" y="43.124" smashed="yes" rot="R90">
 <attribute name="NAME" x="40.072" y="45.135" size="0.8128" layer="21" font="vector" rot="R90"/>
 <attribute name="PROD_ID" value="RES-00824" x="42.954" y="26.924" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="VALUE" x="40.797" y="42.108" size="0.4064" layer="27" font="vector" rot="R90"/>
@@ -5511,7 +5511,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="PROD_ID" value="RES-00824" x="40.874" y="36.224" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="VALUE" x="38.717" y="42.108" size="0.4064" layer="27" font="vector" rot="R90"/>
 </element>
-<element name="R12" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="35.888" y="26.715" smashed="yes" rot="R270">
+<element name="R12" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26759752/2" override_package_urn="urn:adsk.eagle:footprint:26759753/1" value="10K" x="35.888" y="26.715" smashed="yes" rot="R270">
 <attribute name="NAME" x="33.91" y="27.794" size="0.8128" layer="21" font="vector" rot="R270"/>
 <attribute name="PROD_ID" value="RES-00824" x="29.588" y="36.715" size="1.778" layer="27" font="vector" rot="R270" display="off"/>
 <attribute name="VALUE" x="34.745" y="27.731" size="0.4064" layer="27" font="vector" rot="R270"/>
@@ -5521,7 +5521,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="PROD_ID" value="RES-00824" x="21.946" y="34.698" size="1.778" layer="27" font="vector" display="off"/>
 <attribute name="VALUE" x="34.03" y="42.855" size="0.4064" layer="27" font="vector"/>
 </element>
-<element name="U2" library="SparkFun-DigitalIC" package="QFN-28" value="SX1509" x="38.768" y="118.652" smashed="yes">
+<element name="U2" library="SparkFun-DigitalIC" package="QFN-28" override_package3d_urn="urn:adsk.eagle:package:26759726/2" override_package_urn="urn:adsk.eagle:footprint:26759727/1" value="SX1509" x="38.768" y="118.652" smashed="yes">
 <attribute name="PROD_ID" value="IC-11311" x="31.868" y="127.452" size="1.778" layer="27" font="vector" display="off"/>
 <attribute name="VALUE" x="36.228" y="121.192" size="1.27" layer="27"/>
 </element>
@@ -5540,27 +5540,27 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="PROD_ID" value="CAP-00810" x="47.442" y="129.321" size="1.778" layer="27" font="vector" rot="R270" display="off"/>
 <attribute name="VALUE" x="43.599" y="120.337" size="0.4064" layer="27" font="vector" rot="R270"/>
 </element>
-<element name="R16" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="42.86" y="126.302" smashed="yes" rot="R90">
+<element name="R16" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26688615/2" override_package_urn="urn:adsk.eagle:footprint:26688616/1" value="10K" x="42.86" y="126.302" smashed="yes" rot="R90">
 <attribute name="NAME" x="42.488" y="128.113" size="0.8128" layer="21" font="vector" rot="R90"/>
 <attribute name="PROD_ID" value="RES-00824" x="43.16" y="113.202" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="VALUE" x="44.003" y="125.286" size="0.4064" layer="27" font="vector" rot="R90"/>
 </element>
-<element name="R17" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="40.779" y="126.312" smashed="yes" rot="R90">
+<element name="R17" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26688617/2" override_package_urn="urn:adsk.eagle:footprint:26688618/1" value="10K" x="40.779" y="126.312" smashed="yes" rot="R90">
 <attribute name="NAME" x="40.967" y="128.193" size="0.8128" layer="21" font="vector" rot="R90"/>
 <attribute name="PROD_ID" value="RES-00824" x="44.079" y="110.112" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="VALUE" x="41.922" y="125.296" size="0.4064" layer="27" font="vector" rot="R90"/>
 </element>
-<element name="R18" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="38.722" y="126.302" smashed="yes" rot="R90">
+<element name="R18" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26688619/2" override_package_urn="urn:adsk.eagle:footprint:26688620/1" value="10K" x="38.722" y="126.302" smashed="yes" rot="R90">
 <attribute name="NAME" x="38.96" y="128.083" size="0.8128" layer="21" font="vector" rot="R90"/>
 <attribute name="PROD_ID" value="RES-00824" x="42.022" y="119.402" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
 <attribute name="VALUE" x="39.865" y="125.286" size="0.4064" layer="27" font="vector" rot="R90"/>
 </element>
-<element name="R19" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="36.827" y="109.569" smashed="yes" rot="R270">
+<element name="R19" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26759733/2" override_package_urn="urn:adsk.eagle:footprint:26759734/1" value="10K" x="36.827" y="109.569" smashed="yes" rot="R270">
 <attribute name="NAME" x="36.409" y="107.828" size="0.8128" layer="21" font="vector" rot="R270"/>
 <attribute name="PROD_ID" value="RES-00824" x="30.527" y="119.569" size="1.778" layer="27" font="vector" rot="R270" display="off"/>
 <attribute name="VALUE" x="35.684" y="110.585" size="0.4064" layer="27" font="vector" rot="R270"/>
 </element>
-<element name="R21" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="40.285" y="109.595" smashed="yes" rot="R270">
+<element name="R21" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26759735/2" override_package_urn="urn:adsk.eagle:footprint:26759736/1" value="10K" x="40.285" y="109.595" smashed="yes" rot="R270">
 <attribute name="NAME" x="40.327" y="107.904" size="0.8128" layer="21" font="vector" rot="R270"/>
 <attribute name="PROD_ID" value="RES-00824" x="27.985" y="125.795" size="1.778" layer="27" font="vector" rot="R270" display="off"/>
 <attribute name="VALUE" x="39.142" y="110.611" size="0.4064" layer="27" font="vector" rot="R270"/>
@@ -5575,13 +5575,13 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="NAME" x="38.248" y="111.868" size="0.6096" layer="25" font="vector" ratio="20" rot="R270" align="bottom-center"/>
 <attribute name="VALUE" x="37.422" y="110.168" size="0.6096" layer="27" font="vector" ratio="20" rot="R270" align="top-center"/>
 </element>
-<element name="JP7" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NC_TRACE_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1" value="JUMPER-SMT_2_NC_TRACE_NO-SILK" x="36.304" y="126.196" smashed="yes" rot="R90">
+<element name="JP7" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NC_TRACE_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1" override_package3d_urn="urn:adsk.eagle:package:26688614/2" override_package_urn="urn:adsk.eagle:footprint:39257/1" value="JUMPER-SMT_2_NC_TRACE_NO-SILK" x="36.304" y="126.196" smashed="yes" rot="R90">
 <attribute name="VALUE" x="37.447" y="126.196" size="0.6096" layer="27" font="vector" ratio="20" rot="R90" align="top-center"/>
 </element>
-<element name="JP8" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NC_TRACE_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1" value="JUMPER-SMT_2_NC_TRACE_NO-SILK" x="35.54" y="42.215" smashed="yes" rot="R180">
+<element name="JP8" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NC_TRACE_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1" override_package3d_urn="urn:adsk.eagle:package:26688583/2" override_package_urn="urn:adsk.eagle:footprint:39257/1" value="JUMPER-SMT_2_NC_TRACE_NO-SILK" x="35.54" y="42.215" smashed="yes" rot="R180">
 <attribute name="VALUE" x="35.54" y="43.358" size="0.6096" layer="27" font="vector" ratio="20" rot="R180" align="top-center"/>
 </element>
-<element name="JP9" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NC_TRACE_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1" value="JUMPER-SMT_2_NC_TRACE_NO-SILK" x="38.751" y="27.079" smashed="yes">
+<element name="JP9" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NC_TRACE_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1" override_package3d_urn="urn:adsk.eagle:package:26688574/2" override_package_urn="urn:adsk.eagle:footprint:39257/1" value="JUMPER-SMT_2_NC_TRACE_NO-SILK" x="38.751" y="27.079" smashed="yes">
 <attribute name="NAME" x="38.751" y="28.222" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center"/>
 <attribute name="VALUE" x="38.751" y="25.936" size="0.6096" layer="27" font="vector" ratio="20" align="top-center"/>
 </element>
@@ -5590,12 +5590,12 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="PROD_ID" value="IC-11311" x="31.8846" y="98.0862" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="36.228" y="91.914" size="1.27" layer="27"/>
 </element>
-<element name="C3" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" package="0603-CAP" value="0.1uF" x="46.28" y="88.11" smashed="yes">
+<element name="C3" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" package="0603-CAP" override_package3d_urn="urn:adsk.eagle:package:26688621/2" override_package_urn="urn:adsk.eagle:footprint:26688622/1" value="0.1uF" x="46.28" y="88.11" smashed="yes">
 <attribute name="NAME" x="44.851" y="89.392" size="0.8128" layer="21" font="vector"/>
 <attribute name="PROD_ID" value="CAP-00810" x="39.3966" y="104.8486" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="45.264" y="86.967" size="0.4064" layer="27" font="vector"/>
 </element>
-<element name="C6" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" package="0603-CAP" value="0.1uF" x="38.72" y="81.46" smashed="yes" rot="R270">
+<element name="C6" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" package="0603-CAP" override_package3d_urn="urn:adsk.eagle:package:26688623/2" override_package_urn="urn:adsk.eagle:footprint:26688624/1" value="0.1uF" x="38.72" y="81.46" smashed="yes" rot="R270">
 <attribute name="NAME" x="38.222" y="79.359" size="0.8128" layer="21" font="vector" rot="R270"/>
 <attribute name="PROD_ID" value="CAP-00810" x="52.436" y="91.3914" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="37.577" y="82.476" size="0.4064" layer="27" font="vector" rot="R270"/>
@@ -5605,7 +5605,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="PROD_ID" value="CAP-00810" x="19.2716" y="73.5036" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="31.108" y="85.467" size="0.4064" layer="27" font="vector" rot="R90"/>
 </element>
-<element name="R14" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="41.816" y="99.627" smashed="yes" rot="R90">
+<element name="R14" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26688636/2" override_package_urn="urn:adsk.eagle:footprint:26688637/1" value="10K" x="41.816" y="99.627" smashed="yes" rot="R90">
 <attribute name="NAME" x="42.144" y="101.758" size="0.8128" layer="21" font="vector" rot="R90"/>
 <attribute name="PROD_ID" value="RES-00824" x="34.1452" y="83.5996" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="42.959" y="98.611" size="0.4064" layer="27" font="vector" rot="R90"/>
@@ -5615,7 +5615,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="PROD_ID" value="RES-00824" x="35.1108" y="80.5516" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="40.902" y="98.611" size="0.4064" layer="27" font="vector" rot="R90"/>
 </element>
-<element name="R23" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="37.668" y="99.627" smashed="yes" rot="R90">
+<element name="R23" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26688632/2" override_package_urn="urn:adsk.eagle:footprint:26688634/1" value="10K" x="37.668" y="99.627" smashed="yes" rot="R90">
 <attribute name="NAME" x="38.186" y="95.758" size="0.8128" layer="21" font="vector" rot="R90"/>
 <attribute name="PROD_ID" value="RES-00824" x="33.0198" y="92.7436" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="38.811" y="98.611" size="0.4064" layer="27" font="vector" rot="R90"/>
@@ -5633,11 +5633,11 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <element name="JP10" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NC_TRACE_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1" value="JUMPER-SMT_2_NC_TRACE_NO-SILK" x="35.276" y="82.821" smashed="yes" rot="R270">
 <attribute name="VALUE" x="34.133" y="82.821" size="0.6096" layer="27" font="vector" ratio="20" rot="R270" align="top-center"/>
 </element>
-<element name="JP11" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NC_TRACE_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1" value="JUMPER-SMT_2_NC_TRACE_NO-SILK" x="35.565" y="99.78" smashed="yes" rot="R90">
+<element name="JP11" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NC_TRACE_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1" override_package3d_urn="urn:adsk.eagle:package:26688625/2" override_package_urn="urn:adsk.eagle:footprint:39257/1" value="JUMPER-SMT_2_NC_TRACE_NO-SILK" x="35.565" y="99.78" smashed="yes" rot="R90">
 <attribute name="NAME" x="34.422" y="99.78" size="0.6096" layer="25" font="vector" ratio="20" rot="R90" align="bottom-center"/>
 <attribute name="VALUE" x="36.708" y="99.78" size="0.6096" layer="27" font="vector" ratio="20" rot="R90" align="top-center"/>
 </element>
-<element name="R26" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" value="10K" x="36.802" y="102.249" smashed="yes">
+<element name="R26" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" package="0603-RES" override_package3d_urn="urn:adsk.eagle:package:26688628/2" override_package_urn="urn:adsk.eagle:footprint:26688629/1" value="10K" x="36.802" y="102.249" smashed="yes">
 <attribute name="NAME" x="35.683" y="103.441" size="0.8128" layer="21" font="vector"/>
 <attribute name="PROD_ID" value="RES-00824" x="36.802" y="102.249" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="35.786" y="101.106" size="0.4064" layer="27" font="vector"/>
@@ -5736,7 +5736,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="PACKAGE" value="SPST-NO" x="44.9148" y="219.8964" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="2.91825" y="138.54816875" size="1.27223125" layer="27" ratio="10" rot="R270"/>
 </element>
-<element name="SWR_1" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="48.725" y="21.116" smashed="yes" rot="R180">
+<element name="SWR_1" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26759758/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10K" x="48.725" y="21.116" smashed="yes" rot="R180">
 <attribute name="VALUE" x="49.995" y="23.656" size="1.27" layer="27" rot="R180"/>
 </element>
 <element name="SWR_2" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="9.839" y="21.086" smashed="yes" rot="R180">
@@ -5760,19 +5760,19 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <element name="SWR_8" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10K" x="10.955" y="141.36" smashed="yes" rot="R180">
 <attribute name="VALUE" x="12.225" y="143.9" size="1.27" layer="27" rot="R180"/>
 </element>
-<element name="M_06" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" value="" x="71.229" y="134.476" smashed="yes" rot="R90">
+<element name="M_06" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" override_package3d_urn="urn:adsk.eagle:package:26665772/2" override_package_urn="urn:adsk.eagle:footprint:37635/1" value="" x="71.229" y="134.476" smashed="yes" rot="R90">
 <attribute name="NAME" x="72.28" y="133.719" size="0.6096" layer="25" font="vector" ratio="20" rot="R90"/>
 <attribute name="PROD_ID" value="CONN-08249" x="71.229" y="134.476" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="SF_ID" value="GPS-00579" x="71.229" y="134.476" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="72.499" y="132.825" size="0.6096" layer="27" font="vector" ratio="20" rot="R90"/>
 </element>
-<element name="M_07" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" value="" x="31.148" y="94.471" smashed="yes" rot="R90">
+<element name="M_07" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" override_package3d_urn="urn:adsk.eagle:package:26688603/2" override_package_urn="urn:adsk.eagle:footprint:37635/1" value="" x="31.148" y="94.471" smashed="yes" rot="R90">
 <attribute name="NAME" x="32.079" y="93.534" size="0.6096" layer="25" font="vector" ratio="20" rot="R90"/>
 <attribute name="PROD_ID" value="CONN-08249" x="31.148" y="94.471" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="SF_ID" value="GPS-00579" x="31.148" y="94.471" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="VALUE" x="32.418" y="92.82" size="0.6096" layer="27" font="vector" ratio="20" rot="R90"/>
 </element>
-<element name="M_08" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" value="" x="31.148" y="134.476" smashed="yes" rot="R90">
+<element name="M_08" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X06-1MM" package3d_urn="urn:adsk.eagle:package:38023/1" override_package3d_urn="urn:adsk.eagle:package:26665784/2" override_package_urn="urn:adsk.eagle:footprint:37635/1" value="" x="31.148" y="134.476" smashed="yes" rot="R90">
 <attribute name="NAME" x="32.159" y="133.049" size="0.6096" layer="25" font="vector" ratio="20" rot="R90"/>
 <attribute name="PROD_ID" value="CONN-08249" x="31.148" y="134.476" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="SF_ID" value="GPS-00579" x="31.148" y="134.476" size="1.778" layer="27" rot="R90" display="off"/>
@@ -5781,7 +5781,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <element name="J3" library="con-headers-jp" package="DIL-2MM-2X10" value="F-2X10-DIL-2MM" x="70" y="110.49" smashed="yes" rot="R90">
 <attribute name="VALUE" x="72" y="122.49" size="0.8128" layer="27" ratio="10" rot="R180"/>
 </element>
-<element name="RN2" library="resistor-dil" library_urn="urn:adsk.eagle:library:342" package="EXB38V" package3d_urn="urn:adsk.eagle:package:24923/1" value="" x="50.56" y="78.01" smashed="yes">
+<element name="RN2" library="resistor-dil" library_urn="urn:adsk.eagle:library:342" package="EXB38V" package3d_urn="urn:adsk.eagle:package:24923/1" override_package3d_urn="urn:adsk.eagle:package:26688643/2" override_package_urn="urn:adsk.eagle:footprint:24902/1" value="" x="50.56" y="78.01" smashed="yes">
 <attribute name="MF" value="" x="50.56" y="78.01" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="" x="50.56" y="78.01" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="49.2475" y="79.62" size="0.8128" layer="21"/>
@@ -5790,7 +5790,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="POPULARITY" value="5" x="50.56" y="78.01" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="48.5875" y="75.47" size="1.27" layer="27"/>
 </element>
-<element name="RN1" library="resistor-dil" library_urn="urn:adsk.eagle:library:342" package="EXB38V" package3d_urn="urn:adsk.eagle:package:24923/1" value="" x="24.76" y="78.85" smashed="yes">
+<element name="RN1" library="resistor-dil" library_urn="urn:adsk.eagle:library:342" package="EXB38V" package3d_urn="urn:adsk.eagle:package:24923/1" override_package3d_urn="urn:adsk.eagle:package:26688638/2" override_package_urn="urn:adsk.eagle:footprint:24902/1" value="" x="24.76" y="78.85" smashed="yes">
 <attribute name="MF" value="" x="24.76" y="78.85" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="" x="24.76" y="78.85" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="23.5575" y="80.69" size="0.8128" layer="21"/>
@@ -5799,7 +5799,7 @@ Note, that not all DRC settings must be set by the manufacturer. Several can be 
 <attribute name="POPULARITY" value="5" x="24.76" y="78.85" size="1.778" layer="27" display="off"/>
 <attribute name="VALUE" x="22.7875" y="76.31" size="1.27" layer="27"/>
 </element>
-<element name="RN3" library="resistor-dil" library_urn="urn:adsk.eagle:library:342" package="EXB38V" package3d_urn="urn:adsk.eagle:package:24923/1" value="" x="30.96" y="78.88" smashed="yes">
+<element name="RN3" library="resistor-dil" library_urn="urn:adsk.eagle:library:342" package="EXB38V" package3d_urn="urn:adsk.eagle:package:24923/1" override_package3d_urn="urn:adsk.eagle:package:26688642/2" override_package_urn="urn:adsk.eagle:footprint:24902/1" value="" x="30.96" y="78.88" smashed="yes">
 <attribute name="MF" value="" x="30.96" y="78.88" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="" x="30.96" y="78.88" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="29.5975" y="80.64" size="0.8128" layer="21"/>
