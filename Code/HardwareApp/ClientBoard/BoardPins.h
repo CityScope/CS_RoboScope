@@ -7,54 +7,47 @@
 
 //Number of motors that each panel has
 #define MOTORS_PER_PANEL 8
-
 #define PIXELS_PER_URBAN_PIXEL 2
 
-#define NUM_URBAN_PIXELS 2
+#define EN_PIN_01           10 // SX Enable
+#define DIR_PIN_01          6 // Direction
+#define STEP_PIN_01         5 // Step
 
-// MOTOR 1
-#define DIR_PIN_01     6
-#define STEP_PIN_01    5
+#define EN_PIN_02           6 //  SX Enable
+#define DIR_PIN_02          8 // Direction
+#define STEP_PIN_02         7 // Step
 
-// MOTOR 2
-#define DIR_PIN_02     8
-#define STEP_PIN_02    7
+#define EN_PIN_03           4 //  SX Enable
+#define DIR_PIN_03          10 // Direction
+#define STEP_PIN_03         9 // Step
 
-// MOTOR 3
-#define DIR_PIN_03     10
-#define STEP_PIN_03    9
+#define EN_PIN_04           2 // SX Enable
+#define DIR_PIN_04          12 // Direction
+#define STEP_PIN_04         11 // Step
 
-// MOTOR 4
-#define DIR_PIN_04     12 //15
-#define STEP_PIN_04    11 //14
+#define EN_PIN_05           8 // SX Enable
+#define DIR_PIN_05          17 // Direction
+#define STEP_PIN_05         16 // Step
 
-// MOTOR 5
-#define DIR_PIN_05     15 //17
-#define STEP_PIN_05    14 //16
+#define EN_PIN_06           0 // SX Enable
+#define DIR_PIN_06          3 // Direction
+#define STEP_PIN_06         2 // Step
 
-// MOTOR 6
-#define DIR_PIN_06     21
-#define STEP_PIN_06    20
+#define EN_PIN_07           12 // SX Enable
+#define DIR_PIN_07          23 // Direction
+#define STEP_PIN_07         22 // Step
 
-// MOTOR 7
-#define DIR_PIN_07     23
-#define STEP_PIN_07    22
+#define EN_PIN_08           14 // SX Enable
+#define DIR_PIN_08          27 // Direction
+#define STEP_PIN_08         26 // Step
 
-// MOTOR 8
-#define DIR_PIN_08     27 //25
-#define STEP_PIN_08    26 //24
+#define SERIAL_PORT Serial5
+#define DRIVER_ADDRESS 0b00
 
-//Global Values
-#define GMOTOR_STEPS  200*16  // 200 200 * 16
-#define GRPM          200 //120
 
-//Amps
-#define TRQ1_PIN       32
-#define TRQ2_PIN       33
+#define R_SENSE 0.11f
 
-//Global pin values
-#define GM0_PIN        11
-#define GM1_PIN        12
+#define SX1509_ADDRESS_00 0x3E
 
 //DEBUG LED NEO PIXEL
 #define NEO_DEBUG      32
