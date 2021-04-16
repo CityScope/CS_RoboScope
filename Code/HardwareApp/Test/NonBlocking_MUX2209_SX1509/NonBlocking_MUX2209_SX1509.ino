@@ -65,6 +65,15 @@ bool shaft5 = true;
 bool shaft6 = true;
 bool shaft7 = true;
 
+bool startMotor0 = false;
+bool startMotor1 = false;
+bool startMotor2 = false;
+bool startMotor3 = false;
+bool startMotor4 = false;
+bool startMotor5 = false;
+bool startMotor6 = false;
+bool startMotor7 = false;
+
 //mux
 SX1509 sx;
 #define SX1509_ADDRESS_00  0x3E
@@ -145,26 +154,60 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   // Run 5000 steps and switch direction in software
-  for (uint16_t i = 500; i > 0; i--) {
-    digitalWrite(STEP_PIN_01, HIGH);
-    digitalWrite(STEP_PIN_02, HIGH);
-    digitalWrite(STEP_PIN_03, HIGH);
-    digitalWrite(STEP_PIN_04, HIGH);
-    digitalWrite(STEP_PIN_05, HIGH);
-    digitalWrite(STEP_PIN_06, HIGH);
-    digitalWrite(STEP_PIN_07, HIGH);
-    digitalWrite(STEP_PIN_08, HIGH);
-    delayMicroseconds(64);
 
-    digitalWrite(STEP_PIN_01, LOW);
-    digitalWrite(STEP_PIN_02, LOW);
-    digitalWrite(STEP_PIN_03, LOW);
-    digitalWrite(STEP_PIN_04, LOW);
-    digitalWrite(STEP_PIN_05, LOW);
-    digitalWrite(STEP_PIN_06, LOW);
-    digitalWrite(STEP_PIN_07, LOW);
-    digitalWrite(STEP_PIN_08, LOW);
-    delayMicroseconds(64);
+  for (uint16_t i = 500; i > 0; i--) {
+    if (startMotor0) {
+      digitalWrite(STEP_PIN_01, HIGH);
+    }
+    if (startMotor1) {
+      digitalWrite(STEP_PIN_02, HIGH);
+    }
+    if (startMotor2) {
+      digitalWrite(STEP_PIN_03, HIGH);
+    }
+    if (startMotor3) {
+      digitalWrite(STEP_PIN_04, HIGH);
+    }
+    if (startMotor4) {
+      digitalWrite(STEP_PIN_05, HIGH);
+    }
+    if (startMotor5) {
+      digitalWrite(STEP_PIN_06, HIGH);
+    }
+    if (startMotor6) {
+      digitalWrite(STEP_PIN_07, HIGH);
+    }
+    if (startMotor7) {
+      digitalWrite(STEP_PIN_08, HIGH);
+    }
+    delayMicroseconds(4);
+
+    //
+    if (startMotor0) {
+      digitalWrite(STEP_PIN_01, LOW);
+    }
+    if (startMotor1) {
+      digitalWrite(STEP_PIN_02, LOW);
+    }
+    if (startMotor2) {
+      digitalWrite(STEP_PIN_03, LOW);
+    }
+    if (startMotor3) {
+      digitalWrite(STEP_PIN_04, LOW);
+    }
+    if (startMotor4) {
+      digitalWrite(STEP_PIN_05, LOW);
+    }
+    if (startMotor5) {
+      digitalWrite(STEP_PIN_06, LOW);
+    }
+    if (startMotor6) {
+      digitalWrite(STEP_PIN_07, LOW);
+    }
+    if (startMotor7) {
+      digitalWrite(STEP_PIN_08, LOW);
+    }
+    delayMicroseconds(4);
   }
 
 
@@ -205,26 +248,160 @@ void loop() {
       testConnection(4);
     }
 
-    if (key == '5') {
+    if (key == '6') {
       shaft5 = !shaft5;
       enableMotor(5);
       driver.shaft(shaft5);
       testConnection(5);
     }
 
-    if (key == '6') {
+    if (key == '7') {
       shaft6 = !shaft6;
       enableMotor(6);
       driver.shaft(shaft6);
       testConnection(6);
+
+      if (shaft6) {
+        Serial.println("down 7");
+        enableMotor(6);
+        setupMotorDown(6);
+      }
+
     }
 
-    if (key == '7') {
+    if (key == '8') {
       shaft7 = !shaft7;
       enableMotor(7);
       driver.shaft(shaft7);
       testConnection(7);
     }
+
+    if (key == 'q') {
+      startMotor0 = !startMotor0;
+      Serial.println("Motor toggle 0");
+    }
+    if (key == 'w') {
+      startMotor1 = !startMotor1;
+      Serial.println("Motor toggle 1");
+    }
+    if (key == 'e') {
+      startMotor2 = !startMotor2;
+      Serial.println("Motor toggle 2");
+    }
+    if (key == 'r') {
+      startMotor3 = !startMotor3;
+      Serial.println("Motor toggle 3");
+    }
+    if (key == 't') {
+      startMotor4 = !startMotor4;
+      Serial.println("Motor toggle 4");
+    }
+    if (key == 'y') {
+      startMotor5 = !startMotor5;
+      Serial.println("Motor toggle 5");
+    }
+    if (key == 'u') {
+      startMotor6 = !startMotor6;
+      Serial.println("Motor toggle 6");
+    }
+    if (key == 'i') {
+      startMotor7 = !startMotor7;
+      Serial.println("Motor toggle 7");
+    }
+
+    if (key == 'a') {
+      startMotor0 = false;
+      startMotor1 = false;
+      startMotor2 = false;
+      startMotor3 = false;
+      startMotor4 = false;
+      startMotor5 = false;
+      startMotor6 = false;
+      startMotor7 = false;
+    }
+
+    if (key == 's') {
+      startMotor0 = true;
+      startMotor1 = true;
+      startMotor2 = true;
+      startMotor3 = true;
+      startMotor4 = true;
+      startMotor5 = true;
+      startMotor6 = true;
+      startMotor7 = true;
+    }
+
+    if (key == 'z') {
+
+      shaft0 = false;
+      enableMotor(0);
+      driver.shaft(shaft0);
+
+      shaft1 = false;
+      enableMotor(1);
+      driver.shaft(shaft1);
+
+      shaft2 = false;
+      enableMotor(2);
+      driver.shaft(shaft2);
+
+      shaft3 = false;
+      enableMotor(3);
+      driver.shaft(shaft3);
+
+      shaft4 = false;
+      enableMotor(4);
+      driver.shaft(shaft4);
+
+      shaft5 = false;
+      enableMotor(5);
+      driver.shaft(shaft5);
+
+      shaft6 = false;
+      enableMotor(6);
+      driver.shaft(shaft6);
+
+      shaft7 = false;
+      enableMotor(7);
+      driver.shaft(shaft7);
+    }
+
+    if (key == 'x') {
+
+      shaft0 = true;
+      enableMotor(0);
+      driver.shaft(shaft0);
+
+      shaft1 = true;
+      enableMotor(1);
+      driver.shaft(shaft1);
+
+      shaft2 = true;
+      enableMotor(2);
+      driver.shaft(shaft2);
+
+      shaft3 = true;
+      enableMotor(3);
+      driver.shaft(shaft3);
+
+      shaft4 = true;
+      enableMotor(4);
+      driver.shaft(shaft4);
+
+      shaft5 = true;
+      enableMotor(5);
+      driver.shaft(shaft5);
+
+      shaft6 = true;
+      enableMotor(6);
+      driver.shaft(shaft6);
+
+      shaft7 = true;
+      enableMotor(7);
+      driver.shaft(shaft7);
+    }
+
+
   }
 }
 
@@ -234,8 +411,8 @@ void setupMotor(int id) {
   Serial.println("...");
 
   driver.toff(5);                 // Enables driver in software
-  driver.rms_current(500);        // Set motor RMS current
-  driver.microsteps(32);          // Set microsteps to 1/16th
+  driver.rms_current(600);        // Set motor RMS current
+  driver.microsteps(256);          // Set microsteps to 1/16th
 
   //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
   driver.en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
@@ -257,6 +434,39 @@ void setupMotor(int id) {
   }
   Serial.println(F("OK"));
 }
+
+//
+void setupMotorDown(int id) {
+  Serial.print("Setup Motor ");
+  Serial.print(id);
+  Serial.println("...");
+
+  driver.toff(5);                 // Enables driver in software
+  driver.rms_current(600);        // Set motor RMS current
+  driver.microsteps(256); //128         // Set microsteps to 1/16th
+
+  //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
+  driver.en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
+  driver.pwm_autoscale(true);     // Needed for stealthChop
+
+  Serial.print(F("\nTesting connection... "));
+  Serial.println(id);
+  uint8_t result = driver.test_connection();
+  delay(200);
+  if (result) {
+    Serial.println(F("failed!"));
+    Serial.print(F("Likely cause: "));
+    switch (result) {
+      case 1: Serial.println(F("loose connection")); break;
+      case 2: Serial.println(F("Likely cause: no power")); break;
+    }
+    Serial.println(F("Fix the problem and reset board."));
+    // abort();
+  }
+  Serial.println(F("OK"));
+}
+
+//
 
 void setupMotors() {
 
@@ -300,9 +510,9 @@ void setupMotors() {
   for (int i = 0; i < 8; i++) {
     steppers[i].setMaxSpeed(50 * steps_per_mm); // 100mm/s @ 80 steps/mm
     steppers[i].setAcceleration(1000 * steps_per_mm); // 2000mm/s^2
-    steppers[i].setEnablePin(sx, motorPins[i].EN_PIN);
+    //steppers[i].setEnablePin(sx, motorPins[i].EN_PIN);
     //steppers[i].setPinsInverted(false, false, true);
-    steppers[i].enableOutputs(sx);
+    //steppers[i].enableOutputs(sx);
   }
 
 }

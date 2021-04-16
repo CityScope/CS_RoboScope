@@ -1,0 +1,8 @@
+{
+  "TABLE_COLS": 8,
+  "TABLE_ROWS": 12,
+  "NODE_COLS": 2,
+  "NODE_ROWS": 4,
+  "PX_SIZE": 40,
+  "TRAVEL_DIST": 300
+}

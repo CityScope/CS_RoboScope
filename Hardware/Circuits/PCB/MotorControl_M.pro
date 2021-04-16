@@ -2,24 +2,26 @@ EAGLE AutoRouter Statistics:
 
 Job           : /Users/thomas/Documents/RoboScope/CS_RoboScope/Hardware/Circuits/PCB/MotorControl_M.brd
 
-Start at      : 21:40:02 (1/29/21)
-End at        : 21:40:07 (1/29/21)
-Elapsed time  : 00:00:04
+Start at      : 20:19:55 (2/28/21)
+End at        : 20:19:57 (2/28/21)
+Elapsed time  : 00:00:01
 
-Signals       :   127   RoutingGrid: 4.92126 mil  Layers: 2
-Connections   :   304   predefined:  304 ( 323 Vias )
+Signals       :   135   RoutingGrid: 4.92126 mil  Layers: 2
+Connections   :   307   predefined:  307 ( 320 Vias )
 
-Router memory :   6336384
+Router memory :   9031296
 
-Passname          :     Route Optimize1 Optimize2 Optimize3 Optimize4
+Job has been interrupted!
 
-Time per pass     :  00:00:00  00:00:01  00:00:01  00:00:01  00:00:01
-Number of Ripups  :         0         0         0         0         0
-max. Level        :         0         0         0         0         0
-max. Total        :         0         0         0         0         0
+Passname          :     Route Optimize1 Optimize2 Optimize3
 
-Routed            :         0         0         0         0         0
-Vias              :         0         0         0         0         0
-Resolution        :   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
+Time per pass     :  00:00:00  00:00:00  00:00:01  00:00:00
+Number of Ripups  :         0         0         0         0
+max. Level        :         0         0         0         0
+max. Total        :         0         0         0         0
+
+Routed            :         0         0         0         0
+Vias              :         0         0         0         0
+Resolution        :   100.0 %   100.0 %   100.0 %   100.0 %
 
 Final             : 100.0% finished
