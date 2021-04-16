@@ -1,7 +1,7 @@
 #include "Motors.h"
 
 
-Motors::Motors(int i) {
+Motors::Motors() {
   driver = TMC2209Stepper(&SERIAL_PORT, R_SENSE, DRIVER_ADDRESS);
 }
 
@@ -56,15 +56,11 @@ void Motors::setMotorTarget(int id, int targetPos, int tolerance = MOTOR_STEP_TO
   int dist = targetPos - currentStep[id];
 
   if (abs(dist) < tolerance) {
-    // We've already reached the target. so disable motors
-    // TODO: DISABLE MOTORS POWER
-    // sx->digitalWrite(smthg, HIGHT);
-
-    activeMotors[id] = false;
+    stopMotor(id);
     return:
   }
 
-  activeMotors[id] = true; // LEts the motor move;
+  activeMotors[id] = true; // Lets the motor move;
 
   if (dist < 0) {
     shaftDir[id] = false; // Going Down
@@ -77,10 +73,22 @@ void Motors::setMotorTarget(int id, int targetPos, int tolerance = MOTOR_STEP_TO
   testConnection(0);
 }
 
+void Motors::stopMotor(int id) {
+  // TODO: DISABLE MOTORS POWER
+  // sx->digitalWrite(smthg, HIGH);
+
+  activeMotors[id] = false;
+}
+
+int Motors::getMotorCurrentStep(int id) {
+  return currentStep[id];
+}
+
 bool Motors::getMotorDir(int id) {
   return shaftDir[id]; // false is down, true is up
 }
 
+// Returns whether or not the current motor is moving.
 bool Motors::isActive(int id) {
   return activeMotors[id];
 }

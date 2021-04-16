@@ -19,6 +19,9 @@ struct MotorPins {
 
 class Motors {
 public:
+
+  Motors();
+
   void motorInstructionLoop();
 
   void setMotorTarget(int id, int targetPos, int tolerance=MOTOR_STEP_TOLERANCE);
