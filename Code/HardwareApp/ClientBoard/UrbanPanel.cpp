@@ -21,19 +21,8 @@ UrbanPanel::UrbanPanel(int panelId) {
     }
   }
 
-  // Set up the motors
-  int motorDirPins[]  = {DIR_PIN_01, DIR_PIN_02 , DIR_PIN_03, DIR_PIN_04, DIR_PIN_05, DIR_PIN_06, DIR_PIN_07, DIR_PIN_08};
-  int motorStepPins[] = {STEP_PIN_01, STEP_PIN_02, STEP_PIN_03, STEP_PIN_04, STEP_PIN_05, STEP_PIN_06, STEP_PIN_07, STEP_PIN_08};
-
-  int motorEnablePins[] = {SX1509_01_MENABLE, SX1509_02_MENABLE, SX1509_03_MENABLE, SX1509_04_MENABLE, SX1509_05_MENABLE, SX1509_06_MENABLE, SX1509_07_MENABLE, SX1509_08_MENABLE};
-  int motorSleepPins[]  = {SX1509_01_MSLEEP, SX1509_02_MSLEEP, SX1509_03_MSLEEP, SX1509_04_MSLEEP, SX1509_05_MSLEEP, SX1509_06_MSLEEP, SX1509_07_MSLEEP, SX1509_08_MSLEEP};
-
-
-  for (int i = 0; i < MOTORS_PER_PANEL; i++) {
-    motors[i] = new Stepper(0, GMOTOR_STEPS, motorDirPins[i], motorStepPins[i], motorEnablePins[i], motorSleepPins[i], GM0_PIN, GM1_PIN);
-  }
-
   interfacePanel = new InterfacePanel();
+  motors = new Motors();
   //displayPanel = new DisplayPanel();
 
   Serial.println("Setting up neo pixel LEDs");
@@ -68,60 +57,14 @@ int UrbanPanel::getLimitState(int i) {
 
 
 void UrbanPanel::init() {
-  for (int i = 0; i < MOTORS_PER_PANEL; i++) {
-    //waitTimeMicros[i] = 0;
-    //threads.addThread(motorThreadTimer, i);
-    motors[i]->setRPM(GRPM);
-    motors[i]->init();
-    motors[i]->initMux(motorSX);
-    motors[i]->printMotorInfo();
-  }
   interfacePanel->init();
+  motors->init();
 
   delay(2000);
 
-  pinMode(TRQ1_PIN, OUTPUT);
-  pinMode(TRQ2_PIN, OUTPUT);
-
-  if (trq1Mode == 1) {
-    digitalWrite(TRQ1_PIN, HIGH);
-  }
-
-  if (trq2Mode == 1) {
-    digitalWrite(TRQ2_PIN, HIGH);
-  }
 }
 
 void UrbanPanel::motorTimerUpdate() {
-  for (int i = 0; i < MOTORS_PER_PANEL; i++) {
-    if (motors[i]->getMotorSleepStatus(motorSX)) {
-      motors[i]->stop(motorSX);
-      motors[i]->sleepOn(motorSX);
-      //Waiting lock
-
-      if (!motors[i]->isMotorLock()) {
-        bool lock = motors[i]->updateLock(millis());
-
-        if (lock) {
-          motors[i]->startMoveForward(5);
-          motors[i]->start(motorSX);
-          motors[i]->sleepOff(motorSX);
-          motors[i]->resetlimit();
-        }
-      }
-    }
-  }
-
-  //lock the button and push up
-  for (int i = 0 ; i < MOTORS_PER_PANEL; i++) {
-    unsigned waitTimeMicros = motors[i]->getNextAction();
-    if (waitTimeMicros <= 0) {
-      //motorPanel->getMotor(i).disable();
-      //Serial.print(i);
-      //Serial.println(": stop motor");
-    }
-  }
-
   if (limitActivated) {
     interfacePanel->updateLimitState();
 
@@ -148,9 +91,7 @@ void UrbanPanel::motorTimerUpdate() {
     }
 
     limitActivated = false;
-
   }
-
 }
 
 void UrbanPanel::limitswitch() {

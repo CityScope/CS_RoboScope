@@ -511,9 +511,9 @@ void setupMotors() {
   for (int i = 0; i < 8; i++) {
     steppers[i].setMaxSpeed(50 * steps_per_mm); // 100mm/s @ 80 steps/mm
     steppers[i].setAcceleration(1000 * steps_per_mm); // 2000mm/s^2
-    steppers[i].setEnablePin(sx, motorPins[i].EN_PIN);
+    //steppers[i].setEnablePin(sx, motorPins[i].EN_PIN);
     //steppers[i].setPinsInverted(false, false, true);
-    steppers[i].enableOutputs(sx);
+    //steppers[i].enableOutputs(sx);
   }
 
 }
