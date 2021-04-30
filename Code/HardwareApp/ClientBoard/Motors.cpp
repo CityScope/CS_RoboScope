@@ -54,8 +54,32 @@ void Motors::motorInstructionLoop() {
     if (activateMotors[i]) {
       int change = (shaftDir[i]) ? 1:-1;
       currentStep[i] += change;
+
+      // Check upper bound of pixel
+      if (upperStepLimit - currentStep < MOTOR_STEP_TOLERANCE) {
+        currentStep[i] = upperStepLimit;
+        stopMotor(i)
+      }
+
+      // Check lower bound of pixel
+      if (currentStep < MOTOR_STEP_TOLERANCE) {
+        stopMotor(i)
+        currentStep[i] = 0;
+      }
+
+
+      // Check target Position against target to know when to stop
+      if (abs(currentStep[i] - stepTarget) < MOTOR_STEP_TOLERANCE)) {
+        currentStep[i] = stepTarget;
+        stopMotor(i)
+      }
+
     }
   }
+}
+
+int Motors::getMotorTargetPos(int id) {
+  return stepTarget;
 }
 
 void Motors::setMotorTarget(int id, int targetPos, int tolerance = MOTOR_STEP_TOLERANCE) {
@@ -65,6 +89,8 @@ void Motors::setMotorTarget(int id, int targetPos, int tolerance = MOTOR_STEP_TO
     stopMotor(id);
     return:
   }
+
+  stepTarget = targetPos;
 
   activeMotors[id] = true; // Lets the motor move;
 

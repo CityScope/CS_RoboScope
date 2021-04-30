@@ -43,6 +43,7 @@ private:
   SX1509 sx;
 
   int upperStepLimit;
+  int stepTarget = 0;
 
   const int selectMotor[3] = {5, 7, 9};
 
