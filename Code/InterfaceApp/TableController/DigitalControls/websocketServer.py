@@ -67,6 +67,13 @@ def grid_handling(sid, scale, data):
     """
     gh.setSelected(scale, data)
     
+@sio.on('editUpdate')
+def grid_handling(sid, editBool, type):
+    """
+    Handles changes in edit menu on interface app
+    """
+    gh.Interacts.setInteraction(editBool, type, gh.Utils)
+    
 @sio.on('disconnect')
 def disconnect(sid):
     """

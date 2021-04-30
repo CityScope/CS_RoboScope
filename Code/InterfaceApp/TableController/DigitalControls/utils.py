@@ -95,13 +95,6 @@ class Utils:
         h = hex.lstrip('#')
         return [int(h[i:i+2], 16) for i in (0, 2, 4)]
     
-    def getNextType(self, name):
-        index = list(self.types.keys()).index(name)
-        if index == len(list(self.types.keys()))-1:
-            index = -1
-        new_name =  list(self.types.keys())[index+1]
-        return [new_name, self.types[new_name].color]   
-    
     def returnTableDimension(self):
         '''
         Returns table dimensions

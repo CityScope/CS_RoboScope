@@ -7,6 +7,7 @@ from main import PhysicalController
 from collections import Counter 
 from colour import Color
 from utils import Utils
+from interactions import Interacts
 
 class GridHandling:
     def __init__(self):
@@ -16,7 +17,8 @@ class GridHandling:
         self.PC = None
         self.scale = 1
         self.Utils = Utils()
-        self.com_port = '/dev/cu.usbmodem6893170'
+        self.Interacts = Interacts()
+        self.com_port = '/dev/cu.usbmodem6893180'
 
     def tableStart(self, features, properties):
         """
@@ -96,20 +98,13 @@ class GridHandling:
                         return None
                     (row, col) = node[i-1]
                     if sum(p['inter']) != 0:
-                        print(p['inter'])
-                        if p['inter'][0] == 1:
-                            print("short press")
-                        if p['inter'][1] == 1:
-                            print("long press")
-                        if p['inter'][len(p['inter'])-1]==1:
-                            print("double tap")
-                            for i in range(len(self.table_to_grid[(col, row)])):
-                                if self.table_to_grid[(col, row)][i].get("interactive")!= None:
-                                    [name, color] = self.Utils.getNextType(self.table_to_grid[(col, row)][i]["name"])
-                                    data = {'color': color, 'height': 10, 'id': self.table_to_grid[(col, row)][i]['id'], 'interactive': 'Web', 'name': name}
-                                    self.table_to_grid[(col, row)][i] = data
-                                    self.PC.update_pixel((col,row), 10, color)
-                                    output.append(data)      
+                        if p['inter'][0] == 1: #short press
+                            data = self.Interacts.shortPress(self.table_to_grid[(col,row)], self.Utils)
+                            self.updateInteract(data, (col,row), output)
+                        if p['inter'][1] == 1: #long press
+                            continue
+                        if p['inter'][len(p['inter'])-1]==1: #double tap
+                            continue
                 self.PC.send_node_data(int(pixels[0]))         
                 return output    
         return None
@@ -146,3 +141,11 @@ class GridHandling:
             color.luminance=0.2
             new_c = [int(c*255) for c in color.rgb]
         return [self.Utils.getHeight(p["name"], p["height"]), new_c]
+    
+    def updateInteraction(self, tc, data):
+        '''
+        
+        ''' 
+        self.table_to_grid[tc] = data
+        self.PC.update_pixel(tc, data['height'], data['color'])   
+        output.append(data)
