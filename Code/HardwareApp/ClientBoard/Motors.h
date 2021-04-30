@@ -26,12 +26,25 @@ public:
 
   void setMotorTarget(int id, int targetPos, int tolerance=MOTOR_STEP_TOLERANCE);
 
+  void stopMotors(int id);
+
+  int getMotorCurrentStep(int id);
+
   void getMotorDir(int id);
+
   void isActive(int id);
+
+  int getUpperStepLimit();
+
+  void setUpperStepLimit(int stepLimit);
 
   void enableMotor(int id);
   void setUpMotor(int id);
   void setupSXPins();
+
+  void gotoMaxStep();
+
+  void zeroMotors();
 
 private:
   constexpr uint32_t steps_per_mm = 80;

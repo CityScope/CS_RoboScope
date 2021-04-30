@@ -125,6 +125,14 @@ bool Motors::isActive(int id) {
   return activeMotors[id];
 }
 
+int Motors::getUpperStepLimit() {
+  return upperStepLimit;
+}
+
+int Motors::setUpperStepLimit(int stepLimit) {
+  upperStepLimit = stepLimit;
+}
+
 void Motors::enableMotor(int id) {
   switch(id) {
     case 0:
@@ -233,5 +241,16 @@ void Motors::setupSXPins() {
   for (int i = 0; i < 3; i++) {
     sx->digitalWrite(selectMotor[i], LOW);
     sx->digitalWrite(selectLED[i], LOW);
+  }
+}
+
+void Motors::gotoMaxStep() {
+
+}
+
+void Motors::zeroMotors() {
+  for (int i = 0; i < MOTORS_PER_PANEL; i++) {
+    setMotorTarget(i, 0, MOTOR_STEP_TOLERANCE)
+
   }
 }

@@ -23,6 +23,27 @@ UrbanPanel::UrbanPanel(int panelId) {
 
 }
 
+void UrbanPanel::init() {
+  interfacePanel->init();
+  motors->init();
+
+  delay(2000);
+
+}
+
+void UrbanPanel::zeroAllMotors() {
+  motors->zeroMotors();
+}
+
+void UrbanPanel::initializeMotorHeightLimit(int callibrationMotorsIds[], int callibrationMotorCount) {
+
+  zeroAllMotors();
+
+  for (int i = 0; i < callibrationMotorCount; i++) {
+
+  }
+}
+
 void UrbanPanel::setPixelColor(int i, int r, int g, int b) {
   for (int j = 0; j < NUMPIXELS; j++) {
     pixels[i]->setPixelColor(j, pixels[i]->Color(r, g, b));
@@ -36,15 +57,6 @@ int UrbanPanel::getPushState(int i) {
 
 int UrbanPanel::getLimitState(int i) {
   return interfacePanel->getLimitCurrentState(i);
-}
-
-
-void UrbanPanel::init() {
-  interfacePanel->init();
-  motors->init();
-
-  delay(2000);
-
 }
 
 // This runs in the main loop. If a limit switch is pressed, that causes an interrupt to set limitActivated = true. This function handles the interrupt.
@@ -87,61 +99,21 @@ void UrbanPanel::limitswitch() {
 }
 
 
-void UrbanPanel::setTrq1Mode(int i) {
-  if (i != 0 || i != 1) {
-    Serial.println("Set trq mode to either 1 or 0");
-    return;
-  }
-
-  trq1Mode = i;
-  switch (trq1Mode) {
-    case 1:
-      digitalWrite(TRQ1_PIN, HIGH);
-      Serial.println("Amp Mode");
-      Serial.print(trq1Mode);
-      Serial.print(" ");
-      Serial.println(trq2Mode);
-      break;
-    case 0:
-      digitalWrite(TRQ1_PIN, LOW);
-      Serial.println("Amp Mode");
-      Serial.print(trq1Mode);
-      Serial.print(" ");
-      Serial.println(trq2Mode);
-      break;
-  }
-}
-
-void UrbanPanel::setTrq2Mode(int i) {
-  if (i != 0 || i != 1) {
-    Serial.println("Set trq mode to either 1 or 0");
-    return;
-  }
-
-  trq2Mode = i;
-  switch (trq1Mode) {
-    case 1:
-      digitalWrite(TRQ2_PIN, HIGH);
-      Serial.println("Amp Mode");
-      Serial.print(trq1Mode);
-      Serial.print(" ");
-      Serial.println(trq2Mode);
-      break;
-    case 0:
-      digitalWrite(TRQ2_PIN, LOW);
-      Serial.println("Amp Mode");
-      Serial.print(trq1Mode);
-      Serial.print(" ");
-      Serial.println(trq2Mode);
-      break;
-  }
-}
-
 /*
-  Moves the defined pixel to a specified position
+  Moves the defined pixel to a specified position, An INT between 0 and upperStepLimit
 */
-void UrbanPanel::setPixelPosition(int i, float pos, tolerance=MOTOR_STEP_TOLERANCE) {
-  motors->setMOtorTarget(i, pos, tolerance);
+void UrbanPanel::setPixelPosition(int i, int pos, int tolerance=MOTOR_STEP_TOLERANCE) {
+
+  int upperLimit = motors->getUpperStepLimit();
+  int targetPos = pos
+
+  if (pos > upperLimit) {
+    targetPos = upperLimit
+  }
+
+
+
+  motors->setMotorTarget(i, targetPos, tolerance);
 }
 
 /*
