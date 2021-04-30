@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include <SparkFunSX1509.h>
 #include <Wire.h>
 
@@ -81,23 +80,29 @@ while (muxCounter != 3) {
 
 
   delay(500);
-  sx00.debounceTime(2);
+  sx01.debounceTime(2);
+  sx02.debounceTime(2);
+
+  sx03.pinMode(1, INPUT);
 
   sx00.pinMode(1, INPUT);
   sx00.pinMode(3, INPUT);
   sx00.pinMode(13, INPUT);
   sx00.pinMode(15, INPUT);
+
+
 }
 
 void loop() {
-  Serial.println(sx03.digitalRead(1))
+  delay(500);
+  Serial.println(sx03.digitalRead(1));
 
-  Serial.println(sx00.digitalRead(1))
-  Serial.println(sx00.digitalRead(3))
-  Serial.println(sx00.digitalRead(13))
-  Serial.println(sx00.digitalRead(15))
+  Serial.println(sx00.digitalRead(1));
+  Serial.println(sx00.digitalRead(3));
+  Serial.println(sx00.digitalRead(13));
+  Serial.println(sx00.digitalRead(15));
 
-  Serial.println()
+  Serial.println();
 
 }
 
