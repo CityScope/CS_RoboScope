@@ -75,14 +75,14 @@
 
 
 //NEO PIXELS
-#define  NEO_PIN_01       16
-#define  NEO_PIN_02       17
+#define  NEO_PIN_01       4
+#define  NEO_PIN_02       13
 #define  NEO_PIN_03       14//2;
 #define  NEO_PIN_04       15///3;
-#define  NEO_PIN_05       4
-#define  NEO_PIN_06       24
-#define  NEO_PIN_07       25
-#define  NEO_PIN_08       13
+#define  NEO_PIN_05       24
+#define  NEO_PIN_06       25
+#define  NEO_PIN_07       28
+#define  NEO_PIN_08       29
 
 //LIMIT BUTTONS
 #define SWITCH_01_SX01    8 
