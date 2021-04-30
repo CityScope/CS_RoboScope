@@ -6,6 +6,10 @@ Motors::Motors() {
 }
 
 void Motors::init() {
+
+
+  upperStepLimit = 100;
+
   SERIAL_PORT.begin(250000);
   driver->begin();
 
@@ -23,6 +27,8 @@ void Motors::init() {
 
 // The function that runs in the main loop of the program. This function manual steps through each motor based on the current instruction given via CANBUS.
 void Motors::motorInstructionLoop() {
+  // TODO Check if the interface buttons are pressed, before one stepper tick.
+
   if (activeMotors[0]) digitalWrite(STEP_PIN_01, HIGH);
   if (activeMotors[1]) digitalWrite(STEP_PIN_02, HIGH);
   if (activeMotors[2]) digitalWrite(STEP_PIN_03, HIGH);

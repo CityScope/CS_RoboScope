@@ -3,23 +3,6 @@
 UrbanPanel::UrbanPanel(int panelId) {
   id = panelId;
 
-  int muxCounter = 0;
-  while (muxCounter != 3) {
-    if (!motorSX.begin(SX1509_ADDRESS_00) ) {
-      Serial.print("Failed 00 ");
-      Serial.print(" " + SX1509_ADDRESS_00);
-      Serial.print(" ");
-      Serial.println(muxCounter);
-      delay(100);
-      muxCounter++;
-    } else {
-      Serial.println("Connected 00");
-      Serial.print(" " + SX1509_ADDRESS_00);
-      Serial.print(" ");
-      Serial.println(muxCounter);
-      break;
-    }
-  }
 
   interfacePanel = new InterfacePanel();
   motors = new Motors();
@@ -64,15 +47,16 @@ void UrbanPanel::init() {
 
 }
 
+// This runs in the main loop. If a limit switch is pressed, that causes an interrupt to set limitActivated = true. This function handles the interrupt.
 void UrbanPanel::motorTimerUpdate() {
   if (limitActivated) {
     interfacePanel->updateLimitState();
 
     for (int i = 0; i < MOTORS_PER_PANEL; i++) {
       if (interfacePanel->getLimitSwitchState(i)) {
-        motors[i]->activeLimit();
-        motors[i]->stop(motorSX);
-        motors[i]->sleepOn(motorSX);
+        //motors[i]->activeLimit();
+        motors->stopMotor(i);
+        //motors[i]->sleepOn(motorSX);
       }
       if (interfacePanel->getLimitState(i)) {
         interfacePanel->resetLimitSwitch(i);
@@ -81,9 +65,13 @@ void UrbanPanel::motorTimerUpdate() {
 
     for (int i = 0; i < MOTORS_PER_PANEL; i++) {
       if (interfacePanel->getPushSwitchState(i)) {
+        // TOOD: Handle the push down interactions here.
+
+        /*
         motors[i]->activeLimit();
         motors[i]->stop(motorSX);
         motors[i]->sleepOn(motorSX);
+        */
       }
       if (interfacePanel->getPushState(i)) {
         interfacePanel->resetPushSwitch(i);
@@ -98,21 +86,6 @@ void UrbanPanel::limitswitch() {
   limitActivated = true;
 }
 
-/*
-*/
-void UrbanPanel::movePixelUp(int i, int steps) {
-  //motorPanel->startMove
-  //motors[i]->moveForward();
-  motors[i]->startMoveForward(steps);
-  motors[i]->start(motorSX);
-  motors[i]->sleepOff(motorSX);
-
-}
-
-void UrbanPanel::stopMotor(int i) {
-  motors[i]->stop(motorSX);
-  motors[i]->sleepOn(motorSX);
-}
 
 void UrbanPanel::setTrq1Mode(int i) {
   if (i != 0 || i != 1) {
@@ -164,19 +137,14 @@ void UrbanPanel::setTrq2Mode(int i) {
   }
 }
 
-void UrbanPanel::movePixelDown(int i, int steps) {
-  //motorPanel->startMove
-  motors[i]->startMoveBackward(steps);
-}
-
 /*
   Moves the defined pixel to a specified position
 */
-void UrbanPanel::setPixelPosition(int i, float pos) {
-
-
+void UrbanPanel::setPixelPosition(int i, float pos, tolerance=MOTOR_STEP_TOLERANCE) {
+  motors->setMOtorTarget(i, pos, tolerance);
 }
 
+/*
 void UrbanPanel::pixelLoop(int i) {
     waitTimeMicros[i] = motors[i]->getNextAction();
 
@@ -184,8 +152,9 @@ void UrbanPanel::pixelLoop(int i) {
     if (getLimitState(0) == 1) {
       movePixelDown(i, 5);
       motors[i]->stop();
-    }*/
+    }
     if (waitTimeMicros[i] <= 0) {
       motors[i]->stop(motorSX);
     }
 }
+*/

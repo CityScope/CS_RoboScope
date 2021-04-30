@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include "BoardPins.h"
-#include "Stepper.h"
+#include "Motors.h"
 #include "InterfacePanel.h"
 #include <SparkFunSX1509.h>
 
@@ -53,7 +53,7 @@ class UrbanPanel {
     int trq1Mode = 1;
     int trq2Mode = 0;
 
-    Stepper * motors[MOTORS_PER_PANEL];
+    Motors * motors;
     volatile unsigned * waitTimeMicros[MOTORS_PER_PANEL];
 
 
