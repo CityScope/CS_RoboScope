@@ -3,6 +3,9 @@ import json
 
 class Utils:
     def __init__(self):
+        '''
+        Initializer. Table properties from CONFIG file and sets up interface app properties
+        ''' 
         f = open('config.json')
         config = json.load(f)
         #TABLE
@@ -27,18 +30,28 @@ class Utils:
         self.types = {}    
     
     def setInitSettings(self, header, num_pixels):
+        '''
+        Updates grid properties from Interface App
+        ''' 
         self.GRID_COLS = header["ncols"]
         self.GRID_ROWS = header["nrows"]
         self.CELL_SIZE = header["cellSize"]
         self.NUM_PIXELS = num_pixels
     
     def updateSettings(self, cols, rows, len_pixels, scale):
+        '''
+        Updates zoom view properties from Interface App
+        ''' 
         self.VIEW_COLS = cols
         self.VIEW_ROWS = rows
         self.VIEW_PIXELS = len_pixels
         self.SCALE = scale
     
     def createPixelAssignment(self):
+        '''
+        Creates Table pixel Assignment  
+        - pixel_assignment: (row, col) --> (node, local_id [0-7])
+        ''' 
         pixelMapping = {}
         for row in range(self.TABLE_ROWS):
             for col in range(self.TABLE_COLS):
@@ -49,23 +62,36 @@ class Utils:
         return pixelMapping 
             
     def setColorMapping(self, types): 
+        '''
+        Creates map from land usage types to its color and height  
+        ''' 
         for i in types.keys():
             self.types[i] = {
+                "name": i,
                 "color": self.hextoRGB(types[i]["color"]), 
                 "meters": types[i].get("meters", 0)
             }
     
-
     def getHeight(self, type, floors):
+        '''
+        Calculates proper height of table pixel based on number of floors of the
+        cell and height of land usage
+        - (# floors * land type height)                X
+          _____________________________  =  ________________________
+                length of cell              table pixel size * scale
+        - returns float in range [0,1]
+        ''' 
         if floors is None:
             return 0
         tableHeight = (floors*self.types[type]["meters"]*self.PX_SIZE*self.SCALE)/math.sqrt(self.CELL_SIZE)
-        print(tableHeight, tableHeight/self.TRAVEL_DIST)
         if tableHeight > self.TRAVEL_DIST:
             return 1
         return tableHeight/self.TRAVEL_DIST
                 
     def hextoRGB(self, hex): 
+        '''
+        Converts hex color to RGB
+        '''
         h = hex.lstrip('#')
         return [int(h[i:i+2], 16) for i in (0, 2, 4)]
     
@@ -77,4 +103,7 @@ class Utils:
         return [new_name, self.types[new_name].color]   
     
     def returnTableDimension(self):
+        '''
+        Returns table dimensions
+        '''
         return [self.TABLE_COLS, self.TABLE_ROWS]   
