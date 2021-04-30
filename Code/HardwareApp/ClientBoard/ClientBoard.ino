@@ -4,8 +4,10 @@
 #include <TeensyThreads.h>
 #include <FlexCAN_T4.h>
 
+// CAN BUS FD
 FlexCAN_T4FD<CAN3, RX_SIZE_512, TX_SIZE_64> FD;
 
+// CAN BUS 1
 FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> Can2;
 
 
@@ -29,6 +31,7 @@ void setup() {
 
   Serial.println("Setting up CAN Bus FD and CAN BUS");
 
+  //setup CAN 2.0 BUS
   Can2.begin();
   Can2.setBaudRate(500000);     // 500kbps data rate
   Can2.enableFIFO();
@@ -73,23 +76,35 @@ void canSniff(const CAN_message_t &msg) {
 }
 
 void canFDSniff(const CANFD_message_t &msg) {
-    Serial.print("  Node: "); Serial.print(msg.id);
-    Serial.print("  LEN: "); Serial.print(msg.len);
-    Serial.print(" DATA: ");
+  Serial.print("  Node: "); Serial.print(msg.id);
+  Serial.print("  LEN: "); Serial.print(msg.len);
+  Serial.print(" DATA: ");
 
-    for ( uint8_t i = 0; i < msg.len; i++ ) {
-      Serial.print(msg.buf[i]); Serial.print(" ");
-    }
-    Serial.println(" ");
+  for ( uint8_t i = 0; i < msg.len; i++ ) {
+    Serial.print(msg.buf[i]); Serial.print(" ");
+  }
+  Serial.println(" ");
 
-    for ( uint8_t i = 0; i < 8; i++ ) {
-      char str[15];
-      sprintf(str, "%X%X", msg.buf[i*4+2], msg.buf[i*4+3]);
-      // grid(msg.id, i, str, msg.buf[i*4]);
-    }
+  for ( uint8_t i = 0; i < 8; i++ ) {
+    char str[15];
+    sprintf(str, "%X%X", msg.buf[i*4+2], msg.buf[i*4+3]);
+    grid(msg.id, i, str, msg.buf[i*4]);
+  }
 }
 
+void grid(int local, char* str, int height) {
+  uint64_t color = (uint64_t) strtoull(str, 0, 16);
+  int r = ((((color >> 11) & 0x1F) * 527) + 23) >> 6;
+  int g = ((((color >> 5) & 0x3F) * 259) + 33) >> 6;
+  int b = (((color & 0x1F) * 527) + 23) >> 6;
 
+
+  for (int j = 0; j < NUMPIXELS; j++) {
+    urbanPanel->setPixelColor(j, pixels[local]->gamma32(pixels[local]->Color(r, g, b))); // Moderately bright green color.
+  }
+  pixels[local]->show();
+
+}
 
 void limitswitch() {
   urbanPanel->limitswitch();

@@ -279,6 +279,7 @@ void loop() {
     if (key == 'q') {
       startMotor0 = !startMotor0;
       Serial.println("Motor toggle 0");
+
     }
     if (key == 'w') {
       startMotor1 = !startMotor1;
@@ -441,7 +442,7 @@ void setupMotorDown(int id) {
   Serial.print(id);
   Serial.println("...");
 
-  driver.toff(5);                 // Enables driver in software
+  driver.toff(4);                 // Enables driver in software
   driver.rms_current(600);        // Set motor RMS current
   driver.microsteps(256); //128         // Set microsteps to 1/16th
 
@@ -583,11 +584,13 @@ void setupSXPins() {
   sx.digitalWrite(EN_PIN_01, LOW);
   sx.digitalWrite(EN_PIN_02, LOW);
   sx.digitalWrite(EN_PIN_03, LOW);
+  sx.digitalWrite(EN_PIN_03, LOW);
   sx.digitalWrite(EN_PIN_04, LOW);
   sx.digitalWrite(EN_PIN_05, LOW);
   sx.digitalWrite(EN_PIN_06, LOW);
   sx.digitalWrite(EN_PIN_07, LOW);
   sx.digitalWrite(EN_PIN_08, LOW);
+
 
   //MUX
   sx.pinMode(selectMotor[0], OUTPUT);
@@ -604,4 +607,5 @@ void setupSXPins() {
     sx.digitalWrite(selectMotor[i], LOW);
     sx.digitalWrite(selectLED[i], LOW);
   }
+
 }
