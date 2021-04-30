@@ -7,6 +7,7 @@ InterfacePanel::InterfacePanel() {
   Serial.println("Setting up interaction buttons");
 
 
+  // THis coresponds to the buttons used on the top PCB with the LEDs
   //push down
   pushPin[0] = SX1509_01_SWITCH_LEDBOX;
   pushPin[1] = SX1509_02_SWITCH_LEDBOX;
@@ -17,6 +18,7 @@ InterfacePanel::InterfacePanel() {
   pushPin[6] = SX1509_07_SWITCH_LEDBOX;
   pushPin[7] = SX1509_08_SWITCH_LEDBOX;
 
+  // THis corresponds to the interaction board that sits ontop of the motor control board. Handles the bottoming out of pixels.
   //limit switch
   limitSwithPin[0] = SX1509_01_SWITCH_STOP;
   limitSwithPin[1] = SX1509_02_SWITCH_STOP;

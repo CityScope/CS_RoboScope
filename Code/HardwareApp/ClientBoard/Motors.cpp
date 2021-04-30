@@ -6,6 +6,10 @@ Motors::Motors() {
 }
 
 void Motors::init() {
+
+
+  upperStepLimit = 100;
+
   SERIAL_PORT.begin(250000);
   driver->begin();
 
@@ -23,6 +27,8 @@ void Motors::init() {
 
 // The function that runs in the main loop of the program. This function manual steps through each motor based on the current instruction given via CANBUS.
 void Motors::motorInstructionLoop() {
+  // TODO Check if the interface buttons are pressed, before one stepper tick.
+
   if (activeMotors[0]) digitalWrite(STEP_PIN_01, HIGH);
   if (activeMotors[1]) digitalWrite(STEP_PIN_02, HIGH);
   if (activeMotors[2]) digitalWrite(STEP_PIN_03, HIGH);
@@ -48,8 +54,32 @@ void Motors::motorInstructionLoop() {
     if (activateMotors[i]) {
       int change = (shaftDir[i]) ? 1:-1;
       currentStep[i] += change;
+
+      // Check upper bound of pixel
+      if (upperStepLimit - currentStep < MOTOR_STEP_TOLERANCE) {
+        currentStep[i] = upperStepLimit;
+        stopMotor(i)
+      }
+
+      // Check lower bound of pixel
+      if (currentStep < MOTOR_STEP_TOLERANCE) {
+        stopMotor(i)
+        currentStep[i] = 0;
+      }
+
+
+      // Check target Position against target to know when to stop
+      if (abs(currentStep[i] - stepTarget) < MOTOR_STEP_TOLERANCE)) {
+        currentStep[i] = stepTarget;
+        stopMotor(i)
+      }
+
     }
   }
+}
+
+int Motors::getMotorTargetPos(int id) {
+  return stepTarget;
 }
 
 void Motors::setMotorTarget(int id, int targetPos, int tolerance = MOTOR_STEP_TOLERANCE) {
@@ -59,6 +89,8 @@ void Motors::setMotorTarget(int id, int targetPos, int tolerance = MOTOR_STEP_TO
     stopMotor(id);
     return:
   }
+
+  stepTarget = targetPos;
 
   activeMotors[id] = true; // Lets the motor move;
 
@@ -91,6 +123,14 @@ bool Motors::getMotorDir(int id) {
 // Returns whether or not the current motor is moving.
 bool Motors::isActive(int id) {
   return activeMotors[id];
+}
+
+int Motors::getUpperStepLimit() {
+  return upperStepLimit;
+}
+
+int Motors::setUpperStepLimit(int stepLimit) {
+  upperStepLimit = stepLimit;
 }
 
 void Motors::enableMotor(int id) {
@@ -201,5 +241,16 @@ void Motors::setupSXPins() {
   for (int i = 0; i < 3; i++) {
     sx->digitalWrite(selectMotor[i], LOW);
     sx->digitalWrite(selectLED[i], LOW);
+  }
+}
+
+void Motors::gotoMaxStep() {
+
+}
+
+void Motors::zeroMotors() {
+  for (int i = 0; i < MOTORS_PER_PANEL; i++) {
+    setMotorTarget(i, 0, MOTOR_STEP_TOLERANCE)
+
   }
 }
