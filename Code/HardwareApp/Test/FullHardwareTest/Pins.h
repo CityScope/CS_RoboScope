@@ -6,83 +6,66 @@
 
 //define address
 #define  SX1509_ADDRESS_00         0x3E
-#define  SX1509_ADDRESS_01         0x3F
-#define  SX1509_ADDRESS_10         0x71
-#define  SX1509_ADDRESS_11         0x70
+#define  SX1509_ADDRESS_01         0x3F // 0x3F
+#define  SX1509_ADDRESS_10         0x70   ///0x71
+#define  SX1509_ADDRESS_11         0x71
 
 #define LED_STATUS 19
 
-#define INTERRUPT_PIN_SWITCH_01   28
-#define INTERRUPT_PIN_SWITCH_02   29
+#define INTERRUPT_PIN_SWITCH_01   32
+#define INTERRUPT_PIN_SWITCH_02   33
 
 //MOTOR VALUES
 #define GMOTOR_STEPS      200 *321 //200
 #define GRPM              120 //120
 
-//STEPS PISN
-#define GM0_PIN           11
-#define GM1_PIN           7 //sx
 
-//Energy Pins
-#define TRQ1_PIN          32 
-#define TRQ2_PIN          33
+
 
 //MOTOR PINS
 //MOTOR 1
-#define DIR_PIN_01        6
-#define STEP_PIN_01       5
-#define ENABLE_01_SX00    10  // ENABLE PIN on the SX1509
+#define ENABLE_01_SX00     10 // SX Enable
+#define DIR_PIN_01          6 // Direction
+#define STEP_PIN_01         5 // Step
 
-// MOTOR 2
-#define DIR_PIN_02        8
-#define STEP_PIN_02       7
-#define ENABLE_02_SX00    6  // ENABLE PIN on the SX1509
+#define ENABLE_02_SX00      6 //  SX Enable
+#define DIR_PIN_02          8 // Direction
+#define STEP_PIN_02         7 // Step 
 
-// MOTOR 3
-#define DIR_PIN_03        10
-#define STEP_PIN_03       9
-#define ENABLE_03_SX00    4  // ENABLE PIN on the SX1509
+#define ENABLE_03_SX00      4 //  SX Enable
+#define DIR_PIN_03          10 // Direction 
+#define STEP_PIN_03         9 // Step 
 
+#define ENABLE_04_SX00      2 // SX Enable
+#define DIR_PIN_04          12 // Direction
+#define STEP_PIN_04         11 // Step
 
-// MOTOR 4
-#define DIR_PIN_04        12
-#define STEP_PIN_04       11
-#define ENABLE_04_SX00    2  // ENABLE PIN on the SX1509
+#define ENABLE_05_SX00      8 // SX Enable
+#define DIR_PIN_05          17 // Direction
+#define STEP_PIN_05         16 // Step 
 
+#define ENABLE_06_SX00      0 // SX Enable
+#define DIR_PIN_06          3 // Direction 
+#define STEP_PIN_06         2 // Step 
 
-// MOTOR 5
-#define DIR_PIN_05        21
-#define STEP_PIN_05       20
-#define ENABLE_05_SX00    8  // ENABLE PIN on the SX1509
+#define ENABLE_07_SX00      12 // SX Enable
+#define DIR_PIN_07          23 // Direction 
+#define STEP_PIN_07         22 // Step 
 
-
-// MOTOR 6
-#define DIR_PIN_06        3
-#define STEP_PIN_06       2
-#define ENABLE_06_SX00    0  // ENABLE PIN on the SX1509
-
-
-// MOTOR 7
-#define DIR_PIN_07        23
-#define STEP_PIN_07       22
-#define ENABLE_07_SX00    12  // ENABLE PIN on the SX1509
-
-
-// MOTOR 8
-#define DIR_PIN_08        27
-#define STEP_PIN_08       26
-#define ENABLE_08_SX00    14  // ENABLE PIN on the SX1509
+#define ENABLE_08_SX00      14 // SX Enable
+#define DIR_PIN_08          27 // Direction 
+#define STEP_PIN_08         26 // Step 
 
 
 //NEO PIXELS
-#define  NEO_PIN_01       16
-#define  NEO_PIN_02       17
+#define  NEO_PIN_01        4
+#define  NEO_PIN_02       13
 #define  NEO_PIN_03       14//2;
 #define  NEO_PIN_04       15///3;
-#define  NEO_PIN_05       4
-#define  NEO_PIN_06       24
-#define  NEO_PIN_07       25
-#define  NEO_PIN_08       13
+#define  NEO_PIN_05       24
+#define  NEO_PIN_06       25
+#define  NEO_PIN_07       28
+#define  NEO_PIN_08       29
 
 //LIMIT BUTTONS
 #define SWITCH_01_SX01    8 

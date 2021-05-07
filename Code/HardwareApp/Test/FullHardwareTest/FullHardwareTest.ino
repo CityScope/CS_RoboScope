@@ -41,6 +41,8 @@ bool interruptActivate02 = false;
 //dip switch  and notifications
 SX1509 sx03;
 
+//change if the buttons are using the interrupt funtion
+bool interrupts_pins = false;
 
 //Motor 1
 Stepper * motors[8];
@@ -145,14 +147,14 @@ void setup() {
 
   while (muxCounter != 3) {
     if (!sx03.begin(SX1509_ADDRESS_11) ) {
-      Serial.print("Failed 03 ");
+      Serial.print("Failed 03");
       Serial.print(" " + SX1509_ADDRESS_11);
       Serial.print(" ");
       Serial.println(muxCounter);
       delay(100);
       muxCounter++;
     } else {
-      Serial.println("Connected 03 ");
+      Serial.println("Connected 03");
       Serial.print("" + SX1509_ADDRESS_11);
       Serial.print(" ");
       Serial.println(muxCounter);
@@ -160,16 +162,16 @@ void setup() {
     }
   }
   muxCounter = 0;
-  delay(200);
+  delay(500);
 
   //-----------------------
-  initSX01();
-  delay(100);
-  Serial.println("done init pins SX 01");
-
-  initSX03();
-  delay(100);
+  initSX02();
+  delay(200);
   Serial.println("done init pins SX 02");
+
+  initSX01();
+  delay(200);
+  Serial.println("done init pins SX 01");
 
   initSX03();
   delay(100);
@@ -181,7 +183,7 @@ void setup() {
     if (activateMotors[i] ==  1) {
       Serial.print("Setting up: ");
       Serial.println(i);
-      motors[i] =  new Stepper(0, GMOTOR_STEPS, motorDirPins[i], motorStepPins[i], motorEnablePins[i], GM0_PIN, GM1_PIN);
+      motors[i] =  new Stepper(0, GMOTOR_STEPS, motorDirPins[i], motorStepPins[i], motorEnablePins[i]);
 
       Serial.println("Starting: ");
       motors[i]->setRPM(GRPM);
@@ -210,8 +212,8 @@ void setup() {
   Serial.println("Done LEDs");
 
   //////////
-  attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN_SWITCH_01), checkSXO1, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN_SWITCH_02), checkSXO2, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN_SWITCH_01), checkSXO1_interrupts, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN_SWITCH_02), checkSXO2_interrupts, CHANGE);
 
 
 
@@ -241,21 +243,6 @@ void setup() {
   Serial.println("Done Can Bus");
   delay(200);
 
-  //Pin Modes
-  pinMode(TRQ1_PIN, OUTPUT);
-  pinMode(TRQ2_PIN, OUTPUT);
-
-  if (trq1Mode == 1) {
-    digitalWrite(TRQ1_PIN, HIGH);
-  }
-
-  if (trq2Mode == 1) {
-    digitalWrite(TRQ2_PIN, HIGH);
-  }
-
-  sx00.pinMode(GM1_PIN, OUTPUT);
-  sx00.digitalWrite(GM1_PIN, HIGH);
-
   Serial.println("done");
 }
 
@@ -264,24 +251,28 @@ void loop() {
 
   //if (motor01->isEnable()) {
 
-  if (moveMotor) {
+  /*if (moveMotor) {
     //  motor01->moveForward();
-  }
-  // }
+    }
+    // }
 
-  for (int i = 0; i < numMotors; i++) {
+    for (int i = 0; i < numMotors; i++) {
     if (activateMotors[i] ==  1) {
       motors[i]->getNextAction();
     }
-  }
-
+    }
+  */
   ///
-  updateSX01();
-  updateSX02();
+
+  checkLimit();
+  checkPushDown();
+  //checkPushUp();
+  checkDip();
+
 
   ///Limit and push buttons
   //checkLimit();
-  /checkPushDown();
+  //checkPushDown();
 
   //CAN BUS
   /*
@@ -297,258 +288,7 @@ void loop() {
 
 }
 
-//sx 01
-void initSX01() {
-  sx01.pinMode(SWITCH_01_SX01, INPUT_PULLUP);
-  sx01.pinMode(SWITCH_02_SX01, INPUT_PULLUP);
-  sx01.pinMode(SWITCH_03_SX01, INPUT_PULLUP);
-  sx01.pinMode(SWITCH_04_SX01, INPUT_PULLUP);
 
-  sx01.pinMode(DOWN_01_SX01, INPUT_PULLUP);
-  sx01.pinMode(DOWN_02_SX01, INPUT_PULLUP);
-  sx01.pinMode(DOWN_03_SX01, INPUT_PULLUP);
-  sx01.pinMode(DOWN_04_SX01, INPUT_PULLUP);
-
-  sx01.pinMode(UP_01_SX01, INPUT_PULLUP);
-  sx01.pinMode(UP_02_SX01, INPUT_PULLUP);
-  sx01.pinMode(UP_03_SX01, INPUT_PULLUP);
-  sx01.pinMode(UP_04_SX01, INPUT_PULLUP);
-
-  sx01.pinMode(TOUCH_01_SX01, INPUT_PULLUP);
-  sx01.pinMode(TOUCH_02_SX01, INPUT_PULLUP);
-  sx01.pinMode(TOUCH_03_SX01, INPUT_PULLUP);
-  sx01.pinMode(TOUCH_04_SX01, INPUT_PULLUP);
-
-  //interrupt
-  sx01.enableInterrupt(SWITCH_01_SX01, CHANGE);
-  sx01.enableInterrupt(SWITCH_02_SX01, CHANGE);
-  sx01.enableInterrupt(SWITCH_03_SX01, CHANGE);
-  sx01.enableInterrupt(SWITCH_04_SX01, CHANGE);
-
-  sx01.enableInterrupt(DOWN_01_SX01, CHANGE);
-  sx01.enableInterrupt(DOWN_02_SX01, CHANGE);
-  sx01.enableInterrupt(DOWN_03_SX01, CHANGE);
-  sx01.enableInterrupt(DOWN_04_SX01, CHANGE);
-
-  sx01.enableInterrupt(UP_01_SX01, CHANGE);
-  sx01.enableInterrupt(UP_02_SX01, CHANGE);
-  sx01.enableInterrupt(UP_03_SX01, CHANGE);
-  sx01.enableInterrupt(UP_04_SX01, CHANGE);
-
-  sx01.enableInterrupt(TOUCH_01_SX01, CHANGE);
-  sx01.enableInterrupt(TOUCH_02_SX01, CHANGE);
-  sx01.enableInterrupt(TOUCH_03_SX01, CHANGE);
-  sx01.enableInterrupt(TOUCH_04_SX01, CHANGE);
-
-  //debouncePin
-  sx01.debounceTime(4);
-
-  sx01.debouncePin(SWITCH_01_SX01);
-  sx01.debouncePin(SWITCH_02_SX01);
-  sx01.debouncePin(SWITCH_03_SX01);
-  sx01.debouncePin(SWITCH_04_SX01);
-
-  sx01.debouncePin(DOWN_01_SX01);
-  sx01.debouncePin(DOWN_02_SX01);
-  sx01.debouncePin(DOWN_03_SX01);
-  sx01.debouncePin(DOWN_04_SX01);
-
-  sx01.debouncePin(UP_01_SX01);
-  sx01.debouncePin(UP_02_SX01);
-  sx01.debouncePin(UP_03_SX01);
-  sx01.debouncePin(UP_04_SX01);
-
-  sx01.debouncePin(TOUCH_01_SX01);
-  sx01.debouncePin(TOUCH_02_SX01);
-  sx01.debouncePin(TOUCH_03_SX01);
-  sx01.debouncePin(TOUCH_04_SX01);
-
-  pinMode(INTERRUPT_PIN_SWITCH_01, INPUT_PULLUP);
-}
-
-//sx 02
-void initSX02() {
-
-  sx02.pinMode(SWITCH_05_SX02, INPUT_PULLUP);
-  sx02.pinMode(SWITCH_06_SX02, INPUT_PULLUP);
-  sx02.pinMode(SWITCH_07_SX02, INPUT_PULLUP);
-  sx02.pinMode(SWITCH_08_SX02, INPUT_PULLUP);
-
-  sx02.pinMode(DOWN_05_SX02, INPUT_PULLUP);
-  sx02.pinMode(DOWN_06_SX02, INPUT_PULLUP);
-  sx02.pinMode(DOWN_07_SX02, INPUT_PULLUP);
-  sx02.pinMode(DOWN_08_SX02, INPUT_PULLUP);
-
-  sx02.pinMode(UP_05_SX02, INPUT_PULLUP);
-  sx02.pinMode(UP_06_SX02, INPUT_PULLUP);
-  sx02.pinMode(UP_07_SX02, INPUT_PULLUP);
-  sx02.pinMode(UP_08_SX02,  INPUT_PULLUP);
-
-  sx02.pinMode(TOUCH_05_SX02, INPUT_PULLUP);
-  sx02.pinMode(TOUCH_06_SX02, INPUT_PULLUP);
-  sx02.pinMode(TOUCH_07_SX02, INPUT_PULLUP);
-  sx02.pinMode(TOUCH_08_SX02, INPUT_PULLUP);
-
-  //interrupt
-  sx02.enableInterrupt(SWITCH_05_SX02, CHANGE);
-  sx02.enableInterrupt(SWITCH_06_SX02, CHANGE);
-  sx02.enableInterrupt(SWITCH_07_SX02, CHANGE);
-  sx02.enableInterrupt(SWITCH_08_SX02, CHANGE);
-
-  sx02.enableInterrupt(DOWN_05_SX02, CHANGE);
-  sx02.enableInterrupt(DOWN_06_SX02, CHANGE);
-  sx02.enableInterrupt(DOWN_07_SX02, CHANGE);
-  sx02.enableInterrupt(DOWN_08_SX02, CHANGE);
-
-  sx02.enableInterrupt(UP_05_SX02, CHANGE);
-  sx02.enableInterrupt(UP_06_SX02, CHANGE);
-  sx02.enableInterrupt(UP_07_SX02, CHANGE);
-  sx02.enableInterrupt(UP_08_SX02, CHANGE);
-
-  sx02.enableInterrupt(TOUCH_05_SX02, CHANGE);
-  sx02.enableInterrupt(TOUCH_06_SX02, CHANGE);
-  sx02.enableInterrupt(TOUCH_07_SX02, CHANGE);
-  sx02.enableInterrupt(TOUCH_08_SX02, CHANGE);
-
-  //debouncePin
-  sx02.debounceTime(4);
-
-  sx02.debouncePin(SWITCH_05_SX02);
-  sx02.debouncePin(SWITCH_06_SX02);
-  sx02.debouncePin(SWITCH_07_SX02);
-  sx02.debouncePin(SWITCH_08_SX02);
-
-  sx02.debouncePin(DOWN_05_SX02);
-  sx02.debouncePin(DOWN_06_SX02);
-  sx02.debouncePin(DOWN_07_SX02);
-  sx02.debouncePin(DOWN_08_SX02);
-
-  sx02.debouncePin(UP_05_SX02);
-  sx02.debouncePin(UP_06_SX02);
-  sx02.debouncePin(UP_07_SX02);
-  sx02.debouncePin(UP_08_SX02);
-
-  sx02.debouncePin(TOUCH_05_SX02);
-  sx02.debouncePin(TOUCH_06_SX02);
-  sx02.debouncePin(TOUCH_07_SX02);
-  sx02.debouncePin(TOUCH_08_SX02);
-
-  pinMode(INTERRUPT_PIN_SWITCH_02, INPUT_PULLUP);
-}
-
-//SX03
-void initSX03() {
-  sx03.pinMode(DIP_01_SX03, INPUT);
-  sx03.pinMode(DIP_02_SX03, INPUT);
-  sx03.pinMode(DIP_03_SX03, INPUT);
-  sx03.pinMode(DIP_04_SX03, INPUT);
-  sx03.pinMode(DIP_05_SX03, INPUT);
-  sx03.pinMode(DIP_06_SX03, INPUT);
-  sx03.pinMode(DIP_07_SX03, INPUT);
-  sx03.pinMode(DIP_08_SX03, INPUT);
-  sx03.pinMode(DIP_09_SX03, INPUT);
-  sx03.pinMode(DIP_10_SX03, INPUT);
-}
-
-//---------------------------------------------
-void checkSXO1() {
-  interruptActivate01 = true;
-}
-void checkSXO2() {
-  interruptActivate02 = true;
-}
-//---------------------------------------------
-void updateSX01() {
-  if (interruptActivate01) {
-    Serial.println("interrupt sx01");
-
-    unsigned int intStatus = sx01.interruptSource();
-    Serial.println("intStatus = " + String(intStatus, BIN));
-
-    if (bool(intStatus & (1 << SWITCH_01_SX01)) == HIGH) {
-      Serial.println("LIMIT PIN 01");
-    }
-    if (bool(intStatus & (1 << SWITCH_02_SX01)) == HIGH) {
-      Serial.println("LIMIT PIN 02");
-    }
-    if (bool(intStatus & (1 << SWITCH_03_SX01)) == HIGH) {
-      Serial.println("LIMIT PIN 03");
-    }
-    if (bool(intStatus & (1 << SWITCH_04_SX01)) == HIGH) {
-      Serial.println("LIMIT PIN 04");
-    }
-
-    //SX 02 down
-    if (bool(intStatus & (1 << DOWN_01_SX01)) == HIGH) {
-      Serial.println("PIN 01 DOWN");
-      colorChange = true;
-      colorId = 0;
-    }
-    if (bool(intStatus & (1 << DOWN_02_SX01)) == HIGH) {
-      Serial.println("PIN 02 DOWN");
-      colorChange = true;
-      colorId = 1;
-    }
-    if (bool(intStatus & (1 << DOWN_03_SX01)) == HIGH) {
-      Serial.println("PIN 03 DOWN");
-      colorChange = true;
-      colorId = 2;
-    }
-    if (bool(intStatus & (1 << DOWN_04_SX01)) == HIGH) {
-      Serial.println("PIN 04 DOWN");
-      colorChange = true;
-      colorId = 3;
-    }
-    interruptActivate01 = false;
-  }
-}
-//----------------------------------------------------
-void updateSX02() {
-  if (interruptActivate02) {
-    Serial.println("interrupt sx02");
-
-    unsigned int intStatus = sx02.interruptSource();
-    Serial.println("intStatus = " + String(intStatus, BIN));
-
-    //
-    if (intStatus & (1 << SWITCH_05_SX02) == HIGH) {
-      Serial.println("LIMIT PIN 05");
-    }
-    if (intStatus & (1 << SWITCH_06_SX02) == HIGH) {
-      Serial.println("LIMIT PIN 06");
-    }
-    if (intStatus & (1 << SWITCH_07_SX02) == HIGH) {
-      Serial.println("LIMIT PIN 07");
-    }
-    if (intStatus & (1 << SWITCH_08_SX02) == HIGH) {
-      Serial.println("LIMIT PIN 08");
-    }
-
-    //SX 02 down
-    if (intStatus & (1 << DOWN_05_SX02) == HIGH) {
-      Serial.println("PIN 05 DOWN");
-      colorChange = true;
-      colorId = 4;
-    }
-    if (intStatus & (1 << DOWN_06_SX02) == HIGH) {
-      Serial.println("PIN 06 DOWN");
-      colorChange = true;
-      colorId = 5;
-    }
-    if (intStatus & (1 << DOWN_07_SX02) == HIGH) {
-      Serial.println("PIN 07 DOWN");
-      colorChange = true;
-      colorId = 6;
-    }
-    if (intStatus & (1 << DOWN_08_SX02) == HIGH) {
-      Serial.println("PIN 08 DOWN");
-      colorChange = true;
-      colorId = 7;
-    }
-    interruptActivate02 = false;
-  }
-
-}
 
 ///---------------------------------------------------------
 //SX 01
@@ -577,6 +317,40 @@ void checkLimit() {
   if (sx02.digitalRead(SWITCH_08_SX02) == HIGH) {
     Serial.println("LIMIT PIN 08");
   }
+}
+
+void checkDip() {
+  if (sx03.digitalRead(DIP_01_SX03) == HIGH) {
+    Serial.println("DIP PIN 01");
+  }
+  if (sx03.digitalRead(DIP_02_SX03) == HIGH) {
+    Serial.println("DIP PIN 02");
+  }
+  if (sx03.digitalRead(DIP_03_SX03) == HIGH) {
+    Serial.println("DIP PIN 03");
+  }
+  if (sx03.digitalRead(DIP_04_SX03) == HIGH) {
+    Serial.println("DIP PIN 04");
+  }
+  if (sx03.digitalRead(DIP_05_SX03) == HIGH) {
+    Serial.println("DIP PIN 05");
+  }
+  if (sx03.digitalRead(DIP_06_SX03) == HIGH) {
+    Serial.println("DIP PIN 06");
+  }
+  if (sx03.digitalRead(DIP_07_SX03) == HIGH) {
+    Serial.println("DIP PIN 07");
+  }
+  if (sx03.digitalRead(DIP_08_SX03) == HIGH) {
+    Serial.println("DIP PIN 08");
+  }
+  if (sx03.digitalRead(DIP_09_SX03) == HIGH) {
+    Serial.println("DIP PIN 09");
+  }
+  if (sx03.digitalRead(DIP_10_SX03) == HIGH) {
+    Serial.println("DIP PIN 10");
+  }
+
 }
 
 void checkPushDown() {
@@ -637,7 +411,30 @@ void checkPushDown() {
 
 //-------------------------------------------------------------------
 void checkPushUp() {
-
+  if (sx01.digitalRead(UP_01_SX01) == LOW) {
+    Serial.println("LIMIT UP PIN 01");
+  }
+  if (sx01.digitalRead(UP_02_SX01) == LOW) {
+    Serial.println("LIMIT UP PIN 02");
+  }
+  if (sx01.digitalRead(UP_03_SX01) == LOW) {
+    Serial.println("LIMIT UP PIN 03");
+  }
+  if (sx01.digitalRead(UP_04_SX01) == LOW) {
+    Serial.println("LIMIT UP PIN 04");
+  }
+  if (sx02.digitalRead(UP_05_SX02) == LOW) {
+    Serial.println("LIMIT UP PIN 05");
+  }
+  if (sx02.digitalRead(UP_06_SX02) == LOW) {
+    Serial.println("LIMIT UP PIN 06");
+  }
+  if (sx02.digitalRead(UP_07_SX02) == LOW) {
+    Serial.println("LIMIT UP PIN 07");
+  }
+  if (sx02.digitalRead(UP_08_SX02) == LOW) {
+    Serial.println("LIMIT UP PIN 08");
+  }
 
 }
 
@@ -926,47 +723,25 @@ void keyCommands() {
 
     //modes
     if (key == 'f') {
-      trq1Mode = 0;
-      digitalWrite(TRQ1_PIN, LOW);
-      Serial.println("Amp Mode");
-      Serial.print(trq1Mode);
-      Serial.print(" ");
-      Serial.println(trq2Mode);
+
     }
     if (key == 'g') {
-      trq1Mode = 1;
-      digitalWrite(TRQ1_PIN, HIGH);
-      Serial.println("Amp Mode");
-      Serial.print(trq1Mode);
-      Serial.print(" ");
-      Serial.println(trq2Mode);
+
     }
     if (key == 'h') {
-      trq2Mode = 0;
-      digitalWrite(TRQ2_PIN, LOW);
-      Serial.println("Amp Mode");
-      Serial.print(trq1Mode);
-      Serial.print(" ");
-      Serial.println(trq2Mode);
+
     }
     if (key == 'j') {
-      trq2Mode = 1;
-      digitalWrite(TRQ2_PIN, HIGH);
-      Serial.println("Amp Mode");
-      Serial.print(trq1Mode);
-      Serial.print(" ");
-      Serial.println(trq2Mode);
+
     }
 
     //steps
     if (key == 'o') {
-      sx00.digitalWrite(GM1_PIN, HIGH);
-      Serial.print("GM1 HIGH 16");
+
     }
 
     if (key == 'p') {
-      sx00.digitalWrite(GM1_PIN, LOW);
-      Serial.print("GM1 HIGH 8");
+
     }
 
     //LEDS
@@ -1005,4 +780,49 @@ void keyCommands() {
       }
     }
   }
+}
+
+void initSX01() {
+  sx01.pinMode(SWITCH_01_SX01, INPUT);
+  sx01.pinMode(SWITCH_02_SX01, INPUT);
+  sx01.pinMode(SWITCH_03_SX01, INPUT);
+  sx01.pinMode(SWITCH_04_SX01, INPUT);
+
+  sx01.pinMode(DOWN_01_SX01, INPUT);
+  sx01.pinMode(DOWN_02_SX01, INPUT);
+  sx01.pinMode(DOWN_03_SX01, INPUT);
+  sx01.pinMode(DOWN_04_SX01, INPUT);
+
+  sx01.pinMode(UP_01_SX01, INPUT);
+  sx01.pinMode(UP_02_SX01, INPUT);
+  sx01.pinMode(UP_03_SX01, INPUT);
+  sx01.pinMode(UP_04_SX01, INPUT);
+
+  sx01.pinMode(TOUCH_01_SX01, INPUT);
+  sx01.pinMode(TOUCH_02_SX01, INPUT);
+  sx01.pinMode(TOUCH_03_SX01, INPUT);
+  sx01.pinMode(TOUCH_04_SX01, INPUT);
+}
+
+void initSX02() {
+
+  sx02.pinMode(SWITCH_05_SX02, INPUT);
+  sx02.pinMode(SWITCH_06_SX02, INPUT);
+  sx02.pinMode(SWITCH_07_SX02, INPUT);
+  sx02.pinMode(SWITCH_08_SX02, INPUT);
+
+  sx02.pinMode(DOWN_05_SX02, INPUT);
+  sx02.pinMode(DOWN_06_SX02, INPUT);
+  sx02.pinMode(DOWN_07_SX02, INPUT);
+  sx02.pinMode(DOWN_08_SX02, INPUT);
+
+  sx02.pinMode(UP_05_SX02, INPUT);
+  sx02.pinMode(UP_06_SX02, INPUT);
+  sx02.pinMode(UP_07_SX02, INPUT);
+  sx02.pinMode(UP_08_SX02,  INPUT);
+
+  sx02.pinMode(TOUCH_05_SX02, INPUT);
+  sx02.pinMode(TOUCH_06_SX02, INPUT);
+  sx02.pinMode(TOUCH_07_SX02, INPUT);
+  sx02.pinMode(TOUCH_08_SX02, INPUT);
 }

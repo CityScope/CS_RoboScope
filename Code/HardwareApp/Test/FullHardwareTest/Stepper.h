@@ -18,10 +18,6 @@ class Stepper {
     //activators
     int ENABLE_PIN;
 
-    //Microstepping control pins
-    int M0_PIN;
-    int M1_PIN;
-
     // Motor steps per revolution. Most steppers are 200 steps or 1.8 degrees/step
     int motorSteps;
     int rpm;
@@ -37,7 +33,7 @@ class Stepper {
 
 
     //constructor
-    Stepper(int m_id, int steps, int dir_pin, int step_pin, int enable_pin, int m0_pin, int m1_pin) {
+    Stepper(int m_id, int steps, int dir_pin, int step_pin, int enable_pin) {
       id  = m_id;
       motorSteps = steps;
 
@@ -45,8 +41,6 @@ class Stepper {
       DIR_PIN   = dir_pin;
       STEP_PIN  = step_pin;
       ENABLE_PIN = enable_pin;
-      M0_PIN = m0_pin;
-      M1_PIN = m1_pin;
 
       //init motor driver
       motor = new DRV8880(motorSteps, DIR_PIN, STEP_PIN);//, ENABLE_PIN, M0_PIN, M1_PIN);
@@ -149,10 +143,6 @@ class Stepper {
       Serial.println(STEP_PIN);
       Serial.print("ENABLE PIN: ");
       Serial.println(ENABLE_PIN);
-      Serial.print("M0 PIN: ");
-      Serial.println(M0_PIN);
-      Serial.print("M1 PIN: ");
-      Serial.println(M1_PIN);
     }
 
 };
