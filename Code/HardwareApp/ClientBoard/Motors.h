@@ -26,12 +26,25 @@ public:
 
   void setMotorTarget(int id, int targetPos, int tolerance=MOTOR_STEP_TOLERANCE);
 
+  void stopMotors(int id);
+
+  int getMotorCurrentStep(int id);
+
   void getMotorDir(int id);
+
   void isActive(int id);
+
+  int getUpperStepLimit();
+
+  void setUpperStepLimit(int stepLimit);
 
   void enableMotor(int id);
   void setUpMotor(int id);
   void setupSXPins();
+
+  void gotoMaxStep();
+
+  void zeroMotors();
 
 private:
   constexpr uint32_t steps_per_mm = 80;
@@ -41,6 +54,9 @@ private:
   int * stepCounter[MOTORS_PER_PANEL];
 
   SX1509 sx;
+
+  int upperStepLimit;
+  int stepTarget = 0;
 
   const int selectMotor[3] = {5, 7, 9};
 

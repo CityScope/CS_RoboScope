@@ -13,14 +13,16 @@ sio = socketio.Server(async_mode='threading', cors_allowed_origins='*')
 # initialize application wrapper for server
 app = Flask(__name__)
 app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app)
-thread = None
+thread = None #thread for reading from table
 
 # initialize GridHandling
 gh = GridHandling()
 time.sleep(2)
 
-# continuous background reading task
 def background_read():
+    """
+    Continuous background reading from table and sends processed data to interface app 
+    """
     while True:
         data = gh.serialReceive()
         if data is not None:
@@ -28,9 +30,11 @@ def background_read():
             sio.emit('roboscopeInput', data)
         time.sleep(1)
 
-# on connect event handler (connects to port 8080 as does the web socket client in the Interface App)       
 @sio.on('connect')
 def connect(sid, environ):
+    """
+    On connect event handler (connects to port 8080 as does the web socket client in the Interface App)       
+    """
     print('connected... ', sid)
     dim = gh.Utils.returnTableDimension()
     sio.emit("welcome", dim);
@@ -40,24 +44,41 @@ def connect(sid, environ):
         
 @sio.on('onInit')
 def on_start(sid, features, properties):
+    """
+    Sends table dimensions to interface app every time interface app connects      
+    """
     print("onInit");
     dim = gh.Utils.returnTableDimension()
     sio.emit("tableDim", dim)
     gh.tableStart(features, properties)
 
-# receive data when 'brushing' edit grid events occur (height, color, ID of each pixel)
 @sio.on('pixelUpdate')
 def pixel_handling(sid, data):
+    """
+    Handles data received 'brushing' edit grid events occur (height, color, ID of each pixel)     
+    """
     gh.serialSend(data)
 
 # on scale or translation change, receive all features involved in change
 @sio.on('gridUpdate')
 def grid_handling(sid, scale, data):
+    """
+    Handles data received when grid view is scaled or translated (all new features)
+    """
     gh.setSelected(scale, data)
     
-# on disconnect event handler
+@sio.on('editUpdate')
+def grid_handling(sid, editBool, type):
+    """
+    Handles changes in edit menu on interface app
+    """
+    gh.Interacts.setInteraction(editBool, type, gh.Utils)
+    
 @sio.on('disconnect')
 def disconnect(sid):
+    """
+    Handles disconnects from server
+    """
     print('disconnect ', sid)
 
 if __name__ == '__main__':

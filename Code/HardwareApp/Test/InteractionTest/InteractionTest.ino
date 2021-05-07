@@ -668,7 +668,7 @@ void chnageColor(int id) {
     pixels->setPixelColor(j, pixels->Color(colors[id]->red, colors[id]->green, colors[id]->blue, colors[id]->white)); // Moderately bright green color.
    pixels->show();
   }
- 
+
 }
 
 void chnageColor() {
@@ -679,7 +679,7 @@ void chnageColor() {
       pixels->setPixelColor(j, pixels->Color(colors[i]->red, colors[i]->green, colors[i]->blue, colors[i]->white)); // Moderately bright green color.
       pixels->show();
     }
-    
+
     //delay(100);
     // digitalWrite(NEO_PIN_E, LOW);
 

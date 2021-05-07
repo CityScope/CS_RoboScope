@@ -144,54 +144,7 @@ void loop() {
 void keyboardInputTest() {
   char key = Serial.read();
   if (key == 'q') {
-    urbanPanel->movePixelUp(0,5);
-  }
-  if (key == 'w') {
-    urbanPanel->movePixelUp(1,5);
-  }
-  if (key == 'e') {
-    urbanPanel->movePixelUp(2,5);
-  }
-  if (key == 'r') {
-    urbanPanel->movePixelUp(3,5);
-  }
-  if (key == 't') {
-    urbanPanel->movePixelUp(4,5);
-  }
-  if (key == 'y') {
-    urbanPanel->movePixelUp(5,5);
-  }
-  if (key == 'u') {
-    urbanPanel->movePixelUp(6,5);
-  }
-  if (key == 'i') {
-    urbanPanel->movePixelUp(7,5);
-  }
-
-
-  if (key == 'a') {
-    urbanPanel->movePixelDown(0,5);
-  }
-  if (key == 's') {
-    urbanPanel->movePixelDown(1,5);
-  }
-  if (key == 'd') {
-    urbanPanel->movePixelDown(2,5);
-  }
-  if (key == 'f') {
-    urbanPanel->movePixelDown(3,5);
-  }
-  if (key == 'g') {
-    urbanPanel->movePixelDown(4,5);
-  }
-  if (key == 'h') {
-    urbanPanel->movePixelDown(5,5);
-  }
-  if (key == 'j') {
-    urbanPanel->movePixelDown(6,5);
-  }
-  if (key == 'k') {
-    urbanPanel->movePixelDown(7,5);
+    // TODO
   }
 }
 
