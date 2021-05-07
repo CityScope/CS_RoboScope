@@ -58,11 +58,7 @@
 
 
 //NEO PIXELS
-<<<<<<< HEAD
 #define  NEO_PIN_01        4
-=======
-#define  NEO_PIN_01       4
->>>>>>> d5fdfe2f97e33d307d1a427285e4a144c0f52538
 #define  NEO_PIN_02       13
 #define  NEO_PIN_03       14//2;
 #define  NEO_PIN_04       15///3;
