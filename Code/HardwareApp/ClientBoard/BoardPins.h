@@ -5,6 +5,10 @@
 */
 
 
+
+#define MOTOR_STEP_TOLERANCE 20
+#define SX1509_ADDRESS_00  0x3E
+
 //Number of motors that each panel has
 #define MOTORS_PER_PANEL 8
 #define PIXELS_PER_URBAN_PIXEL 2

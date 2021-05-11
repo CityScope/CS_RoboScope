@@ -43,7 +43,7 @@ void loop() {
 
 
   if (Serial.available() > 0) {
-    test(Serial.parseInt());
+    //test(Serial.parseInt());
 
     if (keyboardInput) {
       keyboardInputTest();
@@ -65,7 +65,7 @@ void setPixel(int node, int local, char* str, int height) {
   int g = ((((color >> 5) & 0x3F) * 259) + 33) >> 6;
   int b = (((color & 0x1F) * 527) + 23) >> 6;
 
-  urbanPanel->movePixelUp(local, height);
+  //urbanPanel->movePixelUp(local, height);
   urbanPanel->setPixelColor(local, r, g, b);
 
 }

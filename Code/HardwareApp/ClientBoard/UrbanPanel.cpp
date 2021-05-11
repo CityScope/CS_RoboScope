@@ -59,7 +59,9 @@ int UrbanPanel::getLimitState(int i) {
   return interfacePanel->getLimitCurrentState(i);
 }
 
-// This runs in the main loop. If any switch is pressed (limit switch or push down, etc), that causes an interrupt to set limitActivated = true. This function handles the interrupt.
+// This runs in the main loop.
+// If any switch is pressed (limit switch or push down, etc)
+// that causes an interrupt to set limitActivated = true. This function handles the interrupt.
 void UrbanPanel::motorTimerUpdate() {
   if (limitActivated) {
     interfacePanel->updateLimitState();

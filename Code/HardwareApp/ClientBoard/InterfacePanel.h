@@ -14,7 +14,7 @@
 //const byte SX1509_ADDRESS_00 = 0x3E;
 
 //
-const byte SX1509_ADDRESS_00 = 0x3F;
+//const byte SX1509_ADDRESS_00 = 0x3F;
 
 class InterfacePanel {
   public:
