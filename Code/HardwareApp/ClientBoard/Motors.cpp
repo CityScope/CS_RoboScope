@@ -22,12 +22,12 @@ void Motors::init() {
     setUpMotor(i);
 
     activeMotors[i] = true;
+    stepTarget[i] = 0;
   }
 }
 
-// The function that runs in the main loop of the program. This function manual steps through each motor based on the current instruction given via CANBUS.
+// The function that runs in the main loop of the program. This function manually steps through each motor based on the current instruction given via CANBUS.
 void Motors::motorInstructionLoop() {
-  // TODO Check if the interface buttons are pressed, before one stepper tick.
 
   if (activeMotors[0]) digitalWrite(STEP_PIN_01, HIGH);
   if (activeMotors[1]) digitalWrite(STEP_PIN_02, HIGH);
@@ -62,14 +62,14 @@ void Motors::motorInstructionLoop() {
       }
 
       // Check lower bound of pixel
-      if (currentStep < MOTOR_STEP_TOLERANCE) {
+      if (currentStep < MOTOR_STEP_TOLERANCE{
         stopMotor(i)
         currentStep[i] = 0;
       }
 
 
       // Check target Position against target to know when to stop
-      if (abs(currentStep[i] - stepTarget) < MOTOR_STEP_TOLERANCE)) {
+      if (abs(currentStep[i] - stepTarget[i]) < MOTOR_STEP_TOLERANCE)) {
         currentStep[i] = stepTarget;
         stopMotor(i)
       }
@@ -90,7 +90,7 @@ void Motors::setMotorTarget(int id, int targetPos, int tolerance = MOTOR_STEP_TO
     return:
   }
 
-  stepTarget = targetPos;
+  stepTarget[id] = targetPos;
 
   activeMotors[id] = true; // Lets the motor move;
 
@@ -107,6 +107,7 @@ void Motors::setMotorTarget(int id, int targetPos, int tolerance = MOTOR_STEP_TO
 
 void Motors::stopMotor(int id) {
   // TODO: DISABLE MOTORS POWER
+  
   // sx->digitalWrite(smthg, HIGH);
 
   activeMotors[id] = false;

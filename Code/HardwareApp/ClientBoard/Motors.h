@@ -49,14 +49,14 @@ public:
 private:
   constexpr uint32_t steps_per_mm = 80;
 
-  bool * shaftDir[MOTORS_PER_PANEL];
-  bool * activeMotors[MOTORS_PER_PANEL];
-  int * stepCounter[MOTORS_PER_PANEL];
+  bool * shaftDir[MOTORS_PER_PANEL];      // The direction each motor will go. Changing the ith entry changes the direction of the ith motor
+  bool * activeMotors[MOTORS_PER_PANEL];  // Whether a motor is set to move. If true, the motor should be moving, or will move in the next loop
+  int * stepCounter[MOTORS_PER_PANEL];    // The current step counter for each motor
 
   SX1509 sx;
 
   int upperStepLimit;
-  int stepTarget = 0;
+  int * stepTarget[MOTORS_PER_PANEL];
 
   const int selectMotor[3] = {5, 7, 9};
 
