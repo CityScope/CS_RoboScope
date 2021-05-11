@@ -1,8 +1,10 @@
 #include "Motors.h"
 
 
+
 Motors::Motors() {
   driver = TMC2209Stepper(&SERIAL_PORT, R_SENSE, DRIVER_ADDRESS);
+  
 }
 
 void Motors::init() {
@@ -251,7 +253,7 @@ void Motors::gotoMaxStep() {
 
 void Motors::zeroMotors() {
   for (int i = 0; i < MOTORS_PER_PANEL; i++) {
-    setMotorTarget(i, 0, MOTOR_STEP_TOLERANCE)
+    setMotorTarget(i, 0, MOTOR_STEP_TOLERANCE);
 
   }
 }

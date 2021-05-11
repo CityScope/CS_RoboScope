@@ -42,11 +42,6 @@ InterfacePanel::InterfacePanel() {
 }
 
 //---------------------------------------------------------------------------
-int InterfacePanel::getUrbanPixelCount() {
-  return NUM_URBAN_PIXELS;
-}
-
-//---------------------------------------------------------------------------
 void InterfacePanel::init() {
 
   Serial.println("Setting up Mux:");

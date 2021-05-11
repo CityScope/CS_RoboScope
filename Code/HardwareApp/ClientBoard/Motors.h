@@ -4,18 +4,11 @@
 #include <Arduino.h>
 #include <TMCStepper.h>
 #include <AccelStepper.h>
-#include <SparkFunSX1509>
+#include <SparkFunSX1509.h>
 #include "BoardPins.h"
 
 
-struct MotorPins {
-  int EN_PIN;
-  int DIR_PIN;
-  int STEP_PIN;
-};
-
-
-#define MOTOR_STEP_TOLERANCE 20;
+#define MOTOR_STEP_TOLERANCE 20
 
 class Motors {
 public:
@@ -24,9 +17,11 @@ public:
 
   void motorInstructionLoop();
 
+  void init();
+
   void setMotorTarget(int id, int targetPos, int tolerance=MOTOR_STEP_TOLERANCE);
 
-  void stopMotors(int id);
+  void stopMotor(int id);
 
   int getMotorCurrentStep(int id);
 
@@ -47,11 +42,13 @@ public:
   void zeroMotors();
 
 private:
-  constexpr uint32_t steps_per_mm = 80;
+  const uint32_t steps_per_mm = 80;
+  TMC2209Stepper driver;
+
 
   bool * shaftDir[MOTORS_PER_PANEL];      // The direction each motor will go. Changing the ith entry changes the direction of the ith motor
   bool * activeMotors[MOTORS_PER_PANEL];  // Whether a motor is set to move. If true, the motor should be moving, or will move in the next loop
-  int * stepCounter[MOTORS_PER_PANEL];    // The current step counter for each motor
+  int * currentStep[MOTORS_PER_PANEL];    // The current step counter for each motor
 
   SX1509 sx;
 

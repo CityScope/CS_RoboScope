@@ -47,8 +47,6 @@
 
 #define R_SENSE 0.11f
 
-#define SX1509_ADDRESS_00 0x3E
-
 //DEBUG LED NEO PIXEL
 #define NEO_DEBUG      32
 

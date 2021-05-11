@@ -102,13 +102,13 @@ void UrbanPanel::limitswitch() {
 /*
   Moves the defined pixel to a specified position, An INT between 0 and upperStepLimit
 */
-void UrbanPanel::setPixelPosition(int i, int pos, int tolerance=MOTOR_STEP_TOLERANCE) {
+void UrbanPanel::setPixelPosition(int i, float pos, int tolerance=MOTOR_STEP_TOLERANCE) {
 
   int upperLimit = motors->getUpperStepLimit();
-  int targetPos = pos
+  int targetPos = pos;
 
   if (pos > upperLimit) {
-    targetPos = upperLimit
+    targetPos = upperLimit;
   }
 
 
