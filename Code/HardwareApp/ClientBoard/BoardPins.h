@@ -6,12 +6,18 @@
 
 
 
-#define MOTOR_STEP_TOLERANCE 20
-#define SX1509_ADDRESS_00  0x3E
+
+#define  SX1509_ADDRESS_00         0x3E
+#define  SX1509_ADDRESS_01         0x3F // 0x3F
+#define  SX1509_ADDRESS_10         0x70   ///0x71
+#define  SX1509_ADDRESS_11         0x71
 
 //Number of motors that each panel has
 #define MOTORS_PER_PANEL 8
 #define PIXELS_PER_URBAN_PIXEL 2
+
+
+#define MOTOR_STEP_TOLERANCE 20
 
 #define EN_PIN_01           10 // SX Enable
 #define DIR_PIN_01          6 // Direction
@@ -52,13 +58,13 @@
 #define R_SENSE 0.11f
 
 //DEBUG LED NEO PIXEL
-#define NEO_DEBUG      32
+//#define NEO_DEBUG      32
 
 //LED DEBUG TEENSY
 #define LED_TEENSY     13
 
 //NEO PIXELS
-#define NEO_PIXEL_PIN   2
+//#define NEO_PIXEL_PIN   2
 
 //DIP SWITCH
 #define MUX_S0         26
@@ -100,30 +106,73 @@
 
 
 
-//MUX SWITH AND LED
-#define SX1509_01_SWITCH_STOP      15 // LED connected to pin 8
-#define SX1509_02_SWITCH_STOP      14 // LED connected to pin 9
-#define SX1509_03_SWITCH_STOP      13 // LED connected to pin 10
-#define SX1509_04_SWITCH_STOP      12 // LED connected to pin 11
-#define SX1509_05_SWITCH_STOP      11 // LED connected to pin 12
-#define SX1509_06_SWITCH_STOP      10 // LED connected to pin 13
-#define SX1509_07_SWITCH_STOP       9 // LED connected to pin 14
-#define SX1509_08_SWITCH_STOP       8 // LED connected to pin 15
+//NEO PIXELS
+#define  NEO_PIN_01        4
+#define  NEO_PIN_02       13
+#define  NEO_PIN_03       14//2;
+#define  NEO_PIN_04       15///3;
+#define  NEO_PIN_05       24
+#define  NEO_PIN_06       25
+#define  NEO_PIN_07       28
+#define  NEO_PIN_08       29
 
-#define SX1509_01_SWITCH_LEDBOX       7
-#define SX1509_02_SWITCH_LEDBOX       6
-#define SX1509_03_SWITCH_LEDBOX       5
-#define SX1509_04_SWITCH_LEDBOX       4
-#define SX1509_05_SWITCH_LEDBOX       3
-#define SX1509_06_SWITCH_LEDBOX       2
-#define SX1509_07_SWITCH_LEDBOX       1
-#define SX1509_08_SWITCH_LEDBOX       0
+//LIMIT BUTTONS
+#define SWITCH_01_SX01    8
+#define SWITCH_02_SX01    6
+#define SWITCH_03_SX01    9
+#define SWITCH_04_SX01    7
 
-#define NEO_PIN_01       16
-#define NEO_PIN_02       17
-#define NEO_PIN_03       2
-#define NEO_PIN_04       3
-#define NEO_PIN_05       4
-#define NEO_PIN_06       24
-#define NEO_PIN_07       25
-#define NEO_PIN_08       13
+#define SWITCH_05_SX02    8
+#define SWITCH_06_SX02    6
+#define SWITCH_07_SX02    9
+#define SWITCH_08_SX02    7
+
+//DOWN BUTTONS
+#define DOWN_01_SX01      12
+#define DOWN_02_SX01      4
+#define DOWN_03_SX01      15
+#define DOWN_04_SX01      5
+
+#define DOWN_05_SX02      12
+#define DOWN_06_SX02      4
+#define DOWN_07_SX02      15
+#define DOWN_08_SX02      5
+
+
+//UP BUTTONS
+#define  UP_01_SX01       11
+#define  UP_02_SX01       3
+#define  UP_03_SX01       14
+#define  UP_04_SX01       1
+
+#define  UP_05_SX02       11
+#define  UP_06_SX02       3
+#define  UP_07_SX02       14
+#define  UP_08_SX02       1
+
+//TOUCH PIN
+#define  TOUCH_01_SX01    10
+#define  TOUCH_02_SX01    2
+#define  TOUCH_03_SX01    13
+#define  TOUCH_04_SX01    0
+
+#define  TOUCH_05_SX02    10
+#define  TOUCH_06_SX02    2
+#define  TOUCH_07_SX02    13
+#define  TOUCH_08_SX02    0
+
+
+//DIP SWITCH
+#define  DIP_01_SX03      6
+#define  DIP_02_SX03      7
+#define  DIP_03_SX03      8
+#define  DIP_04_SX03      9
+#define  DIP_05_SX03      10
+#define  DIP_06_SX03      11
+#define  DIP_07_SX03      12
+#define  DIP_08_SX03      13
+#define  DIP_09_SX03      14
+#define  DIP_10_SX03      15
+
+//STATUS PIN
+#define  STATUS_PIN_SX03  5

@@ -6,31 +6,6 @@ Motors::Motors() {
 
 }
 
-void Motors::initializeMotorSX() {
-  int muxCounter = 1;
-
-  Serial.println("starting motors");
-  while (muxCounter != 3) {
-    if (!sx.begin(SX1509_ADDRESS_00) ) {
-      Serial.print("Failed 00 ");
-      Serial.print(SX1509_ADDRESS_00);
-      Serial.print(" ");
-      Serial.println(muxCounter);
-      delay(100);
-      muxCounter++;
-    } else {
-      Serial.println("Connected 00");
-      Serial.print(SX1509_ADDRESS_00);
-      Serial.print(" ");
-      Serial.println(muxCounter);
-      break;
-    }
-  }
-
-
-  setupSXPins();
-}
-
 
 void Motors::init() {
 
@@ -58,6 +33,31 @@ void Motors::init() {
   }
 }
 
+
+void Motors::initializeMotorSX() {
+  int muxCounter = 1;
+
+  Serial.println("starting motors");
+  while (muxCounter != 3) {
+    if (!sx.begin(SX1509_ADDRESS_00) ) {
+      Serial.print("Failed 00 ");
+      Serial.print(SX1509_ADDRESS_00);
+      Serial.print(" ");
+      Serial.println(muxCounter);
+      delay(100);
+      muxCounter++;
+    } else {
+      Serial.println("Connected 00");
+      Serial.print(SX1509_ADDRESS_00);
+      Serial.print(" ");
+      Serial.println(muxCounter);
+      break;
+    }
+  }
+
+
+  setupSXPins();
+}
 
 
 // The function that runs in the main loop of the program. This function manually steps through each motor based on the current instruction given via CANBUS.
