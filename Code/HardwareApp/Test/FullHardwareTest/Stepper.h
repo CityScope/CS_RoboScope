@@ -2,6 +2,7 @@
 #include "DRV8880.h"
 #include <SparkFunSX1509.h>
 #include "Pins.h"
+#include <TMCStepper.h>
 
 /*
    Control for DRV8834 stepper motor driver
@@ -26,11 +27,12 @@ class Stepper {
     int id;
 
     //DRV8880 class
-    DRV8880  * motor;
+    TMC2209Stepper  * motor;
 
     int enableMotor;
 
-
+    // motorStatus 1 connected correctly 0 failed to connect
+    int motorStatus;
 
     //constructor
     Stepper(int m_id, int steps, int dir_pin, int step_pin, int enable_pin) {
@@ -43,62 +45,73 @@ class Stepper {
       ENABLE_PIN = enable_pin;
 
       //init motor driver
-      motor = new DRV8880(motorSteps, DIR_PIN, STEP_PIN);//, ENABLE_PIN, M0_PIN, M1_PIN);
+      motor = new TMC2209Stepper(&SERIAL_PORT, R_SENSE, DRIVER_ADDRESS);
     }
 
     //init mux
-    void initMux(SX1509 & sxm) {
+    void init(SX1509 & sxm) {
 
       //enabler
       sxm.pinMode(ENABLE_PIN, OUTPUT);
       sxm.digitalWrite(ENABLE_PIN, LOW);
 
       //sleep
-      // sxm.pinMode(SLEEP_PIN, OUTPUT);
-      //m
-      // sxm.digitalWrite(SLEEP_PIN, HIGH); //sleep on
+      Serial.print("Setup Motor ");
+      Serial.print(id);
+      Serial.println("...");
 
+      motor->toff(4);                 // Enables driver in software
+      motor->rms_current(RMS_CURRENT);        // Set motor RMS current
+      motor->microsteps(motorSteps); //128         // Set microsteps to 1/16th
+
+      //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
+      motor->en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
+      motor->pwm_autoscale(true);     // Needed for stealthChop
+
+      Serial.print(F("\nTesting connection... "));
+      Serial.println(id);
+      uint8_t result = motor->test_connection();
+      motorStatus = 1;
+      delay(200);
+      if (result) {
+        Serial.println(F("failed!"));
+        Serial.print(F("Likely cause: "));
+        switch (result) {
+          case 1: Serial.println(F("loose connection")); break;
+          case 2: Serial.println(F("Likely cause: no power")); break;
+        }
+        Serial.println(F("Fix the problem and reset board."));
+        motorStatus  = 0;
+        // abort();
+      }
+      Serial.println(F("OK"));
+      ///
+      
       enableMotor = true;
     }
 
-    void setRPM(int RPM) {
-      rpm = RPM;
-    }
 
     //delete pointer memory
     ~Stepper() {
       //delete motor;
     }
 
-    void init() {
-      motor->begin(rpm);
-
-      // if using enable/disable on ENABLE pin (active LOW) instead of SLEEP uncomment next line
-
-      motor->setEnableActiveState(LOW);
-
-      motor->enable();
-
-      // motor->setMicrostep(16);
-    }
 
     void moveForward() {
-      motor->move(-motorSteps);
-      // motor->rotate(360);
-      //      motor->runToPosition();
+      //motor->move(-motorSteps);
     }
 
     void startMoveForward(int steps) {
-      motor->startMove(steps * -motorSteps);
+     // motor->startMove(steps * -motorSteps);
     }
 
     void startMoveBackward(int steps) {
-      motor->startMove(steps * motorSteps);
+     // motor->startMove(steps * motorSteps);
     }
 
-    unsigned getNextAction() {
-      return motor->nextAction();
-    }
+    //unsigned getNextAction() {
+    //  return motor->nextAction();
+    //}
 
     void start(SX1509 & sxm) {
       sxm.digitalWrite(ENABLE_PIN, HIGH);
@@ -114,22 +127,7 @@ class Stepper {
       return enableMotor;
     }
 
-    void sleepOn(SX1509 & sxm) {
-     // sxm.digitalWrite(SLEEP_PIN, LOW);
 
-    }
-
-    void sleepOff(SX1509 & sxm) {
-     // sxm.digitalWrite(SLEEP_PIN, HIGH);
-    }
-
-
-
-    void moveBackward() {
-      motor->move(motorSteps);
-      //  motor->rotate(-360);
-      // motor->runToPosition();
-    }
 
     //print out information
     void printMotorInfo() {

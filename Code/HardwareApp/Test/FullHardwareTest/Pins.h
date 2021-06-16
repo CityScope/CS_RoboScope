@@ -10,6 +10,13 @@
 #define  SX1509_ADDRESS_10         0x70   ///0x71
 #define  SX1509_ADDRESS_11         0x71
 
+//MOTOR DEFINES
+#define SERIAL_PORT Serial5
+#define DRIVER_ADDRESS 0b00
+
+#define R_SENSE 0.11f
+
+
 #define LED_STATUS 19
 
 #define INTERRUPT_PIN_SWITCH_01   32
@@ -18,7 +25,8 @@
 //MOTOR VALUES
 #define GMOTOR_STEPS      200 *321 //200
 #define GRPM              120 //120
-
+#define MOTOR_STEPS       256
+#define RMS_CURRENT       400
 
 
 

@@ -186,10 +186,10 @@ void setup() {
       motors[i] =  new Stepper(0, GMOTOR_STEPS, motorDirPins[i], motorStepPins[i], motorEnablePins[i]);
 
       Serial.println("Starting: ");
-      motors[i]->setRPM(GRPM);
-      motors[i]->init();
-      motors[i]->initMux(sx00);
-      motors[i]->printMotorInfo();
+      //motors[i]->setRPM(GRPM);
+      //motors[i]->init();
+      //motors[i]->initMux(sx00);
+      //motors[i]->printMotorInfo();
       Serial.println("-----");
     }
   }
@@ -663,7 +663,7 @@ void keyCommands() {
         if (activateMotors[i] ==  1) {
           motors[i]->startMoveBackward(10);
           motors[i]->start(sx00);
-          motors[i]->sleepOff(sx00);
+
         }
       }
       Serial.println("ON ALL");
@@ -675,7 +675,7 @@ void keyCommands() {
         if (activateMotors[i] ==  1) {
           motors[i]->startMoveForward(10);
           motors[i]->start(sx00);
-          motors[i]->sleepOff(sx00);
+      
         }
       }
       Serial.println("ON ALL");
@@ -685,7 +685,6 @@ void keyCommands() {
       for (int i = 0; i < numMotors; i++) {
         if (activateMotors[i] ==  1) {
           motors[i]->stop(sx00);
-          motors[i]->sleepOn(sx00);
         }
       }
       Serial.println("OFF ALL");
@@ -695,7 +694,7 @@ void keyCommands() {
     //single
     if (key == ' ') {
       motors[indexMotor]->stop(sx00);
-      motors[indexMotor]->sleepOn(sx00);
+
       Serial.println("OFF");
     }
     if (key == 'a') {
@@ -711,29 +710,7 @@ void keyCommands() {
       motors[indexMotor]->startMoveForward(5);
       Serial.println("fowards");
     }
-    if (key == 'z') {
-      motors[indexMotor]->sleepOn(sx00);
-      Serial.println("sleep ON");
-    }
-    if (key == 'x') {
-      motors[indexMotor]->sleepOff(sx00);
-      Serial.println("sleep OFF");
-    }
-    //
 
-    //modes
-    if (key == 'f') {
-
-    }
-    if (key == 'g') {
-
-    }
-    if (key == 'h') {
-
-    }
-    if (key == 'j') {
-
-    }
 
     //steps
     if (key == 'o') {
