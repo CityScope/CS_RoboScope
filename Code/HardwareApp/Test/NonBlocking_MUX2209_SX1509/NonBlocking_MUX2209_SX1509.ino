@@ -1,5 +1,7 @@
 
 #include <TMCStepper.h>
+#include <SoftwareSerial.h>
+
 #include <SparkFunSX1509.h>
 #include <AccelStepper.h>
 

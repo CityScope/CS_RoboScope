@@ -15,10 +15,11 @@ SX1509 sx03;
 
 void setup() {
   Serial.begin(9600);
-
+delay(500);
   Serial.println("Mux SX1509: ");
 
 int muxCounter = 0;
+
 
 while (muxCounter != 3) {
   if (!sx00.begin(SX1509_ADDRESS_00) ) {
@@ -32,58 +33,13 @@ while (muxCounter != 3) {
   }
 }
 
-delay(250);
-muxCounter = 0;
-
-while (muxCounter != 3) {
-  if (!sx01.begin(SX1509_ADDRESS_01) ) {
-    Serial.println("Failed 01");
-    Serial.println(SX1509_ADDRESS_01);
-    muxCounter++;
-    delay(100);
-  } else {
-    Serial.println("Connected 1");
-    break;
-  }
-}
-delay(250);
-
-delay(250);
-muxCounter = 0;
-while (muxCounter != 3) {
-  if (!sx02.begin(SX1509_ADDRESS_11)) {
-    Serial.println("Failed sx 2");
-    Serial.println(SX1509_ADDRESS_11);
-    muxCounter++;
-    delay(100);
-  } else {
-    Serial.println("Connected 2");
-    break;
-  }
-}
-delay(250);
-
-delay(250);
-muxCounter = 0;
-while (muxCounter != 3) {
-  if (!sx03.begin(SX1509_ADDRESS_10)) {
-    Serial.println("Failed sx 3");
-    Serial.println(SX1509_ADDRESS_10);
-    muxCounter++;
-    delay(100);
-  } else {
-    Serial.println("Connected 3");
-    break;
-  }
-}
-
 
 
   delay(500);
-  sx01.debounceTime(2);
-  sx02.debounceTime(2);
+  //sx01.debounceTime(2);
+  //sx02.debounceTime(2);
 
-  sx03.pinMode(1, INPUT);
+  //sx03.pinMode(1, INPUT);
 
   sx00.pinMode(1, INPUT);
   sx00.pinMode(3, INPUT);
@@ -94,13 +50,14 @@ while (muxCounter != 3) {
 }
 
 void loop() {
-  delay(500);
-  Serial.println(sx03.digitalRead(1));
+
+  //Serial.println(sx03.digitalRead(1));
 
   Serial.println(sx00.digitalRead(1));
   Serial.println(sx00.digitalRead(3));
   Serial.println(sx00.digitalRead(13));
   Serial.println(sx00.digitalRead(15));
+    delay(500);
 
   Serial.println();
 

@@ -45,7 +45,7 @@ class Stepper {
       ENABLE_PIN = enable_pin;
 
       //init motor driver
-      motor = new TMC2209Stepper(&SERIAL_PORT, R_SENSE, DRIVER_ADDRESS);
+    //  motor = new TMC2209Stepper(&SERIAL_PORT, R_SENSE, DRIVER_ADDRESS);
     }
 
     //init mux

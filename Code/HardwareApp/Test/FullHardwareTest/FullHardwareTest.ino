@@ -266,7 +266,7 @@ void loop() {
 
   checkLimit();
   checkPushDown();
-  //checkPushUp();
+  checkPushUp();
   checkDip();
 
 
@@ -411,28 +411,28 @@ void checkPushDown() {
 
 //-------------------------------------------------------------------
 void checkPushUp() {
-  if (sx01.digitalRead(UP_01_SX01) == LOW) {
+  if (sx01.digitalRead(UP_01_SX01) == HIGH) {
     Serial.println("LIMIT UP PIN 01");
   }
-  if (sx01.digitalRead(UP_02_SX01) == LOW) {
+  if (sx01.digitalRead(UP_02_SX01) == HIGH) {
     Serial.println("LIMIT UP PIN 02");
   }
-  if (sx01.digitalRead(UP_03_SX01) == LOW) {
+  if (sx01.digitalRead(UP_03_SX01) == HIGH) {
     Serial.println("LIMIT UP PIN 03");
   }
-  if (sx01.digitalRead(UP_04_SX01) == LOW) {
+  if (sx01.digitalRead(UP_04_SX01) == HIGH) {
     Serial.println("LIMIT UP PIN 04");
   }
-  if (sx02.digitalRead(UP_05_SX02) == LOW) {
+  if (sx02.digitalRead(UP_05_SX02) == HIGH) {
     Serial.println("LIMIT UP PIN 05");
   }
-  if (sx02.digitalRead(UP_06_SX02) == LOW) {
+  if (sx02.digitalRead(UP_06_SX02) == HIGH) {
     Serial.println("LIMIT UP PIN 06");
   }
-  if (sx02.digitalRead(UP_07_SX02) == LOW) {
+  if (sx02.digitalRead(UP_07_SX02) == HIGH) {
     Serial.println("LIMIT UP PIN 07");
   }
-  if (sx02.digitalRead(UP_08_SX02) == LOW) {
+  if (sx02.digitalRead(UP_08_SX02) == HIGH) {
     Serial.println("LIMIT UP PIN 08");
   }
 

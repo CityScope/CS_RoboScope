@@ -10,6 +10,14 @@
 #define  SX1509_ADDRESS_10         0x70   ///0x71
 #define  SX1509_ADDRESS_11         0x71
 
+/*
+ * #define  SX1509_ADDRESS_00         0x3E
+#define  SX1509_ADDRESS_01         0x3F // 0x3F
+#define  SX1509_ADDRESS_10         0x70   ///0x71
+#define  SX1509_ADDRESS_11         0x71
+
+ */
+
 //MOTOR DEFINES
 #define SERIAL_PORT Serial5
 #define DRIVER_ADDRESS 0b00

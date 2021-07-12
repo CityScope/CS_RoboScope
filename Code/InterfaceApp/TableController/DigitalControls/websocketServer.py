@@ -21,7 +21,7 @@ time.sleep(2)
 
 def background_read():
     """
-    Continuous background reading from table and sends processed data to interface app 
+    Continuous background reading from table and sends processed data to interface app
     """
     while True:
         data = gh.serialReceive()
@@ -33,7 +33,7 @@ def background_read():
 @sio.on('connect')
 def connect(sid, environ):
     """
-    On connect event handler (connects to port 8080 as does the web socket client in the Interface App)       
+    On connect event handler (connects to port 8080 as does the web socket client in the Interface App)
     """
     print('connected... ', sid)
     dim = gh.Utils.returnTableDimension()
@@ -41,11 +41,11 @@ def connect(sid, environ):
     global thread
     if thread is None:
         sio.start_background_task(target=background_read)
-        
+
 @sio.on('onInit')
 def on_start(sid, features, properties):
     """
-    Sends table dimensions to interface app every time interface app connects      
+    Sends table dimensions to interface app every time interface app connects
     """
     print("onInit");
     dim = gh.Utils.returnTableDimension()
@@ -55,7 +55,7 @@ def on_start(sid, features, properties):
 @sio.on('pixelUpdate')
 def pixel_handling(sid, data):
     """
-    Handles data received 'brushing' edit grid events occur (height, color, ID of each pixel)     
+    Handles data received 'brushing' edit grid events occur (height, color, ID of each pixel)
     """
     gh.serialSend(data)
 
@@ -66,14 +66,14 @@ def grid_handling(sid, scale, data):
     Handles data received when grid view is scaled or translated (all new features)
     """
     gh.setSelected(scale, data)
-    
+
 @sio.on('editUpdate')
 def grid_handling(sid, editBool, type):
     """
     Handles changes in edit menu on interface app
     """
     gh.Interacts.setInteraction(editBool, type, gh.Utils)
-    
+
 @sio.on('disconnect')
 def disconnect(sid):
     """

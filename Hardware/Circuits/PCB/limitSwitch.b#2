@@ -160,7 +160,7 @@
 <layer number="255" name="routoute" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
-<fusionsync huburn="a.cGVyc29uYWw6dWUyYmFkZWI5" projecturn="a.cGVyc29uYWw6dWUyYmFkZWI5IzIwMTkwNzI5MjA1OTgzMzU2" f3durn="urn:adsk.wipprod:dm.lineage:BAUhZuyiSnq3U1_xnBHOcg" pcbguid="cb2d058b-e858-4bb7-9ed9-797f10fb0abf" lastpulledtime="" lastsyncedchangeguid="" latestrevisionid="" lastsyncedrevisionid="" lastboardhashguid="0f7dcf39-6f13-722b-d34b-50ea4b09a8cc" lastpushedtime="2020-11-14T05:11:52Z" linktopcb3d="false"/>
+<fusionsync huburn="a.cGVyc29uYWw6dWUyYmFkZWI5" projecturn="a.cGVyc29uYWw6dWUyYmFkZWI5IzIwMTkwNzI5MjA1OTgzMzU2" f3durn="urn:adsk.wipprod:dm.lineage:BAUhZuyiSnq3U1_xnBHOcg" pcbguid="cb2d058b-e858-4bb7-9ed9-797f10fb0abf" lastpulledtime="" lastsyncedchangeguid="" latestrevisionid="" lastsyncedrevisionid="" lastboardhashguid="5e45ae60-8d5f-97cc-8c67-c88407e6d20a" lastpushedtime="2021-02-08T00:09:24Z" linktopcb3d="false"/>
 <plain>
 <wire x1="68.347953125" y1="8.55915625" x2="68.177971875" y2="136.68065625" width="0.01" layer="20"/>
 <wire x1="68.177971875" y1="136.68065625" x2="61.485275" y2="143.3618625" width="0.01" layer="20" curve="89.954117"/>
@@ -2704,24 +2704,24 @@ These are the free and generally easy to produce 2-layer PCB design rules. You c
 <attribute name="SF_ID" value="GPS-00579" x="36.327075" y="83.11896875" size="1.778" layer="28" rot="MR180" display="off"/>
 <attribute name="VALUE" x="34.676075" y="84.38896875" size="0.6096" layer="28" font="vector" ratio="20" rot="MR180"/>
 </element>
-<element name="LED_STOP" library="fab" package="LED1206FAB" value="LEDFAB1206" x="32.7558375" y="140.82268125" smashed="yes" rot="MR0">
+<element name="LED_STOP" library="fab" package="LED1206FAB" override_package3d_urn="urn:adsk.eagle:package:26671193/2" override_package_urn="urn:adsk.eagle:footprint:26671194/1" value="LEDFAB1206" x="32.7558375" y="140.82268125" smashed="yes" rot="MR0">
 <attribute name="NAME" x="29.51225625" y="140.495021875" size="1.016" layer="26" ratio="15" rot="MR0"/>
 </element>
-<element name="POWER_LED" library="fab" package="LED1206FAB" value="LEDFAB1206" x="37.980615625" y="140.86078125" smashed="yes" rot="MR0">
+<element name="POWER_LED" library="fab" package="LED1206FAB" override_package3d_urn="urn:adsk.eagle:package:26671191/2" override_package_urn="urn:adsk.eagle:footprint:26671192/1" value="LEDFAB1206" x="37.980615625" y="140.86078125" smashed="yes" rot="MR0">
 <attribute name="NAME" x="49.700175" y="140.426440625" size="1.016" layer="26" ratio="15" rot="MR0"/>
 </element>
-<element name="POWER_LED_RES" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="500" x="32.68218125" y="137.876284375" smashed="yes" rot="MR0">
+<element name="POWER_LED_RES" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671197/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="500" x="32.68218125" y="137.876284375" smashed="yes" rot="MR0">
 <attribute name="VALUE" x="33.95218125" y="135.336284375" size="1.27" layer="28" rot="MR0"/>
 </element>
-<element name="POWER_LED_RES1" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="500" x="37.8714" y="137.980421875" smashed="yes" rot="MR0">
+<element name="POWER_LED_RES1" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671196/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="500" x="37.8714" y="137.980421875" smashed="yes" rot="MR0">
 <attribute name="VALUE" x="39.1414" y="135.440421875" size="1.27" layer="28" rot="MR0"/>
 </element>
-<element name="R1" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10k" x="4.05891875" y="123.62688125" smashed="yes" rot="MR0">
+<element name="R1" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671623/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10k" x="4.05891875" y="123.62688125" smashed="yes" rot="MR0">
 <attribute name="NAME" x="5.32891875" y="124.89688125" size="1.27" layer="26" rot="MR0"/>
 <attribute name="VALUE" x="5.32891875" y="121.08688125" size="1.27" layer="28" rot="MR0"/>
 </element>
 <element name="SWITCH_M1" library="switch-tact" package="DTSM-3" value="DTSM-3" x="4.064" y="131.975859375" smashed="yes" rot="MR90"/>
-<element name="R2" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10k" x="43.964859375" y="124.399040625" smashed="yes" rot="MR0">
+<element name="R2" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671198/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10k" x="43.964859375" y="124.399040625" smashed="yes" rot="MR0">
 <attribute name="NAME" x="45.234859375" y="125.669040625" size="1.27" layer="26" rot="MR0"/>
 <attribute name="VALUE" x="45.234859375" y="121.859040625" size="1.27" layer="28" rot="MR0"/>
 </element>
@@ -2736,32 +2736,32 @@ These are the free and generally easy to produce 2-layer PCB design rules. You c
 <attribute name="NAME" x="32.913315625" y="134.4777625" size="0.6096" layer="26" font="vector" ratio="20" rot="MR180" align="bottom-center"/>
 </element>
 <element name="JP3" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" package="SMT-JUMPER_2_NC_TRACE_NO-SILK" package3d_urn="urn:adsk.eagle:package:39286/1" value="JUMPER-SMT_2_NC_TRACE_NO-SILK" x="37.79519375" y="135.7223625" smashed="yes" rot="MR180"/>
-<element name="R3" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10k" x="4.142740625" y="83.6777625" smashed="yes" rot="MR0">
+<element name="R3" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671186/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10k" x="4.142740625" y="83.6777625" smashed="yes" rot="MR0">
 <attribute name="NAME" x="5.412740625" y="84.9477625" size="1.27" layer="26" rot="MR0"/>
 <attribute name="VALUE" x="5.412740625" y="81.1377625" size="1.27" layer="28" rot="MR0"/>
 </element>
 <element name="SWITCH_M3" library="switch-tact" package="DTSM-3" value="DTSM-3" x="4.064" y="91.63219375" smashed="yes" rot="MR90"/>
-<element name="R4" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10k" x="43.9699375" y="83.929225" smashed="yes" rot="MR0">
+<element name="R4" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671188/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10k" x="43.9699375" y="83.929225" smashed="yes" rot="MR0">
 <attribute name="NAME" x="45.1637375" y="85.354165625" size="1.27" layer="26" rot="MR0"/>
 <attribute name="VALUE" x="45.2399375" y="81.389225" size="1.27" layer="28" rot="MR0"/>
 </element>
 <element name="SWITCH_M4" library="switch-tact" package="DTSM-3" value="DTSM-3" x="43.942" y="91.63219375" smashed="yes" rot="MR90"/>
-<element name="R5" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10k" x="4.32561875" y="42.666925" smashed="yes" rot="MR0">
+<element name="R5" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671591/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10k" x="4.32561875" y="42.666925" smashed="yes" rot="MR0">
 <attribute name="NAME" x="5.59561875" y="43.936925" size="1.27" layer="26" rot="MR0"/>
 <attribute name="VALUE" x="5.59561875" y="40.126925" size="1.27" layer="28" rot="MR0"/>
 </element>
 <element name="SWITCH_M5" library="switch-tact" package="DTSM-3" value="DTSM-3" x="4.064" y="51.28768125" smashed="yes" rot="MR90"/>
-<element name="R6" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10k" x="44.196" y="43.54068125" smashed="yes" rot="MR0">
+<element name="R6" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671592/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10k" x="44.196" y="43.54068125" smashed="yes" rot="MR0">
 <attribute name="NAME" x="45.466" y="44.81068125" size="1.27" layer="26" rot="MR0"/>
 <attribute name="VALUE" x="45.466" y="41.00068125" size="1.27" layer="28" rot="MR0"/>
 </element>
 <element name="SWITCH_M6" library="switch-tact" package="DTSM-3" value="DTSM-3" x="43.942" y="51.28768125" smashed="yes" rot="MR90"/>
-<element name="R7" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10k" x="4.955540625" y="3.825240625" smashed="yes" rot="MR0">
+<element name="R7" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671590/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10k" x="4.955540625" y="3.825240625" smashed="yes" rot="MR0">
 <attribute name="NAME" x="6.225540625" y="5.095240625" size="1.27" layer="26" rot="MR0"/>
 <attribute name="VALUE" x="7.487921875" y="1.386840625" size="1.27" layer="28" rot="MR0"/>
 </element>
 <element name="SWITCH_M7" library="switch-tact" package="DTSM-3" value="DTSM-3" x="4.064" y="10.9448625" smashed="yes" rot="MR90"/>
-<element name="R8" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10k" x="44.18838125" y="3.454403125" smashed="yes" rot="MR0">
+<element name="R8" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671606/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10k" x="44.18838125" y="3.454403125" smashed="yes" rot="MR0">
 <attribute name="NAME" x="45.45838125" y="4.724403125" size="1.27" layer="26" rot="MR0"/>
 <attribute name="VALUE" x="45.45838125" y="0.914403125" size="1.27" layer="28" rot="MR0"/>
 </element>
@@ -2772,11 +2772,11 @@ These are the free and generally easy to produce 2-layer PCB design rules. You c
 <attribute name="SF_ID" value="GPS-00579" x="31.790640625" y="60.1345" size="1.778" layer="28" rot="MR180" display="off"/>
 <attribute name="VALUE" x="30.139640625" y="61.4045" size="0.6096" layer="28" font="vector" ratio="20" rot="MR180"/>
 </element>
-<element name="R9" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" value="10k" x="15.458440625" y="76.91628125" smashed="yes">
+<element name="R9" library="resistor" library_urn="urn:adsk.eagle:library:348" package="M0805" package3d_urn="urn:adsk.eagle:package:26079/1" override_package3d_urn="urn:adsk.eagle:package:26671625/2" override_package_urn="urn:adsk.eagle:footprint:25647/1" value="10k" x="15.458440625" y="76.91628125" smashed="yes">
 <attribute name="NAME" x="14.188440625" y="78.18628125" size="1.27" layer="25"/>
 <attribute name="VALUE" x="14.188440625" y="74.37628125" size="1.27" layer="27"/>
 </element>
-<element name="J1" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X01" package3d_urn="urn:adsk.eagle:package:38028/1" value="" x="19.84248125" y="76.878178125" smashed="yes">
+<element name="J1" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" package="1X01" package3d_urn="urn:adsk.eagle:package:38028/1" override_package3d_urn="urn:adsk.eagle:package:26671627/2" override_package_urn="urn:adsk.eagle:footprint:37642/1" value="" x="19.84248125" y="76.878178125" smashed="yes">
 <attribute name="NAME" x="18.57248125" y="78.275178125" size="0.6096" layer="25" font="vector" ratio="20"/>
 <attribute name="VALUE" x="18.57248125" y="75.354178125" size="0.6096" layer="27" font="vector" ratio="20" align="top-left"/>
 </element>
