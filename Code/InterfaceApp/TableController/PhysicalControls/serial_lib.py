@@ -7,11 +7,20 @@ class Translator():
         Initialize connection to Translator Teensy Translator
         serial_port should match the port the Teensy is on
         '''
-        self.conn = serial.Serial(serial_port, baud_rate)
-        self.conn.timeout = read_timeout # Timeout for readline()
-        self.conn.flushInput()
-        self.conn.flushOutput()
-        self.counter=0
+
+        try:
+            self.conn = serial.Serial(serial_port, baud_rate)
+        except serial.SerialException as err:
+            print("error port")
+            raise err
+        else:
+            print('Open Port')
+
+        if self.coon.isOpen() == True:
+            self.conn.timeout = read_timeout # Timeout for readline()
+            self.conn.flushInput()
+            self.conn.flushOutput()
+            self.counter=0
 
     def write_pixel(self, pixel_data):
         """
@@ -27,7 +36,8 @@ class Translator():
         command+=","
         command+=','.join(pixel_data[1:])
         command+="E"
-        self.conn.write(command.encode())
+        if self.coon.isOpen() == True:
+            self.conn.write(command.encode())
 
     def write_node(self, node_data):
         """
@@ -43,7 +53,8 @@ class Translator():
         command+=","
         command+=','.join(node_data[1:])
         command+="E"
-        self.conn.write(command.encode())
+        if self.coon.isOpen() == True:
+            self.conn.write(command.encode())
 
     def write_multiple(self, pixel_data):
         """
@@ -66,7 +77,8 @@ class Translator():
             command+=','.join(pixel[1:])
             command+=";"
         command+="E"
-        self.conn.write(command.encode())
+        if self.coon.isOpen() == True:
+            self.conn.write(command.encode())
 
 
     def read_pixels(self):
@@ -84,7 +96,8 @@ class Translator():
                 output.append(vals[i:i+4])
             return output
 
-        self.conn.flushInput()
+        if self.coon.isOpen() == True:
+            self.conn.flushInput()
 
 
     def close(self):

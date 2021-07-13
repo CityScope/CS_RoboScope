@@ -74,6 +74,7 @@ class PhysicalController:
 
     def read_pixel_data(self):
         return self.serial_com.read_pixels()
+
     # Takes in a position as (x,y)
     def update_pixel(self, pos, height, color):
         (col, row) = pos
@@ -99,8 +100,6 @@ class PhysicalController:
             table_data.append(temp)
         self.serial_com.write_multiple(table_data)
         return table_data
-
-
 
 if __name__ == '__main__':
     # physicalController.run();

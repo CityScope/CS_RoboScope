@@ -10,6 +10,8 @@ from grid_handling import GridHandling #computation methods
 Payload.max_decode_packets = 500
 sio = socketio.Server(async_mode='threading', cors_allowed_origins='*')
 
+#sio = socketio.Server(async_mode='threading', cors_allowed_origins='*')
+
 # initialize application wrapper for server
 app = Flask(__name__)
 app.wsgi_app = socketio.WSGIApp(sio, app.wsgi_app)
@@ -50,13 +52,14 @@ def on_start(sid, features, properties):
     print("onInit");
     dim = gh.Utils.returnTableDimension()
     sio.emit("tableDim", dim)
-    gh.tableStart(features, properties)
+    gh.tableStart(features, properties) #start the physical controller
 
 @sio.on('pixelUpdate')
 def pixel_handling(sid, data):
     """
     Handles data received 'brushing' edit grid events occur (height, color, ID of each pixel)
     """
+    # print('received data')
     gh.serialSend(data)
 
 # on scale or translation change, receive all features involved in change

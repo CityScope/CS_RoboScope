@@ -18,7 +18,7 @@ To run the app locally, run `npm install` inside the folder to install all the p
     * Flask
 2) Connect Teensy table server
 3) In `grid_handling.py` change `com_port` to port connected to table server
-4) Run `python3 websocketServer.py` 
+4) Run `python3 websocketServer.py`
 
 
 ## Blocks App

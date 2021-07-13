@@ -20,13 +20,27 @@ This file is for all computation and data processing methods needed to be able t
 
     `$ pip install socketio, python-socketio`
 
-    `$ pip install eventlet, npm, colour`
+    `$ pip install eventlet, npm, colour, gevent`
 
 -   Run the server with `python websocketServer.py`
 
 Connect to roboscope:
 
 http://localhost:3000/cityscope=roboscope
+
+## Virtual Serial Port
+
+Create a virtual port to test communication between the WebSocket and the serial port.
+
+### Mac
+
+`pip3 install PyVirtualSerialPorts`
+
+## Create a Virtual Port
+
+`python3 -m virtualserialports 1`
+
+
 
 ### Troubleshooting
 
