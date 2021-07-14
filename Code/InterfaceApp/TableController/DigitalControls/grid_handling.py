@@ -20,7 +20,7 @@ class GridHandling:
         self.scale = 1
         self.Utils = Utils()
         self.Interacts = Interacts()
-        self.com_port = '/dev/ttys003'
+        self.com_port = '/dev/cu.Bluetooth-Incoming-Port'
 
     def tableStart(self, features, properties):
         """
@@ -35,7 +35,7 @@ class GridHandling:
         self.PC = PhysicalController(
                     pixel_assignment=self.Utils.createPixelAssignment(),
                     grid_size=(self.Utils.TABLE_ROWS, self.Utils.TABLE_COLS),
-                    com_port =self.com_port, BAUDRATE=2000000)
+                    com_port =self.com_port, BAUDRATE=230400) #2000000
 
     def setSelected(self, scale, pixels):
         '''

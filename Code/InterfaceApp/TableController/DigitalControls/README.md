@@ -28,18 +28,6 @@ Connect to roboscope:
 
 http://localhost:3000/cityscope=roboscope
 
-## Virtual Serial Port
-
-Create a virtual port to test communication between the WebSocket and the serial port.
-
-### Mac
-
-`pip3 install PyVirtualSerialPorts`
-
-## Create a Virtual Port
-
-`python3 -m virtualserialports 1`
-
 
 
 ### Troubleshooting

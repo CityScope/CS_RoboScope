@@ -16,7 +16,7 @@ class Translator():
         else:
             print('Open Port')
 
-        if self.coon.isOpen() == True:
+        if self.conn.isOpen() == True:
             self.conn.timeout = read_timeout # Timeout for readline()
             self.conn.flushInput()
             self.conn.flushOutput()
@@ -36,7 +36,7 @@ class Translator():
         command+=","
         command+=','.join(pixel_data[1:])
         command+="E"
-        if self.coon.isOpen() == True:
+        if self.conn.isOpen() == True:
             self.conn.write(command.encode())
 
     def write_node(self, node_data):
@@ -53,7 +53,7 @@ class Translator():
         command+=","
         command+=','.join(node_data[1:])
         command+="E"
-        if self.coon.isOpen() == True:
+        if self.conn.isOpen() == True:
             self.conn.write(command.encode())
 
     def write_multiple(self, pixel_data):
@@ -77,7 +77,7 @@ class Translator():
             command+=','.join(pixel[1:])
             command+=";"
         command+="E"
-        if self.coon.isOpen() == True:
+        if self.conn.isOpen() == True:
             self.conn.write(command.encode())
 
 
@@ -96,7 +96,7 @@ class Translator():
                 output.append(vals[i:i+4])
             return output
 
-        if self.coon.isOpen() == True:
+        if self.conn.isOpen() == True:
             self.conn.flushInput()
 
 

@@ -1,7 +1,8 @@
-import socketio
 import eventlet
+import socketio
 import time
 from threading import Thread
+from threading import Lock
 from flask import Flask, render_template
 from engineio.payload import Payload
 from grid_handling import GridHandling #computation methods
@@ -9,8 +10,6 @@ from grid_handling import GridHandling #computation methods
 # initialize server
 Payload.max_decode_packets = 500
 sio = socketio.Server(async_mode='threading', cors_allowed_origins='*')
-
-#sio = socketio.Server(async_mode='threading', cors_allowed_origins='*')
 
 # initialize application wrapper for server
 app = Flask(__name__)
