@@ -39,6 +39,7 @@ Create a virtual port to test communication between the WebSocket and the serial
 
 `python3 -m virtualserialports 1`
 
+`ls /dev/cu.*`
 
 ## Blocks App
 

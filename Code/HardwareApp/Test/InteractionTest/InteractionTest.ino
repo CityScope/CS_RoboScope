@@ -108,10 +108,10 @@ SX1509 sx00;
 const byte SX1509_ADDRESS_01 = 0x3F;
 SX1509 sx01;
 
-const byte SX1509_ADDRESS_10 = 0x71;
+const byte SX1509_ADDRESS_10 = 0x70;
 SX1509 sx02;
 
-const byte SX1509_ADDRESS_11 = 0x70;
+const byte SX1509_ADDRESS_11 = 0x71;
 SX1509 sx03;
 
 //sx0

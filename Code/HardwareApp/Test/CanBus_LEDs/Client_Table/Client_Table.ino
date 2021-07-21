@@ -40,7 +40,7 @@ Adafruit_NeoPixel * pixels[8];
 uint8_t state;  //system state (feel free to use)
 uint8_t num_count; //variable for storing the number of times the button has been pressed before timeout
 unsigned long timer;  //used for storing millis() readings.
-int last_time; 
+int last_time;
 int down_initial;
 int up_initial;
 bool long_press = false;
@@ -51,6 +51,8 @@ struct rgb {
   unsigned int   g;
   unsigned int   b;
 };
+
+bool StatusLED = false;
 
 rgb pixel_rgb[8];
 //----------------------------------------------------------------
@@ -73,10 +75,10 @@ void setup(void) {
   FD.enableMBInterrupts();
   FD.onReceive(reading);
   FD.distribute();
-  
+
   FD.mailboxStatus();
   Serial.println("Init client done");
-  
+
 
   last_time = millis();
   state = START; //start system in IDLE state!
@@ -84,17 +86,20 @@ void setup(void) {
 
   initPixel();
   for (int i = 0; i < 8; i++) {
-    pixel_rgb[i] = {0,0,0};
+    pixel_rgb[i] = {0, 0, 0};
   }
 
-//  interfacePanel = new InterfacePanel();
-//  interfacePanel->init();
+  //STATUS LED
+
+
+  //  interfacePanel = new InterfacePanel();
+  //  interfacePanel->init();
 }
 
 //----------------------------------------------------------------
 void loop() {
-    FD.events();
-//  number_fsm(interfacePanel->getPushCurrentState(2));
+  FD.events();
+  //  number_fsm(interfacePanel->getPushCurrentState(2));
 }
 
 //----------------------------------------------------------------
@@ -105,45 +110,47 @@ void reading(const CANFD_message_t &msg) {
   for ( uint8_t i = 0; i < msg.len; i++ ) {
     Serial.print(msg.buf[i]); Serial.print(" ");
   } Serial.println(" ");
-  if (msg.id==local_name){
+  if (msg.id == local_name) {
     for ( uint8_t i = 0; i < 8; i++ ) {
       char str[15];
-      sprintf(str, "%X%X", msg.buf[i*4+2], msg.buf[i*4+3]); 
-      grid(msg.id, i, str, msg.buf[i*4]);
+      sprintf(str, "%X%X", msg.buf[i * 4 + 2], msg.buf[i * 4 + 3]);
+      grid(msg.id, i, str, msg.buf[i * 4]);
     }
   }
+
+  StatusLED = true;
 }
 
 //----------------------------------------------------------------
 void grid(int node, int local, char* str, int height) {
-  uint64_t color = (uint64_t) strtoull(str, 0, 16); 
+  uint64_t color = (uint64_t) strtoull(str, 0, 16);
   int r = ((((color >> 11) & 0x1F) * 527) + 23) >> 6;
   int g = ((((color >> 5) & 0x3F) * 259) + 33) >> 6;
   int b = (((color & 0x1F) * 527) + 23) >> 6;
   Serial.println(local);
   if (r != pixel_rgb[local].r | g != pixel_rgb[local].g | b != pixel_rgb[local].b) {
-      int mini = min(r,min(g,b));
-      for (int j = 0; j < NUMPIXELS; j++) {
-        pixels[local]->setPixelColor(j, pixels[local]->gamma32(pixels[local]->Color(r-mini,g-mini,b-mini,mini))); // Moderately bright green color.
-      }
-      Serial.print(r-mini); Serial.print(" ");
-      Serial.print(g-mini); Serial.print(" ");
-      Serial.print(b-mini); Serial.print(" ");
-      Serial.print(mini); 
-      Serial.println(" ");
-      pixels[local]->show();
-      pixel_rgb[local] = {r,g,b};
+    int mini = min(r, min(g, b));
+    for (int j = 0; j < NUMPIXELS; j++) {
+      pixels[local]->setPixelColor(j, pixels[local]->gamma32(pixels[local]->Color(r - mini, g - mini, b - mini, mini))); // Moderately bright green color.
+    }
+    Serial.print(r - mini); Serial.print(" ");
+    Serial.print(g - mini); Serial.print(" ");
+    Serial.print(b - mini); Serial.print(" ");
+    Serial.print(mini);
+    Serial.println(" ");
+    pixels[local]->show();
+    pixel_rgb[local] = {r, g, b};
   }
 }
 
 //----------------------------------------------------------------
-void initPixel() { 
+void initPixel() {
   for (int i = 0; i < 8; i++) {
     pixels[i] = new Adafruit_NeoPixel(NUMPIXELS, NEO_PIN[i], NEO_GRBW + NEO_KHZ800);
     pixels[i]->begin();
     pixels[i]->clear();
   }
-  
+
   //set pixels to different colors
   for (int j = 0; j < 8; j++) {
     pixels[j]->setPixelColor(0, pixels[j]->Color(0, 0, 0, 255)); // Moderately bright green color.
@@ -157,7 +164,7 @@ void initPixel() {
 //
 //void number_fsm(uint8_t input){
 //  switch(state){
-//    case START: 
+//    case START:
 //      if (num_count!=0) {
 //        byte byte3 = 0;
 //        if (long_press == true) {
@@ -171,7 +178,7 @@ void initPixel() {
 //        if (num_count > 1) {
 //          bitSet(byte3, 0);
 //        }
-//         
+//
 ////        CANMotorMessage msg = CANMotorMessage(0);
 //        for (int i = 0; i < 8; i++) {
 ////          msg.addMessage(i, 10, 255, byte3, 0);
@@ -182,7 +189,7 @@ void initPixel() {
 //        num_count=0;
 //        long_press = false;
 //      }
-//             
+//
 //      if (input==1){
 //        down_initial = millis();
 //        state = DOWN;

@@ -8,10 +8,9 @@
 //Number of motors that each panel has
 #define MOTORS_PER_PANEL 8
 
-#define PIXELS_PER_URBAN_PIXEL 2
+#define PIXELS_PER_URBAN_PIXEL 4
 
-#define NUM_URBAN_PIXELS 2
-
+#define NUM_URBAN_PIXELS 4
 
 // MOTOR 1
 #define DIR_PIN_01     6
@@ -54,14 +53,11 @@
 #define GM0_PIN        11
 #define GM1_PIN        12
 
-//DEBUG LED NEO PIXEL
-#define NEO_DEBUG      32
-
 //LED DEBUG TEENSY
 #define LED_TEENSY     13
 
-//NEO PIXELS
-#define NEO_PIXEL_PIN   2
+//STATUS LED 5_SX3
+#define STATUS_LED     5
 
 //DIP SWITCH
 #define MUX_S0         26         

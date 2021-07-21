@@ -10,12 +10,22 @@
 #define  SX1509_ADDRESS_10         0x70   ///0x71
 #define  SX1509_ADDRESS_11         0x71
 
+/*
+ * #define  SX1509_ADDRESS_00         0x3E
+#define  SX1509_ADDRESS_01         0x3F // 0x3F
+#define  SX1509_ADDRESS_10         0x70   ///0x71
+#define  SX1509_ADDRESS_11         0x71
+
+ */
+
 //MOTOR DEFINES
 #define SERIAL_PORT Serial5
 #define DRIVER_ADDRESS 0b00
 
 #define R_SENSE 0.11f
 
+
+#define LED_STATUS 19
 
 #define INTERRUPT_PIN_SWITCH_01   32
 #define INTERRUPT_PIN_SWITCH_02   33
@@ -26,8 +36,6 @@
 #define MOTOR_STEPS       256
 #define RMS_CURRENT       400
 
-//NUM 3D PIXELS
-#define NUM_3D_PIXELS      8
 
 
 //MOTOR PINS
@@ -66,11 +74,6 @@
 
 
 //NEO PIXELS
-
-//Maximun number of pixels per board
-#define NUM_LEDS          4
-
-//PIXEL PINS
 #define  NEO_PIN_01        4
 #define  NEO_PIN_02       13
 #define  NEO_PIN_03       14//2;
@@ -137,14 +140,6 @@
 #define  DIP_08_SX03      13 
 #define  DIP_09_SX03      14 
 #define  DIP_10_SX03      15
-
-//CALIBRATION PINS
-#define CALIBRATION_01_SX00 1
-#define CALIBRATION_02_SX00 3
-#define CALIBRATION_03_SX00 13
-#define CALIBRATION_04_SX00 15
-
-#define CALIBRATION_STATUS_SX03 1
 
 //STATUS PIN
 #define  STATUS_PIN_SX03  5 
