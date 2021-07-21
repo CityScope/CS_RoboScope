@@ -3,7 +3,6 @@
  *
  * PREFIX G -> Global
 */
-
 //define address
 #define  SX1509_ADDRESS_00         0x3E
 #define  SX1509_ADDRESS_01         0x3F // 0x3F
@@ -16,7 +15,6 @@
 
 #define R_SENSE 0.11f
 
-
 #define INTERRUPT_PIN_SWITCH_01   32
 #define INTERRUPT_PIN_SWITCH_02   33
 
@@ -28,7 +26,6 @@
 
 //NUM 3D PIXELS
 #define NUM_3D_PIXELS      8
-
 
 //MOTOR PINS
 //MOTOR 1
@@ -63,7 +60,6 @@
 #define ENABLE_08_SX00      14 // SX Enable
 #define DIR_PIN_08          27 // Direction 
 #define STEP_PIN_08         26 // Step 
-
 
 //NEO PIXELS
 
@@ -100,8 +96,7 @@
 #define DOWN_05_SX02      12 
 #define DOWN_06_SX02      4 
 #define DOWN_07_SX02      15 
-#define DOWN_08_SX02      5 
-
+#define DOWN_08_SX02      5
 
 //UP BUTTONS
 #define  UP_01_SX01       11 

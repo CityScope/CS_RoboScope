@@ -4,7 +4,7 @@
 #include <TMCStepper.h>
 
 /*
-   Control for DRV8834 stepper motor driver
+   Control for TMC2209 stepper motor driver
 */
 class StepperMotor {
   public:
@@ -45,8 +45,6 @@ class StepperMotor {
       ENABLE_PIN = enable_pin;
 
       dirMotor =  false;
-
-
     }
 
     //delete pointer memory
@@ -54,18 +52,25 @@ class StepperMotor {
 
     }
 
-    //init mux
-    void init(SX1509 * sxm, TMC2209Stepper  * driver) {
-
-      Serial.print("Setup Motor: ");
-      Serial.print(id);
-
-      //enabler
+    //init motor pins
+    void initPins(SX1509 * sxm) {
       sxm->pinMode(ENABLE_PIN, OUTPUT);
       sxm->digitalWrite(ENABLE_PIN, LOW);
 
-      //sleep
+      pinMode(STEP_PIN, OUTPUT);
+      digitalWrite(STEP_PIN, LOW);
 
+      pinMode(DIR_PIN, OUTPUT);
+      digitalWrite(DIR_PIN, LOW);
+    }
+
+    //init pins and driver
+    void initMotor(TMC2209Stepper  * driver) {
+
+      Serial.print(" Setup Driver: ");
+      Serial.println(id);
+
+      driver->begin();
       driver->toff(4);                 // Enables driver in software
       driver->rms_current(RMS_CURRENT);        // Set motor RMS current
       driver->microsteps(motorSteps); //128         // Set microsteps to 1/16th
@@ -73,6 +78,8 @@ class StepperMotor {
       //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
       driver->en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
       driver->pwm_autoscale(true);     // Needed for stealthChop
+
+
 
       Serial.print(F("\nTesting connection... "));
       Serial.println(id);
@@ -96,9 +103,6 @@ class StepperMotor {
       enableMotor = false;
       driver->shaft(false);
     }
-
-
-
 
     void shaftOn(TMC2209Stepper  * driver) {
       driver->shaft(true);
@@ -124,7 +128,6 @@ class StepperMotor {
         sxm->digitalWrite(STEP_PIN, HIGH);
       }
     }
-
 
     void moveForward() {
       //motor->move(-motorSteps);

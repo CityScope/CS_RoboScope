@@ -174,20 +174,21 @@ void initMotors() {
   Serial.println("Setting up Motor Control");
 
   driver = new TMC2209Stepper(&SERIAL_PORT, R_SENSE, DRIVER_ADDRESS);
+  SERIAL_PORT.begin(250000);
+  driver->begin();
 
   for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
-    Serial.print("Motor init: ");
+    Serial.print(" Motor init: ");
     Serial.println(i);
 
-    motors[i] =  new StepperMotor(i, GMOTOR_STEPS, motorDirPins[i], motorStepPins[i], motorEnablePins[i]);
-
-    Serial.println("Starting: ");
-
     enableMotor(i);
-    motors[i]->init(sx00, driver);
+    motors[i] =  new StepperMotor(i, GMOTOR_STEPS, motorDirPins[i], motorStepPins[i], motorEnablePins[i]);
+    motors[i]->initPins(sx00);
+    motors[i]->initMotor(driver);
     motors[i]->shaftOff(driver);
     motors[i]->motorOff();
     Serial.println("-----");
+    delay(10);
   }
 
 
@@ -430,11 +431,11 @@ void initSX03() {
   sx03->pinMode(STATUS_PIN_SX03, OUTPUT);
 
   sx03->digitalWrite(STATUS_PIN_SX03, HIGH);
-  delay(500);
+  delay(200);
   sx03->digitalWrite(STATUS_PIN_SX03, LOW);
-  delay(500);
+  delay(200);
   sx03->digitalWrite(STATUS_PIN_SX03, HIGH);
-  delay(500);
+  delay(200);
   sx03->digitalWrite(STATUS_PIN_SX03, LOW);
 
   //sx03
@@ -805,7 +806,6 @@ void keyCommands() {
       }
     }
 
-
     //change motor direction
     if (key == 'z') {
       for (int i = 0; i < NUM_3D_PIXELS; i++) {
@@ -819,7 +819,6 @@ void keyCommands() {
         motors[i]->shaftOff(driver);
       }
     }
-
 
     //LEDS
     if (key == 'k') {
