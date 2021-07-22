@@ -129,7 +129,7 @@ void setup() {
 
 void loop() {
 
-  //motorUpdate();
+  motorUpdate();
 
   //swithces
   //checkLimit();
@@ -144,7 +144,7 @@ void loop() {
   //canFD.events();
 
   //keyCommands
-  //keyCommands();
+  keyCommands();
 
 }
 
