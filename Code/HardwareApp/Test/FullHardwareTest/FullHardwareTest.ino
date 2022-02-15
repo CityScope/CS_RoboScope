@@ -13,8 +13,8 @@
 #include <FlexCAN_T4.h>
 
 //CAN BUS
-FlexCAN_T4FD<CAN3, RX_SIZE_512, TX_SIZE_64> canFD;
-FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16>   can2;
+FlexCAN_T4FD<CAN3, RX_SIZE_512, TX_SIZE_64>  canFD;
+FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16>    can2;
 
 
 //NEO PIXELS PINS
@@ -39,18 +39,19 @@ rgb tempRGB[8]; //store temp current color
 //MUX
 //Motor commands, step calibration
 SX1509 * sx00;
+bool activeSX00 = false;
 
 //limit and push down buttons
 SX1509 * sx01;
-bool interruptActivate01 = false;
+bool activeSX01 = false;
 
 //push push interaction and touch enable
 SX1509 * sx02;
-bool interruptActivate02 = false;
+bool activeSX02 = false;
 
 //dip switch  and notifications
 SX1509 * sx03;
-
+bool activeSX03 = false;
 
 
 //Motors
@@ -77,7 +78,7 @@ int nodeId = 0; //in case dip number is different from node id
 
 void setup() {
   //Start Serial
-  Serial.begin(9600);
+  Serial.begin(250000);
   delay(500);
 
   Serial.println("Starting: ");
@@ -132,8 +133,8 @@ void loop() {
   motorUpdate();
 
   //swithces
-  //checkLimit();
-  //checkPushDown();
+  checkLimit();
+  // checkPushDown();
   //checkPushUp();
   //checkDip();
 
@@ -141,7 +142,7 @@ void loop() {
   //updateCalibration();
 
   //CAN BUS
-  //canFD.events();
+  canFD.events();
 
   //keyCommands
   keyCommands();
@@ -182,8 +183,8 @@ void initMotors() {
     Serial.println(i);
 
     enableMotor(i);
-    motors[i] =  new StepperMotor(i, GMOTOR_STEPS, motorDirPins[i], motorStepPins[i], motorEnablePins[i]);
-    motors[i]->initPins(sx00);
+    motors[i] =  new StepperMotor(i, MICRO_STEPS, motorDirPins[i], motorStepPins[i], motorEnablePins[i]);
+    motors[i]->initPins(sx00, activeSX00);
     motors[i]->initMotor(driver);
     motors[i]->shaftOff(driver);
     motors[i]->motorOff();
@@ -191,21 +192,20 @@ void initMotors() {
     delay(10);
   }
 
-
   Serial.println("Done Motors");
 }
 //-------------------------------------------------------------------
 //MOTOR UPDATE BLOCKING WIHT DELAY
 void motorUpdate() {
 
-  for (uint16_t i = 500; i > 0; i--) {
-    for (int i = 0; i < NUM_3D_PIXELS; i++) {
-      motors[i]->motorStart(sx00);
+  for (uint16_t i = 5000; i > 0; i--) {
+    for (int j = 0; j < NUM_3D_PIXELS; j++) {
+      motors[j]->motorBegin();
     }
     delayMicroseconds(4);
 
-    for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
-      motors[i]->motorEnd(sx00);
+    for (int j = 0; j < NUM_3D_PIXELS; j++) {
+      motors[j]->motorEnd();
     }
     delayMicroseconds(4);
   }
@@ -278,12 +278,14 @@ void initMUX() {
       Serial.println(muxCounter);
       delay(100);
       muxCounter++;
+      activeSX00 = false;
     } else {
       Serial.println("Connected MUX 00 ");
+      activeSX00 = true;
       break;
     }
   }
-  delay(500);
+  delay(200);
 
   ///--------------------------------------------
   muxCounter = 0;
@@ -293,12 +295,14 @@ void initMUX() {
       Serial.println(muxCounter);
       delay(100);
       muxCounter++;
+      activeSX01 = false;
     } else {
       Serial.println("Connected MUX 01 ");
+      activeSX01 = true;
       break;
     }
   }
-  delay(500);
+  delay(200);
 
   ///--------------------------------------------
   muxCounter = 0;
@@ -308,12 +312,14 @@ void initMUX() {
       Serial.println(muxCounter);
       delay(100);
       muxCounter++;
+      activeSX02 = false;
     } else {
       Serial.println("Connected MUX 02 ");
+      activeSX02 = true;
       break;
     }
   }
-  delay(500);
+  delay(200);
 
   //---------------------------------------
   muxCounter = 0;
@@ -323,12 +329,14 @@ void initMUX() {
       Serial.println(muxCounter);
       delay(100);
       muxCounter++;
+      activeSX03 = false;
     } else {
       Serial.println("Connected MUX 03");
+      activeSX03 = true;
       break;
     }
   }
-  delay(500);
+  delay(200);
 
   Serial.println("Done setting up MUX");
 }
@@ -336,140 +344,149 @@ void initMUX() {
 //----------------------------------------------------------------
 void initSX00() {
   //buttons
-  Serial.println("init pins SX 00");
+  if (activeSX00) {
+    Serial.println("init pins SX 00");
 
-  sx00->pinMode(CALIBRATION_01_SX00, INPUT);
-  sx00->pinMode(CALIBRATION_02_SX00, INPUT);
-  sx00->pinMode(CALIBRATION_03_SX00, INPUT);
-  sx00->pinMode(CALIBRATION_04_SX00, INPUT);
+    sx00->pinMode(CALIBRATION_01_SX00, INPUT);
+    sx00->pinMode(CALIBRATION_02_SX00, INPUT);
+    sx00->pinMode(CALIBRATION_03_SX00, INPUT);
+    sx00->pinMode(CALIBRATION_04_SX00, INPUT);
 
-  //MUX PINS for selecting the motor
-  sx00->pinMode(selectMotor[0], OUTPUT);
-  sx00->pinMode(selectMotor[1], OUTPUT);
-  sx00->pinMode(selectMotor[2], OUTPUT);
+    //MUX PINS for selecting the motor
+    sx00->pinMode(selectMotor[0], OUTPUT);
+    sx00->pinMode(selectMotor[1], OUTPUT);
+    sx00->pinMode(selectMotor[2], OUTPUT);
 
-  //MUX
-  for (int i = 0; i < 3; i++) {
-    sx00->digitalWrite(selectMotor[i], LOW);
+    //MUX
+    sx00->digitalWrite(selectMotor[0], LOW);
+    sx00->digitalWrite(selectMotor[1], LOW);
+    sx00->digitalWrite(selectMotor[2], LOW);
+
+
+    delay(200);
+    Serial.println("Done init pins SX 00");
   }
-
-  delay(200);
-  Serial.println("Done init pins SX 00");
 }
 
 //----------------------------------------------------------------
 void initSX01() {
+  if (activeSX01) {
+    Serial.println("init pins SX 01");
 
-  Serial.println("init pins SX 01");
+    sx01->pinMode(SWITCH_01_SX01, INPUT);
+    sx01->pinMode(SWITCH_02_SX01, INPUT);
+    sx01->pinMode(SWITCH_03_SX01, INPUT);
+    sx01->pinMode(SWITCH_04_SX01, INPUT);
 
-  sx01->pinMode(SWITCH_01_SX01, INPUT);
-  sx01->pinMode(SWITCH_02_SX01, INPUT);
-  sx01->pinMode(SWITCH_03_SX01, INPUT);
-  sx01->pinMode(SWITCH_04_SX01, INPUT);
+    sx01->pinMode(DOWN_01_SX01, INPUT);
+    sx01->pinMode(DOWN_02_SX01, INPUT);
+    sx01->pinMode(DOWN_03_SX01, INPUT);
+    sx01->pinMode(DOWN_04_SX01, INPUT);
 
-  sx01->pinMode(DOWN_01_SX01, INPUT);
-  sx01->pinMode(DOWN_02_SX01, INPUT);
-  sx01->pinMode(DOWN_03_SX01, INPUT);
-  sx01->pinMode(DOWN_04_SX01, INPUT);
+    sx01->pinMode(UP_01_SX01, INPUT);
+    sx01->pinMode(UP_02_SX01, INPUT);
+    sx01->pinMode(UP_03_SX01, INPUT);
+    sx01->pinMode(UP_04_SX01, INPUT);
 
-  sx01->pinMode(UP_01_SX01, INPUT);
-  sx01->pinMode(UP_02_SX01, INPUT);
-  sx01->pinMode(UP_03_SX01, INPUT);
-  sx01->pinMode(UP_04_SX01, INPUT);
+    sx01->pinMode(TOUCH_01_SX01, INPUT);
+    sx01->pinMode(TOUCH_02_SX01, INPUT);
+    sx01->pinMode(TOUCH_03_SX01, INPUT);
+    sx01->pinMode(TOUCH_04_SX01, INPUT);
 
-  sx01->pinMode(TOUCH_01_SX01, INPUT);
-  sx01->pinMode(TOUCH_02_SX01, INPUT);
-  sx01->pinMode(TOUCH_03_SX01, INPUT);
-  sx01->pinMode(TOUCH_04_SX01, INPUT);
-
-  delay(200);
-  Serial.println("Done init pins SX 01");
+    delay(200);
+    Serial.println("Done init pins SX 01");
+  }
 }
 //----------------------------------------------------------------
 void initSX02() {
-  Serial.println("init pins SX 02");
+  if (activeSX02) {
+    Serial.println("init pins SX 02");
 
-  sx02->pinMode(SWITCH_05_SX02, INPUT);
-  sx02->pinMode(SWITCH_06_SX02, INPUT);
-  sx02->pinMode(SWITCH_07_SX02, INPUT);
-  sx02->pinMode(SWITCH_08_SX02, INPUT);
+    sx02->pinMode(SWITCH_05_SX02, INPUT);
+    sx02->pinMode(SWITCH_06_SX02, INPUT);
+    sx02->pinMode(SWITCH_07_SX02, INPUT);
+    sx02->pinMode(SWITCH_08_SX02, INPUT);
 
-  sx02->pinMode(DOWN_05_SX02, INPUT);
-  sx02->pinMode(DOWN_06_SX02, INPUT);
-  sx02->pinMode(DOWN_07_SX02, INPUT);
-  sx02->pinMode(DOWN_08_SX02, INPUT);
+    sx02->pinMode(DOWN_05_SX02, INPUT);
+    sx02->pinMode(DOWN_06_SX02, INPUT);
+    sx02->pinMode(DOWN_07_SX02, INPUT);
+    sx02->pinMode(DOWN_08_SX02, INPUT);
 
-  sx02->pinMode(UP_05_SX02, INPUT);
-  sx02->pinMode(UP_06_SX02, INPUT);
-  sx02->pinMode(UP_07_SX02, INPUT);
-  sx02->pinMode(UP_08_SX02,  INPUT);
+    sx02->pinMode(UP_05_SX02, INPUT);
+    sx02->pinMode(UP_06_SX02, INPUT);
+    sx02->pinMode(UP_07_SX02, INPUT);
+    sx02->pinMode(UP_08_SX02,  INPUT);
 
-  sx02->pinMode(TOUCH_05_SX02, INPUT);
-  sx02->pinMode(TOUCH_06_SX02, INPUT);
-  sx02->pinMode(TOUCH_07_SX02, INPUT);
-  sx02->pinMode(TOUCH_08_SX02, INPUT);
+    sx02->pinMode(TOUCH_05_SX02, INPUT);
+    sx02->pinMode(TOUCH_06_SX02, INPUT);
+    sx02->pinMode(TOUCH_07_SX02, INPUT);
+    sx02->pinMode(TOUCH_08_SX02, INPUT);
 
-  delay(200);
-  Serial.println("Done init pins SX 02");
+    delay(200);
+    Serial.println("Done init pins SX 02");
+  }
 }
 
 //-------------------------------------------------------------------
 void initSX03() {
-  Serial.println("init pins SX 03");
+  if (activeSX03) {
 
-  sx03->pinMode(DIP_01_SX03, INPUT);
-  sx03->pinMode(DIP_02_SX03, INPUT);
-  sx03->pinMode(DIP_03_SX03, INPUT);
-  sx03->pinMode(DIP_04_SX03, INPUT);
-  sx03->pinMode(DIP_05_SX03, INPUT);
-  sx03->pinMode(DIP_06_SX03, INPUT);
-  sx03->pinMode(DIP_07_SX03, INPUT);
-  sx03->pinMode(DIP_08_SX03, INPUT);
-  sx03->pinMode(DIP_09_SX03, INPUT);
-  sx03->pinMode(DIP_10_SX03, INPUT);
+    Serial.println("init pins SX 03");
 
-  sx03->pinMode(STATUS_PIN_SX03, OUTPUT);
+    sx03->pinMode(DIP_01_SX03, INPUT);
+    sx03->pinMode(DIP_02_SX03, INPUT);
+    sx03->pinMode(DIP_03_SX03, INPUT);
+    sx03->pinMode(DIP_04_SX03, INPUT);
+    sx03->pinMode(DIP_05_SX03, INPUT);
+    sx03->pinMode(DIP_06_SX03, INPUT);
+    sx03->pinMode(DIP_07_SX03, INPUT);
+    sx03->pinMode(DIP_08_SX03, INPUT);
+    sx03->pinMode(DIP_09_SX03, INPUT);
+    sx03->pinMode(DIP_10_SX03, INPUT);
 
-  sx03->digitalWrite(STATUS_PIN_SX03, HIGH);
-  delay(200);
-  sx03->digitalWrite(STATUS_PIN_SX03, LOW);
-  delay(200);
-  sx03->digitalWrite(STATUS_PIN_SX03, HIGH);
-  delay(200);
-  sx03->digitalWrite(STATUS_PIN_SX03, LOW);
+    sx03->pinMode(STATUS_PIN_SX03, OUTPUT);
 
-  //sx03
-  //calibration status pin
-  sx03->pinMode(CALIBRATION_STATUS_SX03, INPUT);
+    sx03->digitalWrite(STATUS_PIN_SX03, HIGH);
+    delay(200);
+    sx03->digitalWrite(STATUS_PIN_SX03, LOW);
+    delay(200);
+    sx03->digitalWrite(STATUS_PIN_SX03, HIGH);
+    delay(200);
+    sx03->digitalWrite(STATUS_PIN_SX03, LOW);
 
-  Serial.println("Done init pins SX 03");
+    //sx03
+    //calibration status pin
+    sx03->pinMode(CALIBRATION_STATUS_SX03, INPUT);
+
+    Serial.println("Done init pins SX 03");
+  }
 }
 
 //-------------------------------------------------------------------
 //SX 01
 void checkLimit() {
-  if (sx01->digitalRead(SWITCH_01_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(SWITCH_01_SX01) == HIGH) {
     Serial.println("LIMIT PIN 01");
   }
-  if (sx01->digitalRead(SWITCH_02_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(SWITCH_02_SX01) == HIGH) {
     Serial.println("LIMIT PIN 02");
   }
-  if (sx01->digitalRead(SWITCH_03_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(SWITCH_03_SX01) == HIGH) {
     Serial.println("LIMIT PIN 03");
   }
-  if (sx01->digitalRead(SWITCH_04_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(SWITCH_04_SX01) == HIGH) {
     Serial.println("LIMIT PIN 04");
   }
-  if (sx02->digitalRead(SWITCH_05_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(SWITCH_05_SX02) == HIGH) {
     Serial.println("LIMIT PIN 05");
   }
-  if (sx02->digitalRead(SWITCH_06_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(SWITCH_06_SX02) == HIGH) {
     Serial.println("LIMIT PIN 06");
   }
-  if (sx02->digitalRead(SWITCH_07_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(SWITCH_07_SX02) == HIGH) {
     Serial.println("LIMIT PIN 07");
   }
-  if (sx02->digitalRead(SWITCH_08_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(SWITCH_08_SX02) == HIGH) {
     Serial.println("LIMIT PIN 08");
   }
 }
@@ -481,43 +498,43 @@ void checkDip() {
   for (int i = 0; i < dipLen; i++) {
     dip[i] = 0;
   }
-  if (sx03->digitalRead(DIP_01_SX03) == HIGH) {
+  if ( activeSX03 && sx03->digitalRead(DIP_01_SX03) == LOW) {
     Serial.println("DIP PIN 01");
     dip[0] = 1;
   }
-  if (sx03->digitalRead(DIP_02_SX03) == HIGH) {
+  if (activeSX03 && sx03->digitalRead(DIP_02_SX03) == LOW) {
     Serial.println("DIP PIN 02");
     dip[1] = 1;
   }
-  if (sx03->digitalRead(DIP_03_SX03) == HIGH) {
+  if (activeSX03 && sx03->digitalRead(DIP_03_SX03) == LOW) {
     Serial.println("DIP PIN 03");
     dip[2] = 1;
   }
-  if (sx03->digitalRead(DIP_04_SX03) == HIGH) {
+  if (activeSX03 && sx03->digitalRead(DIP_04_SX03) == LOW) {
     Serial.println("DIP PIN 04");
     dip[3] = 1;
   }
-  if (sx03->digitalRead(DIP_05_SX03) == HIGH) {
+  if (activeSX03 && sx03->digitalRead(DIP_05_SX03) == LOW) {
     Serial.println("DIP PIN 05");
     dip[4] = 1;
   }
-  if (sx03->digitalRead(DIP_06_SX03) == HIGH) {
+  if (activeSX03 && sx03->digitalRead(DIP_06_SX03) == LOW) {
     Serial.println("DIP PIN 06");
     dip[5] = 1;
   }
-  if (sx03->digitalRead(DIP_07_SX03) == HIGH) {
+  if (activeSX03 && sx03->digitalRead(DIP_07_SX03) == LOW) {
     Serial.println("DIP PIN 07");
     dip[6] = 1;
   }
-  if (sx03->digitalRead(DIP_08_SX03) == HIGH) {
+  if (activeSX03 && sx03->digitalRead(DIP_08_SX03) == LOW) {
     Serial.println("DIP PIN 08");
     dip[7] = 1;
   }
-  if (sx03->digitalRead(DIP_09_SX03) == HIGH) {
+  if (activeSX03 && sx03->digitalRead(DIP_09_SX03) == LOW) {
     Serial.println("DIP PIN 09");
     dip[8] = 1;
   }
-  if (sx03->digitalRead(DIP_10_SX03) == HIGH) {
+  if (activeSX03 && sx03->digitalRead(DIP_10_SX03) == LOW) {
     Serial.println("DIP PIN 10");
     dip[9] = 1;
   }
@@ -527,7 +544,8 @@ void checkDip() {
   int power = 1;
 
   for (uint8_t i = 0; i < dipLen; i++) {
-    dipOutput += dip[(dipLen - 1) - i] * power;
+    dipOutput += dip[i] * power;
+    //(dipLen - 1) - i
     // output goes 1*2^0 + 0*2^1 + 0*2^2 + ...
     power *= 2;
   }
@@ -541,42 +559,42 @@ void checkDip() {
 //-------------------------------------------------------------------
 void checkPushDown() {
   //SX 02 down
-  if (sx01->digitalRead(DOWN_01_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(DOWN_01_SX01) == HIGH) {
     Serial.println("PIN 01 DOWN");
     colorChange = true;
     colorId = 0;
   }
-  if (sx01->digitalRead(DOWN_02_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(DOWN_02_SX01) == HIGH) {
     Serial.println("PIN 02 DOWN");
     colorChange = true;
     colorId = 1;
   }
-  if (sx01->digitalRead(DOWN_03_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(DOWN_03_SX01) == HIGH) {
     Serial.println("PIN 03 DOWN");
     colorChange = true;
     colorId = 2;
   }
-  if (sx01->digitalRead(DOWN_04_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(DOWN_04_SX01) == HIGH) {
     Serial.println("PIN 04 DOWN");
     colorChange = true;
     colorId = 3;
   }
-  if (sx02->digitalRead(DOWN_05_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(DOWN_05_SX02) == HIGH) {
     Serial.println("PIN 05 DOWN");
     colorChange = true;
     colorId = 4;
   }
-  if (sx02->digitalRead(DOWN_06_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(DOWN_06_SX02) == HIGH) {
     Serial.println("PIN 06 DOWN");
     colorChange = true;
     colorId = 5;
   }
-  if (sx02->digitalRead(DOWN_07_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(DOWN_07_SX02) == HIGH) {
     Serial.println("PIN 07 DOWN");
     colorChange = true;
     colorId = 6;
   }
-  if (sx02->digitalRead(DOWN_08_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(DOWN_08_SX02) == HIGH) {
     Serial.println("PIN 08 DOWN");
     colorChange = true;
     colorId = 7;
@@ -597,28 +615,28 @@ void checkPushDown() {
 
 //-------------------------------------------------------------------
 void checkPushUp() {
-  if (sx01->digitalRead(UP_01_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(UP_01_SX01) == HIGH) {
     Serial.println("LIMIT UP PIN 01");
   }
-  if (sx01->digitalRead(UP_02_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(UP_02_SX01) == HIGH) {
     Serial.println("LIMIT UP PIN 02");
   }
-  if (sx01->digitalRead(UP_03_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(UP_03_SX01) == HIGH) {
     Serial.println("LIMIT UP PIN 03");
   }
-  if (sx01->digitalRead(UP_04_SX01) == HIGH) {
+  if (activeSX01 && sx01->digitalRead(UP_04_SX01) == HIGH) {
     Serial.println("LIMIT UP PIN 04");
   }
-  if (sx02->digitalRead(UP_05_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(UP_05_SX02) == HIGH) {
     Serial.println("LIMIT UP PIN 05");
   }
-  if (sx02->digitalRead(UP_06_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(UP_06_SX02) == HIGH) {
     Serial.println("LIMIT UP PIN 06");
   }
-  if (sx02->digitalRead(UP_07_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(UP_07_SX02) == HIGH) {
     Serial.println("LIMIT UP PIN 07");
   }
-  if (sx02->digitalRead(UP_08_SX02) == HIGH) {
+  if (activeSX02 && sx02->digitalRead(UP_08_SX02) == HIGH) {
     Serial.println("LIMIT UP PIN 08");
   }
 
@@ -661,21 +679,34 @@ void initCanBus() {
   delay(200);
 }
 
+//--- Function that read the CAND Bus ----------------------------
 //----------------------------------------------------------------
 void reading(const CANFD_message_t & msg) {
   //turn on LED
-  sx03->digitalWrite(STATUS_PIN_SX03, LOW);
+  if(activeSX03){
+    sx03->digitalWrite(STATUS_PIN_SX03, LOW);
+  }
 
-  Serial.print("  Node: "); Serial.print(msg.id);
-  Serial.print("  LEN: "); Serial.print(msg.len);
+  Serial.print(" Node: "); Serial.print(msg.id);
+  Serial.print(" LEN: "); Serial.print(msg.len);
   Serial.print(" DATA: ");
+
   for ( uint8_t i = 0; i < msg.len; i++ ) {
     Serial.print(msg.buf[i]); Serial.print(" ");
-  } Serial.println(" ");
-  if (msg.id == nodeId) { // if the board is the same Id
+  }
+  Serial.println(" ");
 
+  if (msg.id == nodeId) {
+    if(activeSX03){
+      sx03->digitalWrite(STATUS_PIN_SX03, HIGH);
+    }
+    
+    // if the board is the same Id
+    Serial.print(msg.id);
+    Serial.print(" ");
+    Serial.println(nodeId);
+    Serial.println(" ");
     //turn on the status LED if the current node is the can bus msg node
-    sx03->digitalWrite(STATUS_PIN_SX03, HIGH);
 
     //update all the 3d Pixels
     for ( uint8_t i = 0; i < NUM_3D_PIXELS; i++ ) {
@@ -684,7 +715,14 @@ void reading(const CANFD_message_t & msg) {
       grid(msg.id, i, str, msg.buf[i * 4]);
     }
   }
+
 }
+
+/*
+
+   Colors:
+   https://stackoverflow.com/questions/51785689/what-is-an-effective-way-to-map-rgbw-pixel-data-to-rgb-for-a-visualisation
+*/
 
 //----------------------------------------------------------------
 void grid(int node, int local, char* str, int height) {
@@ -693,6 +731,7 @@ void grid(int node, int local, char* str, int height) {
   int g = ((((color >> 5) & 0x3F) * 259) + 33) >> 6;
   int b = (((color & 0x1F) * 527) + 23) >> 6;
   Serial.println(local);
+
 
   if (r != tempRGB[local].r | g != tempRGB[local].g | b != tempRGB[local].b) {
     int mini = min(r, min(g, b));
@@ -705,6 +744,7 @@ void grid(int node, int local, char* str, int height) {
     Serial.print(b - mini); Serial.print(" ");
     Serial.print(mini);
     Serial.println(" ");
+    
     pixels[local]->show();
     tempRGB[local] = {r, g, b};
   }
@@ -714,29 +754,51 @@ void grid(int node, int local, char* str, int height) {
 //CALIBRATION FUNCTIONS
 //----------------------------------------------------------------
 void initCalibration() {
-
-  if (sx03->digitalRead(CALIBRATION_STATUS_SX03) == HIGH) {
-    Serial.println("Calibration module is connected");
-  } else {
-    Serial.println("Calibration module is not connected");
+  if (activeSX03) {
+    if (sx03->digitalRead(CALIBRATION_STATUS_SX03) == HIGH) {
+      Serial.println("Calibration module is connected");
+    } else {
+      Serial.println("Calibration module is not connected");
+    }
   }
 }
+
 void updateCalibration() {
-  if (sx00->digitalRead(CALIBRATION_01_SX00) == HIGH) {
+  if (activeSX00) {
+    if (sx00->digitalRead(CALIBRATION_01_SX00) == HIGH) {
+      Serial.println("Calibration pin 01 ON");
+    }
+    if (sx00->digitalRead(CALIBRATION_02_SX00) == HIGH) {
+      Serial.println("Calibration pin 02 ON");
+    }
+    if (sx00->digitalRead(CALIBRATION_03_SX00) == HIGH) {
+      Serial.println("Calibration pin 03 ON");
+    }
+    if (sx00->digitalRead(CALIBRATION_04_SX00) == HIGH) {
+      Serial.println("Calibration pin 04 ON");
+    }
+  }
+}
+
+void calculteCalibration() {
+
+  //do this process several times,
+  // 5 times until we get a mean.
+
+
+  if (activeSX00 && sx00->digitalRead(CALIBRATION_01_SX00) == HIGH) {
     Serial.println("Calibration pin 01 ON");
+    //go down
   }
-  if (sx00->digitalRead(CALIBRATION_02_SX00) == HIGH) {
-    Serial.println("Calibration pin 02 ON");
+
+  if (activeSX01 && sx01->digitalRead(SWITCH_01_SX01) == HIGH) {
+    Serial.println("LIMIT PIN 01");
   }
-  if (sx00->digitalRead(CALIBRATION_03_SX00) == HIGH) {
-    Serial.println("Calibration pin 03 ON");
-  }
-  if (sx00->digitalRead(CALIBRATION_04_SX00) == HIGH) {
-    Serial.println("Calibration pin 04 ON");
-  }
+
 
 
 }
+
 //----------------------------------------------------------------
 void keyCommands() {
   if (Serial.available() > 0) {
@@ -797,13 +859,15 @@ void keyCommands() {
     //turn on/off motor
     if (key == 'a') {
       for (int i = 0; i < NUM_3D_PIXELS; i++) {
-        motors[i]->motorOff();
+        motors[i]->start(driver);
       }
+      Serial.println("Start Motor");
     }
     if (key == 's') {
       for (int i = 0; i < NUM_3D_PIXELS; i++) {
-        motors[i]->motorOn();
+        motors[i]->stop(driver);
       }
+      Serial.println("End Motor");
     }
 
     //change motor direction
@@ -831,7 +895,7 @@ void keyCommands() {
       //set pixels to different colors
       for (int j = 0; j < NUM_3D_PIXELS; j++) {
         for (int i = 0; i < NUM_LEDS; i++) {
-          pixels[j]->setPixelColor(NUM_LEDS, pixels[j]->Color(0, 0, 0, 255));// White
+          pixels[j]->setPixelColor(i, pixels[j]->Color(0, 0, 0, 255));// White
           pixels[j]->show();
         }
       }

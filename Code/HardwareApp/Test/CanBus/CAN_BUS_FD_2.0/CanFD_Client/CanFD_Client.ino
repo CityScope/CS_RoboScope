@@ -67,7 +67,6 @@ void setup(void) {
   sx03.digitalWrite(STATUS_PIN_SX03, LOW);
 
 
-
   //setup CAN 0 BUS
   canBus.begin();
   canBus.setBaudRate(500000);     // 500kbps data rate
@@ -79,9 +78,9 @@ void setup(void) {
   //setup CAN FD bus
   FD.begin();
   CANFD_timings_t config;
-  config.clock = CLK_24MHz;
+  config.clock = CLK_40MHz;
   config.baudrate = 1000000;
-  config.baudrateFD = 2000000;
+  config.baudrateFD = 8000000;
   config.propdelay = 190;
   config.bus_length = 1;
   config.sample = 87.5;
@@ -122,6 +121,7 @@ void loop() {
     reading(msg);
     sx03.digitalWrite(STATUS_PIN_SX03, HIGH);
   }
+  
 }
 
 //----------------------------------------------------------------

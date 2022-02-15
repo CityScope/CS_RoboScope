@@ -12,17 +12,12 @@
 //MOTOR DEFINES
 #define SERIAL_PORT Serial5
 #define DRIVER_ADDRESS 0b00
-
 #define R_SENSE 0.11f
 
-#define INTERRUPT_PIN_SWITCH_01   32
-#define INTERRUPT_PIN_SWITCH_02   33
 
 //MOTOR VALUES
-#define GMOTOR_STEPS      200 *321 //200
-#define GRPM              120 //120
-#define MOTOR_STEPS       256
-#define RMS_CURRENT       400
+#define MICRO_STEPS       256
+#define RMS_CURRENT       500 //600
 
 //NUM 3D PIXELS
 #define NUM_3D_PIXELS      8

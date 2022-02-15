@@ -53,15 +53,20 @@ class StepperMotor {
     }
 
     //init motor pins
-    void initPins(SX1509 * sxm) {
-      sxm->pinMode(ENABLE_PIN, OUTPUT);
-      sxm->digitalWrite(ENABLE_PIN, LOW);
-
+    void initPins(SX1509 * sxm, bool asx) {
+      if (asx) {
+        sxm->pinMode(ENABLE_PIN, OUTPUT);
+        sxm->digitalWrite(ENABLE_PIN, LOW);
+      } else {
+        Serial.print("Motor Enable SX not loadead  ");
+        Serial.print(id);
+        Serial.println();
+      }
       pinMode(STEP_PIN, OUTPUT);
-      digitalWrite(STEP_PIN, LOW);
+      // pinMode(DIR_PIN, OUTPUT);
 
-      pinMode(DIR_PIN, OUTPUT);
-      digitalWrite(DIR_PIN, LOW);
+      //digitalWrite(DIR_PIN, LOW);
+      digitalWrite(STEP_PIN, LOW);
     }
 
     //init pins and driver
@@ -70,22 +75,24 @@ class StepperMotor {
       Serial.print(" Setup Driver: ");
       Serial.println(id);
 
-      driver->begin();
-      driver->toff(4);                 // Enables driver in software
+      //disable motors
+      driver->toff(4);// Enables driver in software
+
+      //turn default down
+      //true -> Motor down, false  -> Motor up
+      //driver->shaft(true);
       driver->rms_current(RMS_CURRENT);        // Set motor RMS current
-      driver->microsteps(motorSteps); //128         // Set microsteps to 1/16th
+      driver->microsteps(MICRO_STEPS); //128         // Set microsteps to 1/16th
 
       //driver.en_pwm_mode(true);       // Toggle stealthChop on TMC2130/2160/5130/5160
       driver->en_spreadCycle(false);   // Toggle spreadCycle on TMC2208/2209/2224
       driver->pwm_autoscale(true);     // Needed for stealthChop
 
-
-
       Serial.print(F("\nTesting connection... "));
-      Serial.println(id);
+      Serial.print(id);
       uint8_t result = driver->test_connection();
       motorStatus  = result;
-      delay(200);
+      delay(100);
       if (result) {
         Serial.println(F("failed!"));
         Serial.print(F("Likely cause: "));
@@ -96,12 +103,12 @@ class StepperMotor {
         Serial.println(F("Fix the problem and reset board."));
         motorStatus  = 0;
       }
-      Serial.println(F("OK"));
+      Serial.println(F("  OK"));
       ///
 
       //start with the motor off
-      enableMotor = false;
-      driver->shaft(false);
+      //enableMotor = false;
+
     }
 
     void shaftOn(TMC2209Stepper  * driver) {
@@ -118,14 +125,14 @@ class StepperMotor {
     }
 
     //Simple start and end Motor contr
-    void motorStart(SX1509 * sxm) {
+    void motorBegin() {
       if (enableMotor) {
-        sxm->digitalWrite(STEP_PIN, HIGH);
+        digitalWrite(STEP_PIN, HIGH);
       }
     }
-    void motorEnd(SX1509 * sxm) {
+    void motorEnd() {
       if (enableMotor) {
-        sxm->digitalWrite(STEP_PIN, HIGH);
+        digitalWrite(STEP_PIN, LOW);
       }
     }
 
@@ -145,13 +152,15 @@ class StepperMotor {
     //  return motor->nextAction();
     //}
 
-    void start(SX1509 * sxm) {
-      sxm->digitalWrite(ENABLE_PIN, HIGH);
+    void start(TMC2209Stepper  * driver) {
+      // sxm->digitalWrite(ENABLE_PIN, HIGH);
+      driver->toff(4);
       enableMotor = true;
     }
 
-    void stop(SX1509 * sxm) {
-      sxm->digitalWrite(ENABLE_PIN, LOW);
+    void stop(TMC2209Stepper  * driver) {
+      // sxm->digitalWrite(ENABLE_PIN, LOW);
+      driver->toff(5);
       enableMotor = false;
     }
 

@@ -157,7 +157,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   // Run 5000 steps and switch direction in software
 
-  for (uint16_t i = 500; i > 0; i--) {
+  for (uint16_t i = 5000; i > 0; i--) {
     if (startMotor0) {
       digitalWrite(STEP_PIN_01, HIGH);
     }
