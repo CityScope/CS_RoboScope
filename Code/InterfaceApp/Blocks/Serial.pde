@@ -76,15 +76,15 @@ class SerialHandler{
     for(int i = 0; i < NUM_PIXELS; i++){
       m[ 2 + i*4 + 0] = 0;
       m[ 2 + i*4 + 1] = 50;
-      m[ 2 + i*4 + 2] = tobyteColor(color(255, 0, 0));
-      m[ 2 + i*4 + 3] = 
+      //m[ 2 + i*4 + 2] = tobyteColor(color(255, 0, 0));
+      //m[ 2 + i*4 + 3] = 
     }
 
     this.port.write(m);
     this.port.clear();
   }
   
-  byte generateTestByte(){
-    return
-  }
+  //byte generateTestByte(){
+  //  return
+  //}
 }
