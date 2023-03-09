@@ -32,8 +32,8 @@ int bkgColor = 50;
 Grid  tableGrid;
 
 //grid size
-int gridX = 32;
-int gridY = 48;
+int gridX = 8;
+int gridY = 8;
 
 //block size  32mm legos
 int blockSize = 32*2;
