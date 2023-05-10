@@ -21,13 +21,15 @@ int nodesY   = 4;
 int moduleX = 3 * numPanels * nodesX;
 int moduleY = 2 * nodesY;
 
-int nodesPerModule = 8;
+int nodesPerNode = 8;
 
 int blockSize = 10;
 
 RendererScreen rc;
 
 PFont font;
+
+int currentNode = 0;
 
 void setup() {
   size(1280, 720, P2D);
@@ -38,11 +40,11 @@ void setup() {
   cam.setMaximumDistance(1000);
   cam.setDistance(160);
 
-  blockManager = new BlockManager(moduleX, moduleY, nodesPerModule, blockSize );
+  blockManager = new BlockManager(moduleX, moduleY, nodesPerNode, blockSize );
 
   font =  createFont("Georgia", 12);
   textFont(font);
-  
+
 
   //serial
   try {
@@ -57,10 +59,12 @@ void setup() {
 
   pg.beginDraw();
   pg.ellipseMode(CENTER);
- // pg.textMode(SHAPE);
+  // pg.textMode(SHAPE);
   pg.endDraw();
 
   //hint(ENABLE_DEPTH_SORT);
+
+  createMatrix();
 }
 
 
@@ -87,33 +91,58 @@ void draw() {
   image(pg, 0, 0);
 
   cam.beginHUD();
+
+
+  int[][] motorsOn = getCells();
+  rc.updateRenderScreen(motorsOn);
   rc.drawOfScreen();
+
   rc.draw();
   blockManager.setImage(rc.getRenderImg());
 
   text(frameRate, width-50, 10);
   fill(255);
-   // PShape number = font.getShape('a');
+  // PShape number = font.getShape('a');
   //shape(number, 200, 400);
   cam.endHUD();
-  
-  if(enablePort){
-    color [] colors = blockManager.getColors();
-    byte [] data = serial.generateDataOnlyCol(colors);
-    println("sending: "+moduleX * moduleY+ " "+data);
-    serial.sendByte(data);
-    enablePort = false;
-  }
 
+  if (enablePort) {
+    //if (frameCount % 15  == 0 ) {
+      //color [] colors = blockManager.getColors();
+      color []  colors  = blockManager.getAllNodeColors();
+      byte [] data = serial.generateDataOnlyCol(colors);
+
+      println("sending: "+moduleX * moduleY);
+      serial.sendByte(data);
+
+      //getNodeColors(currentNode);
+
+       enablePort = false;
+    //}
+  }
 }
 
 
 public void keyReleased() {
-  
-  if(key == 'm'){
-   enablePort = !enablePort; 
+
+  if (key == 'm') {
+    enablePort = !enablePort;
   }
-  
+
+  if (key == 'a') {
+    currentNode++;
+    if (currentNode >=12) {
+      currentNode =0;
+    }
+  }
+
+  if (key == 's') {
+    blockManager.getNodeColors(currentNode);
+  }
+
+
+
+
   if (key == '1') {
     //state = cam.getState();
 

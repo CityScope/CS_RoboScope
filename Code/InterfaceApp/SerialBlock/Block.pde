@@ -32,15 +32,19 @@ class Block {
 
     int lid = posX + moduleX*posY;
     moduleId = posY;
-    nodeId = posX;
+   // nodeId = posX;
 
-    println("index: "+posX+" "+posY+" "+lid);
+    println("index: "+moduleId+" "+nodeId+" "+lid);
     size = new PVector(tam, tam, 1);
     loc = new PVector(posX*size.x, posY*size.y);
 
     col = color(0, 100, 200, 150);
 
     texImg = createShape();
+  }
+  
+  void setNodeId(int id){
+    nodeId = id;
   }
 
 

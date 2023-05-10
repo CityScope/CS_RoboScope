@@ -15,6 +15,10 @@ class BlockManager {
     this.numBlocks = new PVector(x, y);
     this.numPixels = numPixels;
     blockSize = size;
+
+    int bsize = int((x*y)/numPixels);
+
+    println("num nodes id: "+bsize);
   }
 
   void draw(PGraphics pg) {
@@ -30,7 +34,7 @@ class BlockManager {
   }
 
   void setImage(PImage renderInput) {
-    //renderInput.loadPixels();
+    renderInput.loadPixels();
     for (int i = 0; i < blocks.size(); i++) {
       int px = i % renderInput.width;
       int py = i / renderInput.width;
@@ -52,6 +56,34 @@ class BlockManager {
     int colors [] = new int[ blocks.size()];
     for (int i = 0; i < blocks.size(); i++) {
       colors[i] = blocks.get(i).getCurrColor();
+    }
+    return colors;
+  }
+
+  color [] getNodeColors(int currentNode) {
+    int colors [] = new int[ numPixels];
+    println(currentNode+" :");
+    for (int i = 0; i < numPixels; i++) {
+      int indeX = i % nodesX + (currentNode%6)*2;
+      int indeY = i / nodesX + (currentNode/6)*4;
+      int index = int(indeX + indeY*numBlocks.x);
+      colors[i] = blocks.get(index).getCurrColor();
+      println(currentNode+": "+indeX+" "+indeY+" "+index);
+    }
+    return colors;
+  }
+
+  color [] getAllNodeColors() {
+    int colors [] = new int[ int(numBlocks.x * numPixels)];
+    println(numBlocks.x * numPixels+" :");
+    for (int j = 0; j < numBlocks.x; j++) {
+      for (int i = 0; i < numPixels; i++) {
+        int indeX = i % nodesX + (j%6)*2;
+        int indeY = i / nodesX + (j/6)*4;
+        int index = int(indeX + indeY*numBlocks.x);
+        colors[i +j*numPixels] = blocks.get(index).getCurrColor();
+        println(i +j*numPixels+": "+indeX+" "+indeY+" "+index);
+      }
     }
     return colors;
   }

@@ -1,16 +1,7 @@
 #include "message.h"
 
 
-//----------------------------------------------------------------
-//Convert 2 bytes to a single 16bit number
-uint16_t convertFrom8To16(uint8_t dataFirst, uint8_t dataSecond) {
-    uint16_t dataBoth = 0x0000;
 
-    dataBoth = dataFirst;
-    dataBoth = dataBoth << 8;
-    dataBoth |= dataSecond;
-    return dataBoth;
-}
 
 //----------------------------------------------------------------
 //Convert from 16 bit number to two single uint8_t

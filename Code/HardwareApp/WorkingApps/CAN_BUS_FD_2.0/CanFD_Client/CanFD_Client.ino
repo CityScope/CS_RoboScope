@@ -31,7 +31,7 @@ const int KEY_PIN_02 = 7;
 const int KEY_PIN_03 = 8;
 const int KEY_PIN_04 = 9;
 
-const int LED_FD = 13; //22
+const int LED_FD = 22; //22
 const int LED_16 = 23; //23
 
 const int MOTOR_ID = 0;
@@ -117,11 +117,13 @@ void setup(void) {
 void loop() {
   CANFD_message_t msg;
   sx03.digitalWrite(STATUS_PIN_SX03, LOW);
+  digitalWrite(LED_FD, LOW); 
 
   if (FD.read(msg)) {
     Serial.println(" ");
     reading(msg);
     sx03.digitalWrite(STATUS_PIN_SX03, HIGH);
+    digitalWrite(LED_FD, HIGH); 
   }
   
 }

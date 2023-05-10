@@ -1,33 +1,10 @@
 #include "message.h"
 
-
-//----------------------------------------------------------------
-//Convert 2 bytes to a single 16bit number
-uint16_t convertFrom8To16(uint8_t dataFirst, uint8_t dataSecond) {
-    uint16_t dataBoth = 0x0000;
-
-    dataBoth = dataFirst;
-    dataBoth = dataBoth << 8;
-    dataBoth |= dataSecond;
-    return dataBoth;
-}
-
-//----------------------------------------------------------------
-//Convert from 16 bit number to two single uint8_t
-uint8_t* convertFrom16To8(uint16_t dataAll) {
-    static uint8_t arrayData[2] = { 0x00, 0x00 };
-
-    *(arrayData) = (dataAll >> 8) & 0x00FF;
-    arrayData[1] = dataAll & 0x00FF;
-    return arrayData;
-}
-
 //board id, can bus type
 //----------------------------------------------------------------
-CANMotorMessage::CANMotorMessage(int panel_id) {
-  panelId = panel_id;
-  this->msg.id = panelId;
-  this->msgSize = MSG_SIZE;
+CANMotorMessage::CANMotorMessage(int panel_id, int msgSize) {
+  this->panelId = panel_id;
+  this->msg.id = msgSize;
 
   Serial.print("Panel id: ");
   Serial.print(panelId);
@@ -56,7 +33,6 @@ void CANMotorMessage::addMessage(int des, uint8_t interaction, uint8_t steps, ui
 
 //----------------------------------------------------------------
 CANFD_message_t CANMotorMessage::getCANmessage() {
-  this->msg.len = MSG_SIZE;
   return this->msg;
 }
 

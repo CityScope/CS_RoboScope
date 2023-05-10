@@ -31,7 +31,7 @@
 class CANMotorMessage {
   public:
     //board id, can bus type
-    CANMotorMessage(int panel_id);
+    CANMotorMessage(int panel_id, int msgSize =32);
 
     //add motor message
     void addMessage(int des, uint8_t interaction, uint8_t steps, uint8_t color0, uint8_t color1);

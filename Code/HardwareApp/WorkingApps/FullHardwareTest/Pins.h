@@ -61,15 +61,36 @@
 //Maximun number of pixels per board
 #define NUM_LEDS          4
 
+/*
+//PIXEL PINS original
+#define  NEO_PIN_01_UP    4
+#define  NEO_PIN_02_UP    13
+#define  NEO_PIN_03_UP    14//2;
+#define  NEO_PIN_04_UP    15///3;
+#define  NEO_PIN_05_UP    24
+#define  NEO_PIN_06_UP    28 //switch o 25
+#define  NEO_PIN_07_UP    25 //switch o 28
+#define  NEO_PIN_08_UP    29  // 
+*/
 //PIXEL PINS
-#define  NEO_PIN_01        4
-#define  NEO_PIN_02       13
-#define  NEO_PIN_03       14//2;
-#define  NEO_PIN_04       15///3;
-#define  NEO_PIN_05       24
-#define  NEO_PIN_06       25
-#define  NEO_PIN_07       28
-#define  NEO_PIN_08       29
+#define  NEO_PIN_01_UP    13
+#define  NEO_PIN_02_UP    4
+#define  NEO_PIN_03_UP    15//2;
+#define  NEO_PIN_04_UP    14///3;
+#define  NEO_PIN_05_UP    28
+#define  NEO_PIN_06_UP    24 //switch o 25
+#define  NEO_PIN_07_UP    29 //switch o 28
+#define  NEO_PIN_08_UP    25  // 
+
+
+#define  NEO_PIN_01_DOWN        13
+#define  NEO_PIN_02_DOWN       4
+#define  NEO_PIN_03_DOWN       15//2;
+#define  NEO_PIN_04_DOWN       14///3;
+#define  NEO_PIN_05_DOWN       28
+#define  NEO_PIN_06_DOWN       24 //switch o 25
+#define  NEO_PIN_07_DOWN       29 //switch o 28
+#define  NEO_PIN_08_DOWN      25  //
 
 //LIMIT BUTTONS
 #define SWITCH_01_SX01    8 
