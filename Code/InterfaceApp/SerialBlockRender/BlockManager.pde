@@ -5,6 +5,8 @@ class BlockManager {
   PVector numBlocks;
   int blockSize;
   int numPixels;
+  
+  PShape psBlocks;
 
   BlockManager(int x, int y, int numPixels, int size) {
     blocks = new ArrayList<Block>();
@@ -19,6 +21,8 @@ class BlockManager {
     int bsize = int((x*y)/numPixels);
 
     println("num nodes id: "+bsize);
+    
+    psBlocks = createShape(GROUP);
   }
 
   void draw(PGraphics pg) {
@@ -32,6 +36,10 @@ class BlockManager {
       bl.update();
     }
   }
+  
+  PShape getShape(){
+   return psBlocks; 
+  }
 
   void setImage(PImage renderInput) {
     renderInput.loadPixels();
@@ -39,21 +47,10 @@ class BlockManager {
       int px = i % renderInput.width;
       int py = i / renderInput.width;
       color renderColor = renderInput.get(px, py);
+      blocks.get(i).setColor(renderColor);
       blocks.get(i).setHeight(renderColor);
     }
   }
-
-  void setColImage(PImage renderInput) {
-    renderInput.loadPixels();
-    for (int i = 0; i < blocks.size(); i++) {
-      int px = i % renderInput.width;
-      int py = i / renderInput.width;
-      color renderColor = renderInput.get(px, py);
-      blocks.get(i).setColImage(renderColor);
-    }
-  }
-
-
 
   int [] getHeights() {
     int heights [] = new int[ blocks.size()];
@@ -106,7 +103,6 @@ class BlockManager {
     pg.pushMatrix();
     //pg.fill(100, 10);
     pg.noFill();
-    pg.strokeWeight(3);
     pg.stroke(0, 200, 150, 100);
     pg.translate(numBlocks.x*blockSize*0.5 - blockSize/2, numBlocks.y*blockSize*0.5 - blockSize/2, -20/2);
     pg.box(numBlocks.x*blockSize*1.2, numBlocks.y*blockSize*1.2, 20);

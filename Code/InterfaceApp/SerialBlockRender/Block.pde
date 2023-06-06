@@ -23,6 +23,8 @@ class Block {
 
   PShape texImg;
   //8 x 12 =96
+  
+  PShape box;
 
 
   Block(int id, int tam) {
@@ -32,7 +34,7 @@ class Block {
 
     int lid = posX + moduleX*posY;
     moduleId = posY;
-    // nodeId = posX;
+   // nodeId = posX;
 
     println("index: "+moduleId+" "+nodeId+" "+lid);
     size = new PVector(tam, tam, 1);
@@ -41,11 +43,14 @@ class Block {
     col = color(0, 100, 200, 150);
 
     texImg = createShape();
+    
+    box = createShape(BOX, size.x*0.8, size.y*0.8, size.z * currHeight/4);
   }
-
-  void setNodeId(int id) {
+  
+  void setNodeId(int id){
     nodeId = id;
   }
+ 
 
 
   //gets
@@ -72,10 +77,6 @@ class Block {
       timeStep = 0;
     }
   }
-  
-  void setColImage(color col){
-    this.col = col;
-  }
 
   void update() {
     if (animDone) {
@@ -89,10 +90,16 @@ class Block {
     //draw the complete rod
     pg.pushMatrix();
     //float zVal = map(frameCount%200, 0, 255, minHeight, maxHeight);
+    pg.scale(1, 1, size.z * currHeight/4);
     pg.translate(loc.x, loc.y, currHeight/8.0);
     pg.noFill();
     pg.stroke(255, 50);
-    pg.box(size.x*0.8, size.y*0.8, size.z * currHeight/4 );
+
+    pg.shape(box);//(size.x*0.8, size.y*0.8, size.z );
+
+    pg.fill(255, 0, 0);
+    pg.textSize(8);
+    pg.text(localId, -3, 2);
     pg.popMatrix();
 
     //draw only the top
@@ -102,15 +109,6 @@ class Block {
     pg.noStroke();
     pg.box(size.x*0.8, size.y*0.8, 1 );
     pg.popMatrix();
-
-    //draw text
-    pg.pushMatrix();
-    pg.translate(loc.x, loc.y, currHeight/4.0+ 1);
-    pg.fill(#1FBFFC, 150);
-    pg.textSize(4);
-    pg.text(localId, -3, 2);
-    pg.popMatrix();
-
     // pg.fill(200, 100);
     //pg.translate(loc.x, loc.y, 0);
     //pg.ellipse(0, 0, 10, 10);

@@ -4,7 +4,11 @@ import peasy.org.apache.commons.math.*;
 import peasy.org.apache.commons.math.geometry.*;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
+import ch.bildspur.postfx.builder.*;
+import ch.bildspur.postfx.pass.*;
+import ch.bildspur.postfx.*;
 
+PostFX fx;
 PeasyCam cam;
 
 BlockManager blockManager;
@@ -31,14 +35,25 @@ PFont font;
 
 int currentNode = 0;
 
+float bri = 0.0;
+
+public void settings() {
+  //size(viewport_w, viewport_h, P3D);
+  fullScreen(P2D);
+  smooth(0);
+}
+
 void setup() {
-  size(1280, 720, P2D);
+  //size(1920, 1080, P2D);
   pg = createGraphics(width, height, P3D);
 
   cam = new PeasyCam(this, 1000);
-  cam.setMinimumDistance(0);
-  cam.setMaximumDistance(1000);
+  cam.setMinimumDistance(-1000);
+  cam.setMaximumDistance(4000);
   cam.setDistance(160);
+
+  cam.setYawRotationMode();
+  cam.setPitchRotationMode();
 
   blockManager = new BlockManager(moduleX, moduleY, nodesPerNode, blockSize );
 
@@ -59,12 +74,14 @@ void setup() {
 
   pg.beginDraw();
   pg.ellipseMode(CENTER);
-  // pg.textMode(SHAPE);
+  pg.textMode(SHAPE);
   pg.endDraw();
 
   //hint(ENABLE_DEPTH_SORT);
 
   createMatrix();
+
+  fx = new PostFX(this);
 }
 
 
@@ -75,7 +92,7 @@ void draw() {
   blockManager.update();
 
   pg.beginDraw();
-  pg.background(0);
+  pg.background(20);
   pg.pushMatrix();
   ///pg.translate(width/2.0, height/2);
   pg.translate( -(moduleX*0.5 )*blockSize, -(moduleY*0.5)*blockSize);
@@ -99,6 +116,7 @@ void draw() {
 
   rc.draw();
   blockManager.setImage(rc.getRenderImg());
+  blockManager.setColImage(rc.getRenderColorImg());
 
   text(frameRate, width-50, 10);
   fill(255);
@@ -108,18 +126,26 @@ void draw() {
 
   if (enablePort) {
     //if (frameCount % 15  == 0 ) {
-      //color [] colors = blockManager.getColors();
-      color []  colors  = blockManager.getAllNodeColors();
-      byte [] data = serial.generateDataOnlyCol(colors);
+    //color [] colors = blockManager.getColors();
+    color []  colors  = blockManager.getAllNodeColors();
+    byte [] data = serial.generateDataOnlyCol(colors);
 
-      println("sending: "+moduleX * moduleY);
-      serial.sendByte(data);
+    println("sending: "+moduleX * moduleY);
+    serial.sendByte(data);
 
-      //getNodeColors(currentNode);
+    //getNodeColors(currentNode);
 
-       enablePort = false;
+    enablePort = false;
     //}
   }
+
+  blendMode(BLEND);
+  // add bloom filter
+  blendMode(SCREEN);
+  fx.render(pg)
+    .brightPass(bri)
+    .blur(80, 80)
+    .compose();
 }
 
 
@@ -135,6 +161,14 @@ public void keyReleased() {
       currentNode =0;
     }
   }
+
+  if (key == '3') {
+    rc.cleanModel();
+  }
+  if (key == '4') {
+    rc.animate();
+  }
+
 
   if (key == 's') {
     blockManager.getNodeColors(currentNode);
@@ -169,5 +203,21 @@ public void keyReleased() {
     CameraState state = new CameraState(rotn, npos, dist);
     cam.setState(state, 5000);
     cam.lookAt(-90.811424, -70.0859, 41.17713);
+  }
+
+  if (key == 'c') {
+    cam.setYawRotationMode(); //x
+    //cam.setPitchRotationMode();
+  }
+
+  if (key == 'v') {
+    cam.setPitchRotationMode();
+  }
+
+  if (key == 'b') {
+    cam.setRollRotationMode();
+  }
+  if (key == 'n') {
+    cam.setFreeRotationMode();
   }
 }
