@@ -159,3 +159,7 @@
 
 //STATUS PIN
 #define  STATUS_PIN_SX03  5 
+
+#define BUTTON_POS -256
+
+#define MSG_SIZE 64

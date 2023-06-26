@@ -8,8 +8,12 @@ CANMotorMessage::CANMotorMessage(int panel_id) {
 }
 
 //----------------------------------------------------------------
-void CANMotorMessage::addMessage(int des, uint8_t interaction, uint8_t shaff, uint8_t enable, uint8_t disable, uint8_t height, uint8_t colorR, uint8_t colorG, uint8_t colorB) {
-  uint8_t msg[8] = {interaction, shaff, enable, disable, height, colorR, colorG, colorB};
+// void CANMotorMessage::addMessage(int des, uint8_t interaction, uint8_t shaff, uint8_t enable, uint8_t disable, uint8_t height, uint8_t colorR, uint8_t colorG, uint8_t colorB) {
+//   uint8_t msg[8] = {interaction, shaff, enable, disable, height, colorR, colorG, colorB};
+//   memcpy(this->msg.buf + des * 8, msg, 8);
+// }
+void CANMotorMessage::addMessage(int des, uint8_t interaction, uint8_t zero, uint8_t enable, uint8_t prevPos, uint8_t height, uint8_t colorR, uint8_t colorG, uint8_t colorB) {
+  uint8_t msg[8] = {interaction, zero, enable, prevPos, height, colorR, colorG, colorB};
   memcpy(this->msg.buf + des * 8, msg, 8);
 }
 

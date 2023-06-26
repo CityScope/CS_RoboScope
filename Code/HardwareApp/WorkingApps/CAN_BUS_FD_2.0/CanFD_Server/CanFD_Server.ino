@@ -25,10 +25,10 @@ int wait_for_transmission = 5;  // Delay in ms in order to receive the serial da
 int nodesX = 2;
 int currentNode = 0;
 
-Bounce2::Button buttonKey_01 = Bounce2::Button();
-Bounce2::Button buttonKey_02 = Bounce2::Button();
-Bounce2::Button buttonKey_03 = Bounce2::Button();
-Bounce2::Button buttonKey_04 = Bounce2::Button();
+Bounce2_h::Button buttonKey_01 = Bounce2_h::Button();
+Bounce2_h::Button buttonKey_02 = Bounce2_h::Button();
+Bounce2_h::Button buttonKey_03 = Bounce2_h::Button();
+Bounce2_h::Button buttonKey_04 = Bounce2_h::Button();
 
 bool toogleON = false;
 bool toogleDir = false;
@@ -36,9 +36,9 @@ bool toogleDir = false;
 //format for received pixel data
 struct Pixel {
   byte inter;
-  byte debug0;
-  byte debug1;
-  byte debug2;
+  byte debug0; // zero
+  byte debug1; // enable motor
+  byte debug2; // previous position
   byte height;
   byte colorRed;
   byte colorGreen;
@@ -72,6 +72,7 @@ int MIDRise_1 = 25;
 int PARKS = 30;
 int STREET = 20;
 
+
 //----------------------------------------------------------------
 void setup(void) {
   Serial.begin(115200);
@@ -88,6 +89,10 @@ void setup(void) {
   canBusFD.setRegions(64);
   canBusFD.setBaudRate(config);
   canBusFD.mailboxStatus();
+
+  canBusFD.enableMBInterrupts();
+  canBusFD.onReceive(reading);
+  canBusFD.distribute();
 
   buttonKey_01.attach(KEY_PIN_01, INPUT_PULLUP);
   buttonKey_02.attach(KEY_PIN_02, INPUT_PULLUP);
@@ -170,6 +175,8 @@ void loop() {
   //digitalWrite(LED_15, keyPin01);
   //digitalWrite(LED_16, keyPin04);
 
+
+
   if (Serial.available() > 0) {
     //processSingleNode(currentNode);
 
@@ -180,51 +187,55 @@ void loop() {
 
   if (keyPin01 == HIGH) {
     Serial.print("send key 01");
-    toogleON = !toogleON;
+    zeroPos(0);
+    delay(5);
+    zeroPos(6);
+    // toogleON = !toogleON;
 
-    if (toogleON == true) {
-      stop(0);
-      stop(1);
-      stop(2);
-      stop(3);
+    // if (toogleON == true) {
+    //   stop(0);
+    //   // stop(1);
+    //   // stop(2);
+    //   // stop(3);
 
-      stop(6);
-      stop(7);
-      stop(8);
-      stop(9);
-      Serial.println(" STOP");
-    } else {
-     // start(0);
-     // start(1);
-      //start(2);
-     // start(3);
+    //   // stop(6);
+    //   // stop(7);
+    //   // stop(8);
+    //   // stop(9);
+    //   Serial.println(" STOP");
+    // } else {
+    //   start(0);
+    //  // start(1);
+    //   //start(2);
+    //  // start(3);
 
-      //start(6);
-      //start(7);
-      //start(8);
-      //start(9);
-      Serial.println(" START");
-    }
+    //   //start(6);
+    //   //start(7);
+    //   //start(8);
+    //   //start(9);
+    //   Serial.println(" START");
+    // }
   }
 
   if (keyPin02 == HIGH) {
-    Serial.print("send Dir");
+    Serial.println("send Dir");
 
+    // zeroPos(0);
     sendSequence(0);
     delay(5);
-    sendSequence(1);
-    delay(5);
-    sendSequence(2);
-    delay(5);
-    sendSequence(3);
-    delay(5);
+    // sendSequence(1);
+    // delay(5);
+    // sendSequence(2);
+    // delay(5);
+    // sendSequence(3);
+    // delay(5);
     sendSequence(6);
-    delay(5);
-    sendSequence(7);
-    delay(5);
-    sendSequence(8);
-    delay(5);
-    sendSequence(9);
+    // delay(5);
+    // sendSequence(7);
+    // delay(5);
+    // sendSequence(8);
+    // delay(5);
+    // sendSequence(9);
     //[8]
     /*
     toogleDir = !toogleDir;
@@ -260,62 +271,62 @@ void loop() {
   if (keyPin03 == HIGH) {
     Serial.println("send key 03");
     sendLandTypes(0);
-    delay(5);
-    sendLandTypes(1);
-    delay(5);
-    sendLandTypes(2);
-    delay(5);
-    sendLandTypes(3);
+  //   delay(5);
+  //   sendLandTypes(1);
+  //   delay(5);
+  //   sendLandTypes(2);
+  //   delay(5);
+  //   sendLandTypes(3);
     delay(5);
     sendLandTypes(6);
-    delay(5);
-    sendLandTypes(7);
-    delay(5);
-   sendLandTypes(8);
-    delay(5);
-    sendLandTypes(9);
-    delay(5);
+  //   delay(5);
+  //   sendLandTypes(7);
+  //   delay(5);
+  //  sendLandTypes(8);
+  //   delay(5);
+  //   sendLandTypes(9);
+  //   delay(5);
   }
 
   if (keyPin04 == HIGH) {
     Serial.println("send key 04");
     toogleDir = !toogleDir;
     if (toogleDir == true) {
-      changeDirOn(0);
-      changeDirOn(1);
-      changeDirOn(2);
-      changeDirOn(3);
+      // changeDirOn(0);
+      // changeDirOn(1);
+      // changeDirOn(2);
+      // changeDirOn(3);
 
-      changeDirOn(6);
-      changeDirOn(7);
-      changeDirOn(8);
-      changeDirOn(9);
-      delay(10);
+      // changeDirOn(6);
+      // changeDirOn(7);
+      // changeDirOn(8);
+      // changeDirOn(9);
+      // delay(10);
       Serial.println(" UP");
     } else {
-      changeDirOff(0);
-      changeDirOff(1);
-      changeDirOff(2);
-      changeDirOff(3);
+      // changeDirOff(0);
+      // changeDirOff(1);
+      // changeDirOff(2);
+      // changeDirOff(3);
 
-      changeDirOff(6);
-      changeDirOff(7);
-      changeDirOff(8);
-      changeDirOff(9);
-      delay(10);
+      // changeDirOff(6);
+      // changeDirOff(7);
+      // changeDirOff(8);
+      // changeDirOff(9);
+      // delay(10);
       Serial.println(" DOWN");
     }
 
 
     test_white(0);
-    test_white(1);
-    test_white(2);
-    test_white(3);
+    // test_white(1);
+    // test_white(2);
+    // test_white(3);
 
     test_white(6);
-    test_white(7);
-    test_white(8);
-    test_white(9);
+    // test_white(7);
+    // test_white(8);
+    // test_white(9);
 
     /*
     currentNode++;
@@ -324,8 +335,42 @@ void loop() {
     }
     */
   }
+  canBusFD.events();
+  // Serial.write(128);
+  keyCommands();
 }
 
+void keyCommands(){
+  if (Serial.available() > 0) {
+    char key = Serial.read();
+
+    if (key == '0'){
+      Serial.println("start zeroing");
+      Serial.println(".............");
+
+      CANMotorMessage msg = CANMotorMessage(0);
+      msg.addMessage(0, 0, 1, 0, 0, 0, 0, 0, 0);
+      canBusFD.write(msg.getCANmessage(MSG_SIZE));
+    }
+  }
+}
+
+void reading(const CANFD_message_t& msg) {
+  if (msg.id == 12){ // i made server node id 12
+    // Serial.println("here");
+    // Serial.print("Node Id Received: ");
+    // Serial.println(msg.id);
+    // Serial.print("Message: ");
+    for (int i=1;i<8;i++){
+      // Serial.print(i);
+      // Serial.print(" position: ");
+      Serial.print(msg.buf[i]);
+    }
+    Serial.println("");
+  }
+}
+
+// reads front end data from processing
 //----------------------------------------------------------------
 void processAllNodes() {
   byte buf[12 * 8 * 8 + 1];
@@ -428,7 +473,7 @@ void stop(int node_id) {
   CANMotorMessage msg = CANMotorMessage(node_id);
 
   for (int i = 0; i < NUM_PIXELS; i++) {
-    msg.addMessage(i, 0, 0, 0, 1, 0, 255, 255, 255);
+    msg.addMessage(i, 0, 0, 0, 0, 0, 255, 255, 255);
   }
   canBusFD.write(msg.getCANmessage(MSG_SIZE));
 }
@@ -443,7 +488,15 @@ void start(int node_id) {
   canBusFD.write(msg.getCANmessage(MSG_SIZE));
 }
 
-void changeDirOn(int node_id) {
+// void changeDirOn(int node_id) {
+//   CANMotorMessage msg = CANMotorMessage(node_id);
+
+//   for (int i = 0; i < NUM_PIXELS; i++) {
+//     msg.addMessage(i, 0, 1, 0, 0, 0, 255, 255, 255);
+//   }
+//   canBusFD.write(msg.getCANmessage(MSG_SIZE));
+// }
+void zeroPos(int node_id) {
   CANMotorMessage msg = CANMotorMessage(node_id);
 
   for (int i = 0; i < NUM_PIXELS; i++) {

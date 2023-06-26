@@ -40,12 +40,15 @@ public:
 
   //dir motor
   boolean dirMotor;
+  bool dir;
 
   // motorStatus 1 connected correctly 0 failed to connect
   uint8_t motorStatus;
 
   int targetPos;
   int currPos;
+  bool targetReached;
+  bool updatePos;
 
   int stepsCounter;
 
@@ -53,6 +56,7 @@ public:
   int maxPos;
 
   bool calibration;
+  bool positionSaved;
 
   bool enableSequence;
   Seq seqRoutine;
@@ -76,9 +80,13 @@ public:
 
     stepsCounter = 0;
     targetPos = 0;
+    targetReached = false;
+    updatePos = true;
+
+    positionSaved = false;
 
     minPos = 0;
-    maxPos = 5400;
+    maxPos = 5800;
     stopTime = 4000;
     
 
@@ -99,9 +107,27 @@ public:
 
   void setTargetPos(uint8_t target) {
     targetPos = map(target, 0, 255, minPos, maxPos);
-    stopTime = stopTime + (maxPos - targetPos);
-    seqRoutine = UP;
-    currPos = 0;
+    targetReached = false;
+    // stopTime = stopTime + (maxPos - targetPos);
+    // seqRoutine = UP;
+    // currPos = 0;
+  }
+
+  void startSequence(TMC2209Stepper* driver, int target){
+    if (currPos == target){
+      targetReached = true;
+    } else {
+      targetReached = false;
+      targetPos = target;
+      enableSequence = true;
+      // if (currPos < targetPos){
+      //   dirMotor = true;
+      //   driver->shaft(true);
+      // } else if (currPos > targetPos){
+      //   dirMotor = false;
+      //   driver->shaft(false);
+      // }
+    }
   }
 
   //calibration process
@@ -116,67 +142,103 @@ public:
     return targetPos;
   }
 
+  // void goToTarget(TMC2209Stepper* driver, SX1509* sxm0, SX1509* sxm1){
+  //   if (enableSequence){
+  //     if (currPos < targetPos){
+  //       currPos
+  //     }
+  //   }
+  // }
+
   void incPos(TMC2209Stepper* driver, SX1509* sxm0, SX1509* sxm1) {
-    if (enableSequence) {
-      if (seqRoutine == UP) {
-        if (currPos <= targetPos) {
-          currPos++;
-        } else {
-          seqRoutine = STOP;
-          currPos = 0;
-          enableMotorSX(id, sxm0);
-          stop(sxm1, driver);
-
-          Serial.print(id);
-          Serial.print(" ");
-          Serial.println("GO TO STOP");
-        }
-
-      } else if (seqRoutine == STOP) {
-        if (currPos <= stopTime) {
-          currPos++;
-        } else {
-          currPos = 0;
-          enableMotorSX(id, sxm0);
-          start(sxm1, driver);
-          shaftOn(driver);
-          motorOn();
-
-          seqRoutine = DIR;
-
-          delay(2);
-          Serial.print(id);
-          Serial.print(" ");
-          Serial.println("CHANGE DIR");
-        }
-      } else if (seqRoutine == DIR) {
-       // enableMotorSX(id, sxm0);
-
-
-
-        seqRoutine = DOWN;
-
-        delay(2);
-        Serial.print(id);
-        Serial.print(" ");
-        Serial.println("CHANGE DOWN");
-      } else if (seqRoutine == DOWN) {
-        if (currPos <= targetPos) {
-          currPos++;
-        } else {
-          enableMotorSX(id, sxm0);
-          driver->shaft(false);
-          stop(sxm1, driver);
-          currPos = 0;
-          enableSequence = false;
-          seqRoutine = FINAL;
-          Serial.print(id);
-          Serial.print(" ");
-          Serial.println("FINAL");
-        }
+    if (enableSequence){
+      if (currPos == targetPos){
+        targetReached = true;
+        enableSequence = false;
+        enableMotorSX(id, sxm0);
+        stop(sxm1, driver);
+      } else if (currPos < targetPos) {
+        enableMotorSX(id, sxm0);
+        start(sxm1, driver);
+        shaftOff(driver);
+        currPos++;
+      } else if (currPos > targetPos) {
+        enableMotorSX(id, sxm0);
+        start(sxm1, driver);
+        shaftOn(driver);
+        currPos--;
+      }
+    } else if (enableMotor) {
+      if (dirMotor){
+        currPos--;
+      } else {
+        currPos++;
       }
     }
   }
+
+// Demo function
+  // void incPos(TMC2209Stepper* driver, SX1509* sxm0, SX1509* sxm1) {
+  //   if (enableSequence) {
+  //     if (seqRoutine == UP) {
+  //       if (currPos <= targetPos) {
+  //         currPos++;
+  //       } else {
+  //         seqRoutine = STOP;
+  //         currPos = 0;
+  //         enableMotorSX(id, sxm0);
+  //         stop(sxm1, driver);
+
+  //         Serial.print(id);
+  //         Serial.print(" ");
+  //         Serial.println("GO TO STOP");
+  //       }
+
+  //     } else if (seqRoutine == STOP) {
+  //       if (currPos <= stopTime) {
+  //         currPos++;
+  //       } else {
+  //         currPos = 0;
+  //         enableMotorSX(id, sxm0);
+  //         start(sxm1, driver);
+  //         shaftOn(driver);
+  //         motorOn();
+
+  //         seqRoutine = DIR;
+
+  //         delay(2);
+  //         Serial.print(id);
+  //         Serial.print(" ");
+  //         Serial.println("CHANGE DIR");
+  //       }
+  //     } else if (seqRoutine == DIR) {
+  //      // enableMotorSX(id, sxm0);
+
+
+
+  //       seqRoutine = DOWN;
+
+  //       delay(2);
+  //       Serial.print(id);
+  //       Serial.print(" ");
+  //       Serial.println("CHANGE DOWN");
+  //     } else if (seqRoutine == DOWN) {
+  //       if (currPos <= targetPos) {
+  //         currPos++;
+  //       } else {
+  //         enableMotorSX(id, sxm0);
+  //         driver->shaft(false);
+  //         stop(sxm1, driver);
+  //         currPos = 0;
+  //         enableSequence = false;
+  //         seqRoutine = FINAL;
+  //         Serial.print(id);
+  //         Serial.print(" ");
+  //         Serial.println("FINAL");
+  //       }
+  //     }
+  //   }
+  // }
 
   void incCalibrationSteps() {
     stepsCounter++;
@@ -186,7 +248,7 @@ public:
     return stepsCounter;
   }
 
-  void resetSetps() {
+  void resetSteps() {
     stepsCounter = 0;
   }
 
@@ -252,11 +314,14 @@ public:
     //enableMotor = false;
   }
 
+  // down
   void shaftOn(TMC2209Stepper* driver) {
+    dirMotor = true;
     driver->shaft(true);
   }
-
+  // up
   void shaftOff(TMC2209Stepper* driver) {
+    dirMotor = false;
     driver->shaft(false);
   }
 

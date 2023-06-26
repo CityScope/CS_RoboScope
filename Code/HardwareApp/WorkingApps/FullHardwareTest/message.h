@@ -34,7 +34,9 @@ class CANMotorMessage {
     CANMotorMessage(int panel_id, int msg_size = 8);
 
     //add motor message
-    void addMessage(int des, uint8_t steps, uint8_t interaction, uint8_t color1, uint8_t color2);
+    // void addMessage(int des, uint8_t steps, uint8_t interaction, uint8_t color1, uint8_t color2);
+    void addMessage(int des, uint8_t prevPos, uint8_t interaction, uint8_t color1, uint8_t color2);
+
 
     //get CAN Bus Msg
     CANFD_message_t getCANmessage(int len);

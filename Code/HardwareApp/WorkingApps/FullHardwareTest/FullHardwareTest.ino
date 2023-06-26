@@ -14,6 +14,9 @@
 //CAN BUS
 #include <FlexCAN_T4.h>
 
+//EEPROM
+#include <EEPROM.h>
+
 //CAN BUS
 FlexCAN_T4FD<CAN3, RX_SIZE_512, TX_SIZE_64> canFD;
 FlexCAN_T4<CAN2, RX_SIZE_256, TX_SIZE_16> can2;
@@ -34,6 +37,7 @@ struct rgb {
   uint8_t g;
   uint8_t b;
 };
+
 
 Adafruit_NeoPixel* pixels[8];
 
@@ -58,7 +62,6 @@ bool activeSX02 = false;
 SX1509* sx03;
 bool activeSX03 = false;
 
-
 //Motors
 StepperMotor* motors[8];
 bool activeCalibration = false;
@@ -82,7 +85,10 @@ int dipNumber = 0;
 int nodeId = 0;  //in case dip number is different from node id
 //
 
+bool sendPos = false;
+
 void setup() {
+  Serial.print("begin");
   //Start Serial
   Serial.begin(250000);
   delay(500);
@@ -131,29 +137,215 @@ void setup() {
 
   Serial.println("done setup");
   Serial.println(".............");
+
+
+  // Serial.println("Initialize positions");
+  // Serial.println("......");
+  // initPositions();
+
 }
 
 
 void loop() {
 
+  // motorSequence();
   motorUpdate();
-  motorCalibration();
+  // motorCalibration();
 
   //swithces
-  //checkLimit();
+  // checkLimit();
 
-  //checkPushDown();
-  //checkPushUp();
-  //checkDip();
+  checkPushDown();
+  // checkPushUp();
+  // checkDip();
 
   //calibration Module
-  //updateCalibration();
+  // updateCalibration();
 
   //CAN BUS
   canFD.events();
+  // if (sendPos){
+  //   sendLastPos();
+  //   sendPos = false;
+  // }
 
   //keyCommands
   keyCommands();
+
+}
+
+void initPositions() { // activated with key 0
+  for (int i = 0; i < NUM_3D_PIXELS; i++) {
+    // Serial.println(i);
+    motors[i]->enableSequence = false;
+    motors[i]->updatePos = true;
+    enableMotor(i);
+    motors[i]->motorOn();
+    motors[i]->shaftOn(driver);
+    motors[i]->start(sx01, driver);
+  }
+  // motors[5]->enableSequence = false;
+  // motors[5]->updatePos = true;
+  // enableMotor(5);
+  // motors[5]->motorOn();
+  // motors[5]->shaftOn(driver);
+  // motors[5]->start(sx01, driver);
+
+  // motors[3]->enableSequence = false;
+  // motors[3]->updatePos = true;
+  // enableMotor(3);
+  // motors[3]->motorOn();
+  // motors[3]->shaftOn(driver);
+  // motors[3]->start(sx01, driver);
+  bool a = false;
+  bool b = false;
+  // bool b = true;
+  bool c = false;
+  bool d = false;
+  bool e = false;
+  bool f = false;
+  bool g = false;
+  bool h = false;
+  while (!a || !b || !c || !d || !e || !f || !g || !h){
+    if (!a){ // added because motor 7 always ended up stopping when all were driven together
+      motors[1]->shaftOn(driver);
+    }
+    if (!b){ // added because motor 7 always ended up stopping when all were driven together
+      motors[0]->shaftOn(driver);
+    }
+    if (!c){ // added because motor 7 always ended up stopping when all were driven together
+      motors[3]->shaftOn(driver);
+    }
+    if (!d){ // added because motor 7 always ended up stopping when all were driven together
+      motors[2]->shaftOn(driver);
+    }
+    if (!e){ // added because motor 7 always ended up stopping when all were driven together
+      motors[5]->shaftOn(driver);
+    }
+    if (!f){ // added because motor 7 always ended up stopping when all were driven together
+      motors[4]->shaftOn(driver);
+    }
+    if (!g){ // added because motor 7 always ended up stopping when all were driven together
+      motors[7]->shaftOn(driver);
+    }
+    if (!h){ // added because motor 7 always ended up stopping when all were driven together
+      motors[6]->shaftOn(driver);
+    }
+    if (Serial.available() > 0) {
+      char key = Serial.read();
+
+      //------- toggle direction
+      if (key == '1') {
+        Serial.println(a);
+        Serial.println(b);
+        Serial.println(c);
+        Serial.println(d);
+        Serial.println(e);
+        Serial.println(f);
+        Serial.println(g);
+        Serial.println(h);
+      }
+      if (key == '2') {
+        Serial.println("Motor positions");
+        Serial.println(motors[1]->currPos);
+        Serial.println(motors[0]->currPos);
+        Serial.println(motors[3]->currPos);
+        Serial.println(motors[2]->currPos);
+        Serial.println(motors[5]->currPos);
+        Serial.println(motors[4]->currPos);
+        Serial.println(motors[7]->currPos);
+        Serial.println(motors[6]->currPos);
+      }
+    }
+    motorUpdate();
+    if (!a && activeSX01 && sx01->digitalRead(SWITCH_01_SX01) == HIGH) {
+      Serial.println("LIMIT PIN 01");
+      motors[1]->shaftOff(driver);
+      // motors[1]->stop(sx01, driver);
+      motors[1]->motorOff();
+      motors[1]->currPos = BUTTON_POS;
+      // motors[1]->startSequence(driver, 0);
+      a = true;
+    }
+    if (!b && activeSX01 && sx01->digitalRead(SWITCH_02_SX01) == HIGH) {
+      Serial.println("LIMIT PIN 02");
+      motors[0]->shaftOff(driver);
+      // motors[0]->stop(sx01, driver);
+      motors[0]->motorOff();
+      motors[0]->currPos = BUTTON_POS;
+      // motors[0]->startSequence(driver, 0);
+      b = true;
+    }
+    if (!c && activeSX01 && sx01->digitalRead(SWITCH_03_SX01) == HIGH) {
+      Serial.println("LIMIT PIN 03");
+      motors[3]->shaftOff(driver);
+      // motors[3]->stop(sx01, driver);
+      motors[3]->motorOff();
+      motors[3]->currPos = BUTTON_POS;
+      // motors[3]->startSequence(driver, 0);
+      c = true;
+    }
+    if (!d && activeSX01 && sx01->digitalRead(SWITCH_04_SX01) == HIGH) {
+      Serial.println("LIMIT PIN 04");
+      motors[2]->shaftOff(driver);
+      // motors[2]->stop(sx01, driver);
+      motors[2]->motorOff();
+      motors[2]->currPos = BUTTON_POS;
+      // motors[2]->startSequence(driver, 0);
+      d = true;
+    }
+    if (!e && activeSX02 && sx02->digitalRead(SWITCH_05_SX02) == HIGH) {
+      Serial.println("LIMIT PIN 05");
+      motors[5]->shaftOff(driver);
+      // motors[5]->stop(sx01, driver);
+      motors[5]->motorOff();
+      motors[5]->currPos = BUTTON_POS;
+      // motors[5]->startSequence(driver, 0);
+      e = true;
+    }
+    if (!f && activeSX02 && sx02->digitalRead(SWITCH_06_SX02) == HIGH) {
+      Serial.println("LIMIT PIN 06");
+      motors[4]->shaftOff(driver);
+      // motors[4]->stop(sx01, driver);
+      motors[4]->motorOff();
+      motors[4]->currPos = BUTTON_POS;
+      // motors[4]->startSequence(driver, 0);
+      f = true;
+    }
+    if (!g && activeSX02 && sx02->digitalRead(SWITCH_07_SX02) == HIGH) {
+      Serial.println("LIMIT PIN 07");
+      motors[7]->shaftOff(driver);
+      // motors[7]->stop(sx01, driver);
+      motors[7]->motorOff();
+      motors[7]->currPos = BUTTON_POS;
+      // motors[7]->startSequence(driver, 0);
+      g = true;
+    }
+    if (!h && activeSX02 && sx02->digitalRead(SWITCH_08_SX02) == HIGH) {
+      Serial.println("LIMIT PIN 08");
+      motors[6]->shaftOff(driver);
+      // motors[6]->stop(sx01, driver);
+      motors[6]->motorOff();
+      motors[6]->currPos = BUTTON_POS;
+      // motors[6]->startSequence(driver, 0);
+      h = true;
+    }
+  }
+  for (int i = 0; i < NUM_3D_PIXELS; i++) {
+    enableMotor(i);
+    motors[i]->startSequence(driver, 0);
+    motors[i]->motorOn();
+    motors[i]->start(sx01, driver);
+  }
+  // enableMotor(5);
+  // motors[5]->startSequence(driver, 0);
+  // motors[5]->motorOn();
+  // motors[5]->start(sx01, driver);
+
+  // enableMotor(3);
+  // motors[3]->startSequence(driver, 0);
+  // motors[3]->motorOn();
+  // motors[3]->start(sx01, driver);
 }
 
 //--PIXELS
@@ -217,14 +409,20 @@ void initMotors() {
   Serial.println("Done Motors");
 }
 //-------------------------------------------------------------------
-//MOTOR UPDATE BLOCKING WIHT DELAY
+//MOTOR UPDATE BLOCKING WITH DELAY
 void motorUpdate() {
-
   if (!motors[1]->isCalibrating()) {
-
     for (uint16_t i = 1000; i > 0; i--) {
+      sendPos = true;
       for (int j = 0; j < NUM_3D_PIXELS; j++) {
-        motors[j]->motorBegin();
+        if (motors[j]->currPos == motors[j]->targetPos){
+          motors[j]->targetReached = true;
+        } else {
+          sendPos = false;
+        }
+        if (!motors[j]->isSequence() || !motors[j]->targetReached){
+          motors[j]->motorBegin();
+        }
       }
       delayMicroseconds(4);
 
@@ -233,9 +431,24 @@ void motorUpdate() {
       }
       delayMicroseconds(4);
     }
-
     for (int j = 0; j < NUM_3D_PIXELS; j++) {
+      // if (motors[j]->enableMotor){
+      //   Serial.print("Motor ");
+      //   Serial.print(j);
+      //   Serial.print(": ");
+      //   Serial.println(motors[j]->enableSequence);
+      //   Serial.println(motors[j]->dirMotor);
+      // }
       motors[j]->incPos(driver, sx00, sx01);
+        // if (motors[j]->dirMotor){
+        //   motors[j]->currPos--; // goes down
+        // } else {
+        //   motors[j]->currPos++; // goes up
+        // }
+      // Serial.print("Motor ");
+      // Serial.print(j);
+      // Serial.print(": ");
+      // Serial.println(motors[j]->getCurrPos());
     }
 
     if (motors[1]->isSequence()) {
@@ -249,6 +462,27 @@ void motorUpdate() {
       //Serial.println(targetPos);
     }
   }
+}
+
+void sendLastPos(){
+  // Serial.println("Sending last position");
+  CANMotorMessage msg = CANMotorMessage(12); // 12 will be id of server
+  for (int i=0;i<NUM_3D_PIXELS;i++){
+    if (!motors[i]->enableMotor){
+      // Serial.print("Sending last position of motor ");
+      // Serial.println(i);
+      uint8_t cp = map(motors[i]->currPos, motors[i]->minPos, motors[i]->maxPos, 0, 255);
+      // Serial.println(cp);
+      msg.addMessage(i, cp, 10, 11, 12); // destination multiplied by 4 as messages are 4 bytes
+    }
+  }
+  //Serial.println(nodeId);
+  // for (int i=0;i<8;i++){
+  //   Serial.print(i);
+  //   Serial.print(" position: ");
+  //   Serial.println(msg.getCANmessage(MSG_SIZE).buf[i*4+1]);
+  // }
+  canFD.write(msg.getCANmessage(MSG_SIZE));
 }
 
 ///--------------------------------------------------
@@ -282,6 +516,7 @@ void toggleMotor(int motorId) {
   motors[motorId]->toggleMotor();
   Serial.print("Motor toggle: ");
   Serial.println(motorId);
+  // Serial.println(motors[motorId]->stepsCounter);
 }
 
 void toggleMotorShaft(int motorId) {
@@ -340,7 +575,7 @@ void initMUX() {
   int muxCounter = 0;
   while (muxCounter != 4) {
     if (!sx00->begin(SX1509_ADDRESS_00)) {
-      Serial.println("Failed MUX 00 ");
+      Serial.println("Failed  00 ");
       Serial.println(muxCounter);
       delay(100);
       muxCounter++;
@@ -529,31 +764,77 @@ void initSX03() {
 }
 
 //-------------------------------------------------------------------
+// EPROM - read last position
+int readPos(int motorId){
+  int rawPos = EEPROM.read(motorId);
+  return map(rawPos, 0, 255, motors[motorId]->minPos, motors[motorId]->maxPos);
+}
+
+//-------------------------------------------------------------------
+// EPROM - save last position
+void savePos(int motorId){
+  // only able to save 1 byte per address
+  // 100000 saves/lifecycle, is this a problem possibly?
+  // 3.3 ms to complete write
+  int mappedPos = map(motors[motorId]->currPos, motors[motorId]->minPos, motors[motorId]->maxPos, 0, 255);
+  // int prevVal = EEPROM.read(motorId);
+  // if (prevVal != mappedPos){
+  //   EEPROM.write(motorId, mappedPos);
+  // }
+  EEPROM.update(motorId, mappedPos); // doesnt write if value doesnt change
+}
+
+//-------------------------------------------------------------------
 //SX 01
 void checkLimit() {
   if (activeSX01 && sx01->digitalRead(SWITCH_01_SX01) == HIGH) {
     Serial.println("LIMIT PIN 01");
+    // Serial.println(motors[1]->dirMotor);
+    if (motors[1]->dirMotor){
+      motors[1]->motorOff();
+    }
   }
   if (activeSX01 && sx01->digitalRead(SWITCH_02_SX01) == HIGH) {
     Serial.println("LIMIT PIN 02");
+    if (motors[0]->dirMotor){
+      motors[0]->motorOff();
+    }
   }
   if (activeSX01 && sx01->digitalRead(SWITCH_03_SX01) == HIGH) {
     Serial.println("LIMIT PIN 03");
+    if (motors[3]->dirMotor){
+      motors[3]->motorOff();
+    }
   }
   if (activeSX01 && sx01->digitalRead(SWITCH_04_SX01) == HIGH) {
     Serial.println("LIMIT PIN 04");
+    if (motors[2]->dirMotor){
+      motors[2]->motorOff();
+    }
   }
   if (activeSX02 && sx02->digitalRead(SWITCH_05_SX02) == HIGH) {
     Serial.println("LIMIT PIN 05");
+    if (motors[5]->dirMotor){
+      motors[5]->motorOff();
+    }
   }
   if (activeSX02 && sx02->digitalRead(SWITCH_06_SX02) == HIGH) {
     Serial.println("LIMIT PIN 06");
+    if (motors[4]->dirMotor){
+      motors[4]->motorOff();
+    }
   }
   if (activeSX02 && sx02->digitalRead(SWITCH_07_SX02) == HIGH) {
     Serial.println("LIMIT PIN 07");
+    if (motors[7]->dirMotor){
+      motors[7]->motorOff();
+    }
   }
   if (activeSX02 && sx02->digitalRead(SWITCH_08_SX02) == HIGH) {
     Serial.println("LIMIT PIN 08");
+    if (motors[6]->dirMotor){
+      motors[6]->motorOff();
+    }
   }
 }
 //-------------------------------------------------------------------
@@ -618,52 +899,69 @@ void checkDip() {
 
   dipNumber = dipOutput;
   nodeId = dipNumber;
-  Serial.print("Node Id: ");
-  Serial.println(nodeId);
+  // Serial.print("Node Id: ");
+  // Serial.println(nodeId);
 }
 
 //-------------------------------------------------------------------
+/*
+
+  Color ids mapped:
+
+  | 0 | 2 | 4 | 6 |
+  -----------------
+  | 1 | 3 | 5 | 7 |
+
+  Pushdown pins mapped:
+
+  | 2 | 4 | 7 | 8 |
+  -----------------
+  | 1 | 3 | 5 | 6 |
+
+*/
 void checkPushDown() {
   //SX 02 down
   if (activeSX01 && sx01->digitalRead(DOWN_01_SX01) == HIGH) {
     Serial.println("PIN 01 DOWN");
     colorChange = true;
-    colorId = 0;
+    colorId = 1;
+
   }
   if (activeSX01 && sx01->digitalRead(DOWN_02_SX01) == HIGH) {
     Serial.println("PIN 02 DOWN");
     colorChange = true;
-    colorId = 1;
+    colorId = 0;
   }
   if (activeSX01 && sx01->digitalRead(DOWN_03_SX01) == HIGH) {
     Serial.println("PIN 03 DOWN");
     colorChange = true;
-    colorId = 2;
+    colorId = 3;
   }
   if (activeSX01 && sx01->digitalRead(DOWN_04_SX01) == HIGH) {
     Serial.println("PIN 04 DOWN");
     colorChange = true;
-    colorId = 3;
+    colorId = 2;
   }
   if (activeSX02 && sx02->digitalRead(DOWN_05_SX02) == HIGH) {
     Serial.println("PIN 05 DOWN");
     colorChange = true;
-    colorId = 4;
+    colorId = 5;
   }
   if (activeSX02 && sx02->digitalRead(DOWN_06_SX02) == HIGH) {
     Serial.println("PIN 06 DOWN");
     colorChange = true;
-    colorId = 5;
+    colorId = 7;
+    // sendLastPos();
   }
   if (activeSX02 && sx02->digitalRead(DOWN_07_SX02) == HIGH) {
     Serial.println("PIN 07 DOWN");
     colorChange = true;
-    colorId = 6;
+    colorId = 4;
   }
   if (activeSX02 && sx02->digitalRead(DOWN_08_SX02) == HIGH) {
     Serial.println("PIN 08 DOWN");
     colorChange = true;
-    colorId = 7;
+    colorId = 6;
   }
 
   if (colorChange) {
@@ -747,6 +1045,7 @@ void initCanBus() {
 //--- Function that read the CAND Bus ----------------------------
 //----------------------------------------------------------------
 void reading(const CANFD_message_t& msg) {
+  Serial.println("message received");
   //turn on LED
   if (activeSX03) {
     sx03->digitalWrite(STATUS_PIN_SX03, LOW);
@@ -791,67 +1090,99 @@ void reading(const CANFD_message_t& msg) {
     //turn on the status LED if the current node is the can bus msg node
 
 */
+
+    // interaction
+    for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
+      if (msg.buf[i * 8 + 0] == 1) {
+        // action based on sent interaction
+        // color change if in land use mode
+        // height change if in density mode
+      } 
+    }
+
     //shaff
 
-    for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
-      if (msg.buf[i * 8 + 1] == 1) {
-        enableMotor(i);
-        motors[i]->shaftOn(driver);
-      } else if (msg.buf[i * 8 + 1] == 0) {
-        enableMotor(i);
-        motors[i]->shaftOff(driver);
+    // for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
+    //   if (msg.buf[i * 8 + 1] == 1) {
+    //     enableMotor(i);
+    //     motors[i]->shaftOn(driver);
+    //   } else if (msg.buf[i * 8 + 1] == 0) {
+    //     enableMotor(i);
+    //     motors[i]->shaftOff(driver);
+    //   }
+    // }
+
+    // zero
+    if (msg.buf[1] == 1){
+      int r = 0;
+      int g = 0;
+      int b = 255;
+      int w = 0;
+      for (int j = 0; j < NUM_3D_PIXELS; j++) {
+        for (int i = 0; i < NUM_LEDS; i++) {
+          pixels[j]->setPixelColor(i, pixels[j]->Color(r, g, b, w));
+          pixels[j]->setPixelColor(i, pixels[j]->Color(r, g, b, w));
+        }
+        pixels[j]->show();
       }
-    }
+      Serial.println("Random LEDs color");
+      initPositions();
+    } else {
 
-
-    //enable motor
-    for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
-      if (msg.buf[i * 8 + 2] == 1) {
-        enableMotor(i);
-        motors[i]->start(sx01, driver);
-        motors[i]->motorOn();
+      //enable/disable motor
+      for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
+        if (msg.buf[i * 8 + 2] == 1) {
+          enableMotor(i);
+          motors[i]->start(sx01, driver);
+          motors[i]->motorOn();
+        } else if (msg.buf[i * 8 + 2] == 0){
+          enableMotor(i);
+          motors[i]->stop(sx01, driver);
+        }
       }
-    }
 
 
 
-    //stop motor
-    for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
-      if (msg.buf[i * 8 + 3] == 1) {
-        enableMotor(i);
-        motors[i]->stop(sx01, driver);
+      //stop motor
+      // previous position
+      for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
+        // if (msg.buf[i * 8 + 3] == 1) {
+        //   enableMotor(i);
+        //   motors[i]->stop(sx01, driver);
+        // }
+        motors[i]->currPos = msg.buf[i * 8 + 3];
       }
-    }
 
 
 
 
 
 
-    //update all the 3d Pixels
-    for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
-      char str[16];
-      // sprintf(str, "%X%X", msg.buf[i * 4 + 2], msg.buf[i * 4 + 3]);
-      //uint16_t color = convertFrom8To16(msg.buf[i * 4 + 2], msg.buf[i * 4 + 3]);
-      grid(msg.id, i, msg.buf[i * 8 + 5], msg.buf[i * 8 + 6], msg.buf[i * 8 + 7], msg.buf[i * 8 + 4]);
-    }
+      //update all the 3d Pixels
+      for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
+        char str[16];
+        // sprintf(str, "%X%X", msg.buf[i * 4 + 2], msg.buf[i * 4 + 3]);
+        //uint16_t color = convertFrom8To16(msg.buf[i * 4 + 2], msg.buf[i * 4 + 3]);
+        grid(msg.id, i, msg.buf[i * 8 + 5], msg.buf[i * 8 + 6], msg.buf[i * 8 + 7], msg.buf[i * 8 + 4]);
+      }
 
 
 
-    //height
-    for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
-      uint8_t height = msg.buf[i * 8 + 4];
-      uint8_t seqAct = msg.buf[i * 8 + 0];
-      if (height > 0 && seqAct == 1) {
-        motors[i]->toggleSequence();
-        motors[i]->setTargetPos(height);
-        enableMotor(i);
-        motors[i]->start(sx01, driver);
-        motors[i]->motorOn();
+      //height
+      for (uint8_t i = 0; i < NUM_3D_PIXELS; i++) {
+        uint8_t height = msg.buf[i * 8 + 4];
+        uint8_t seqAct = msg.buf[i * 8 + 0];
+        if (height > 0 && seqAct == 1) {
+          motors[i]->toggleSequence();
+          motors[i]->setTargetPos(height);
+          enableMotor(i);
+          motors[i]->start(sx01, driver);
+          motors[i]->motorOn();
 
-        Serial.print(i);
-        Serial.print(" got Seq: ");
-        Serial.println(height);
+          Serial.print(i);
+          Serial.print(" got Seq: ");
+          Serial.println(height);
+        }
       }
     }
   }
@@ -883,7 +1214,7 @@ void grid(int node, int local, uint8_t r, uint8_t g, uint8_t b, int height) {
   if (r != tempRGB[local].r | g != tempRGB[local].g | b != tempRGB[local].b) {
     int mini = min(r, min(g, b));
     for (int j = 0; j < NUM_LEDS; j++) {
-      pixels[local]->setPixelColor(j, pixels[local]->gamma32(pixels[local]->Color(r - mini, g - mini, b - mini, mini)));  // Moderately bright green color.
+      pixels[local]->setPixelColor(j, pixels[local]->gamma8(pixels[local]->Color(r - mini, g - mini, b - mini, mini)));  // Moderately bright green color.
     }
     // Serial.print(r);
     // Serial.print(" ");
@@ -952,6 +1283,28 @@ void keyCommands() {
   if (Serial.available() > 0) {
     char key = Serial.read();
 
+    if (key == '0'){
+      Serial.println("start zeroing");
+      Serial.println(".............");
+
+      initPositions();
+
+      Serial.println(".............");
+      Serial.println("zeroing done");
+    }
+    if (key == '9'){
+      Serial.println("target");
+      Serial.print("Motor 3: ");
+      Serial.println(motors[3]->currPos);
+      Serial.print("Motor 5: ");
+      Serial.println(motors[5]->currPos);
+      // motors[7]->startSequence(driver, 1000);
+      // motors[7]->motorOn();
+    }
+    if (key == '-'){
+      sendLastPos();
+    }
+
     //------- toggle direction
     if (key == '1') {
       toggleMotorShaft(0);
@@ -960,7 +1313,7 @@ void keyCommands() {
       toggleMotorShaft(1);
     }
     if (key == '3') {
-      toggleMotorShaft(2);
+      toggleMotorShaft(2); 
     }
     if (key == '4') {
       toggleMotorShaft(3);
@@ -1137,7 +1490,8 @@ void keyCommands() {
     if (key == 'c') {
       motors[1]->toggleCalibration();
       if (!motors[1]->isCalibrating()) {
-        motors[1]->resetSetps();
+        Serial.println("steps reset");
+        motors[1]->resetSteps();
       } else {
         toggleMotor(1);
         Serial.println("activate Calibration");
@@ -1163,7 +1517,7 @@ void keyCommands() {
       motors[1]->start(sx01, driver);
       motors[1]->motorOn();
 
-      Serial.println("serquence");
+      Serial.println("sequence");
       //}
     }
 

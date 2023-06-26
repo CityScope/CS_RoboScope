@@ -34,7 +34,9 @@ class CANMotorMessage {
     CANMotorMessage(int panel_id);
 
     //add motor message
-    void addMessage(int des, uint8_t interaction, uint8_t shaff, uint8_t enable, uint8_t disable, uint8_t height, uint8_t colorR, uint8_t colorG, uint8_t colorB);
+    // void addMessage(int des, uint8_t interaction, uint8_t shaff, uint8_t enable, uint8_t disable, uint8_t height, uint8_t colorR, uint8_t colorG, uint8_t colorB);
+    void addMessage(int des, uint8_t interaction, uint8_t zero, uint8_t enable, uint8_t prevPos, uint8_t height, uint8_t colorR, uint8_t colorG, uint8_t colorB);
+
     CANFD_message_t getCANmessage(int len);
 
     // create interaction byte msg
