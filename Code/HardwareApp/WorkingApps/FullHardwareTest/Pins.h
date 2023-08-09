@@ -73,24 +73,24 @@
 #define  NEO_PIN_08_UP    29  // 
 */
 //PIXEL PINS
-#define  NEO_PIN_01_UP    13
-#define  NEO_PIN_02_UP    4
-#define  NEO_PIN_03_UP    15//2;
-#define  NEO_PIN_04_UP    14///3;
-#define  NEO_PIN_05_UP    28
-#define  NEO_PIN_06_UP    24 //switch o 25
-#define  NEO_PIN_07_UP    29 //switch o 28
-#define  NEO_PIN_08_UP    25  // 
+#define  NEO_PIN_01_UP    29
+#define  NEO_PIN_02_UP    25
+#define  NEO_PIN_03_UP    28//2;
+#define  NEO_PIN_04_UP    24///3;
+#define  NEO_PIN_05_UP    15
+#define  NEO_PIN_06_UP    14 //switch o 25
+#define  NEO_PIN_07_UP    13 //switch o 28
+#define  NEO_PIN_08_UP    4  // 
 
 
-#define  NEO_PIN_01_DOWN        13
-#define  NEO_PIN_02_DOWN       4
-#define  NEO_PIN_03_DOWN       15//2;
-#define  NEO_PIN_04_DOWN       14///3;
-#define  NEO_PIN_05_DOWN       28
-#define  NEO_PIN_06_DOWN       24 //switch o 25
-#define  NEO_PIN_07_DOWN       29 //switch o 28
-#define  NEO_PIN_08_DOWN      25  //
+#define  NEO_PIN_01_DOWN       29
+#define  NEO_PIN_02_DOWN       25
+#define  NEO_PIN_03_DOWN       28//2;
+#define  NEO_PIN_04_DOWN       24///3;
+#define  NEO_PIN_05_DOWN       15
+#define  NEO_PIN_06_DOWN       14 //switch o 25
+#define  NEO_PIN_07_DOWN       13 //switch o 28
+#define  NEO_PIN_08_DOWN       4 //
 
 //LIMIT BUTTONS
 #define SWITCH_01_SX01    8 
