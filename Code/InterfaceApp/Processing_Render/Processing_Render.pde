@@ -197,6 +197,25 @@ void draw() {
   sqY = 0;
   board.endDraw();
   image(board, width/2 - 415, height/2 - 275);
+  
+  // begin drawing color selector off to the side here
+  int selectorX = 75;
+  int selectorY = 125;
+  for (int k = 0; k < 9; k++) {
+    fill(colors[k]);
+    square(50, selectorY, 30);
+    
+    if (pmouseX >= 50 && pmouseX <= 80) {
+      if (pmouseY >= selectorY && pmouseY <= selectorY + 30) {
+        if (mousePressed){
+          currentColor = colors[k];
+        }
+      }
+    }
+    
+    selectorY += 50;
+  }
+  //done with color selector
 }
 
 //--------------------------------------------------------------------------------------------
